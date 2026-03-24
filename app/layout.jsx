@@ -13,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body style={{ paddingTop: "72px" }}>
+      <body style={{ paddingTop: "clamp(72px, 6vw, 96px)" }}>
         <LangProvider>
           <CustomCursor />
           <StairTransition />

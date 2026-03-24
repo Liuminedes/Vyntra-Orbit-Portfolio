@@ -5,17 +5,21 @@ import { translations, detectLang } from "./i18n";
 const LangContext = createContext(null);
 
 export function LangProvider({ children }) {
-  const [lang, setLang] = useState("es"); // default seguro para SSR
+  const [lang, setLang] = useState("es");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setLang(detectLang());
+    setMounted(true);
   }, []);
 
   const toggle = () => setLang((l) => (l === "en" ? "es" : "en"));
-  const t = translations[lang];
+  
+  // Mientras no está montado, usa "es" para que SSR y client coincidan
+  const t = translations[mounted ? lang : "es"];
 
   return (
-    <LangContext.Provider value={{ lang, toggle, t }}>
+    <LangContext.Provider value={{ lang: mounted ? lang : "es", toggle, t }}>
       {children}
     </LangContext.Provider>
   );
