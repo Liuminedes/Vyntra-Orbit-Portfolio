@@ -19,9 +19,9 @@ const LangToggle = () => {
   return (
     <button onClick={toggle} aria-label="Toggle language"
       style={{ display: "flex", alignItems: "center", gap: 8, background: "none", border: "none", cursor: "none", padding: "4px 0" }}>
-      <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: "0.2em", color: lang === "en" ? "#6C63FF" : "rgba(255,255,255,0.25)" }}>EN</span>
+      <span style={{ fontFamily: "'DM Mono',monospace", fontSize: "clamp(10px,0.7vw,12px)", letterSpacing: "0.2em", color: lang === "en" ? "#6C63FF" : "rgba(255,255,255,0.25)", transition: "color .2s" }}>EN</span>
       <span style={{ width: 1, height: 12, background: "rgba(255,255,255,0.12)" }} />
-      <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, letterSpacing: "0.2em", color: lang === "es" ? "#6C63FF" : "rgba(255,255,255,0.25)" }}>ES</span>
+      <span style={{ fontFamily: "'DM Mono',monospace", fontSize: "clamp(10px,0.7vw,12px)", letterSpacing: "0.2em", color: lang === "es" ? "#6C63FF" : "rgba(255,255,255,0.25)", transition: "color .2s" }}>ES</span>
     </button>
   );
 };
@@ -29,23 +29,39 @@ const LangToggle = () => {
 export default function Header() {
   const { t } = useLang();
   return (
-    <header style={{ padding: "24px 0", position: "relative", zIndex: 10 }}>
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, rgba(108,99,255,0.2), transparent)" }} />
+    <header style={{
+      position: "fixed",
+      top: 0, left: 0, right: 0,
+      zIndex: 50,
+      padding: "18px 0",
+      background: "rgba(8,8,16,0.88)",
+      backdropFilter: "blur(24px)",
+      WebkitBackdropFilter: "blur(24px)",
+      borderBottom: "1px solid rgba(255,255,255,0.045)",
+    }}>
       <div className="vo-container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <Link href="/" style={{ textDecoration: "none" }}><VyntraLogo /></Link>
 
         {/* Desktop */}
-        <div style={{ display: "none" }} className="desktop-nav">
-          <style>{`.desktop-nav { display: none !important; } @media(min-width:1024px){ .desktop-nav { display: flex !important; align-items: center; gap: 40px; } }`}</style>
+        <style>{`
+          .header-desktop { display: none !important; }
+          .header-mobile  { display: flex !important; }
+          @media(min-width:1024px){
+            .header-desktop { display: flex !important; align-items: center; gap: 40px; }
+            .header-mobile  { display: none !important; }
+          }
+        `}</style>
+
+        <div className="header-desktop">
           <Nav />
           <div style={{ width: 1, height: 16, background: "rgba(255,255,255,0.1)" }} />
           <LangToggle />
-          <Link href="/contact" className="btn-glow-solid" style={{ fontSize: 10, padding: "10px 20px", textDecoration: "none" }}>{t.nav.hire}</Link>
+          <Link href="/contact" className="btn-glow-solid" style={{ textDecoration: "none", fontSize: "clamp(10px,0.7vw,12px)", padding: "10px 22px" }}>
+            {t.nav.hire}
+          </Link>
         </div>
 
-        {/* Mobile */}
-        <div className="mobile-nav" style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <style>{`.mobile-nav { display: flex !important; } @media(min-width:1024px){ .mobile-nav { display: none !important; } }`}</style>
+        <div className="header-mobile" style={{ alignItems: "center", gap: 16 }}>
           <LangToggle />
           <MobileNav />
         </div>
