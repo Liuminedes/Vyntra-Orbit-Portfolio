@@ -72,7 +72,7 @@ export default function MiListaDemo({ lang = "es" }) {
       <div style={{ textAlign:"center",marginBottom:12 }}>
         <div style={{ display:"inline-flex",alignItems:"center",gap:8,background:"rgba(34,197,94,0.08)",border:"1px solid rgba(34,197,94,0.2)",borderRadius:100,padding:"4px 14px",marginBottom:6 }}>
           <span style={{ fontSize:13 }}>🛒</span>
-          <span style={{ fontSize:12,fontWeight:700,color:"white",fontFamily:"'Syne',sans-serif" }}>MercadoApp</span>
+          <span style={{ fontSize:12,fontWeight:700,color:"white",fontFamily:"'Syne',sans-serif" }}>Mi Lista</span>
         </div>
         <div style={{ fontSize:8,color:"rgba(255,255,255,0.35)",letterSpacing:"0.1em",display:"block" }}>{isEn?"Interactive prototype — Android":"Prototipo interactivo — Android"}</div>
         <div style={{ display:"flex",justifyContent:"center",gap:5,marginTop:8 }}>

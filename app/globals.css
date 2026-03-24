@@ -662,3 +662,47 @@ body::before {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ═══════════════════════════════════════
+   DEMO RESPONSIVE — aplica a todos los demos
+═══════════════════════════════════════ */
+
+/* Todos los grids internos de los demos */
+@media (max-width: 767px) {
+
+  /* SyncDealer, Shaddai, DentalSaaS — sidebar + content */
+  .demo-inner {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Ocultar sidebar de los demos en móvil */
+  .demo-sidebar {
+    display: none !important;
+  }
+
+  /* IntraCom — 3 columnas: channels + chat + users */
+  .demo-intracom {
+    grid-template-columns: 1fr !important;
+  }
+
+  .demo-intracom-sidebar,
+  .demo-intracom-users {
+    display: none !important;
+  }
+
+  /* Altura máxima de demos en móvil */
+  .demo-content {
+    max-height: 360px !important;
+  }
+
+  /* Grids internos 2 col → 1 col */
+  .demo-2col {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Tabs de demos más compactos */
+  .demo-tabs button {
+    font-size: 9px !important;
+    padding: 3px 8px !important;
+  }
+}
