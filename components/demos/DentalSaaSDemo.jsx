@@ -173,7 +173,7 @@ export default function DentalSaaSDemo({ lang = "es" }) {
         <div style={{ flex:1, background:"rgba(59,158,219,0.08)", borderRadius:6, padding:"4px 10px", fontSize:9, color:"rgba(20,30,48,0.4)", marginLeft:8 }}>app.dentalsaas.cloud</div>
         <div style={{ fontSize:9, color:"#3B9EDB", letterSpacing:"0.1em" }}>🦷 DentalSaaS</div>
       </div>
-      <div style={{ display:"grid", gridTemplateColumns:"168px 1fr", minHeight:380 }}>
+      <div style={{ display:"grid", gridTemplateColumns:"1fr", minHeight:320 }}>
         <div style={{ background:"#141E30", padding:"16px 10px" }}>
           <div style={{ fontSize:8, color:"rgba(255,255,255,0.25)", textTransform:"uppercase", letterSpacing:"0.15em", marginBottom:12, paddingLeft:6 }}>{T.clinicLabel}</div>
           {Object.entries(screens).map(([key,s])=>(

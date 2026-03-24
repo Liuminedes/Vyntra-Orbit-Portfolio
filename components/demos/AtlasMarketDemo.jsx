@@ -174,7 +174,7 @@ export default function AtlasMarketDemo({ lang = "es" }) {
         <div style={{ flex:1, background:"rgba(108,99,255,0.06)", borderRadius:6, padding:"4px 10px", fontSize:9, color:"rgba(108,99,255,0.4)", marginLeft:8 }}>app.atlasmarket.io</div>
         <div style={{ fontSize:9, color:"#6C63FF", letterSpacing:"0.1em" }}>Atlas Market Suite</div>
       </div>
-      <div style={{ display:"grid", gridTemplateColumns:"168px 1fr", minHeight:380 }}>
+      <div style={{ display:"grid", gridTemplateColumns:"1fr", minHeight:320 }}>
         <div style={{ background:"#040410", borderRight:"1px solid rgba(108,99,255,0.1)", padding:"16px 10px" }}>
           <div style={{ fontSize:8, color:"rgba(108,99,255,0.4)", textTransform:"uppercase", letterSpacing:"0.15em", marginBottom:12, paddingLeft:6 }}>{T.brand}</div>
           {Object.entries(screens).map(([key,s])=>(
