@@ -15,8 +15,8 @@ const deliverables = {
     3: ["Free initial audit","Prioritized improvement plan","24/7 monitoring","Response in under 4 hours","Monthly reports"],
   },
   es: {
-    0: ["Web app o dashboard a medida","API REST documentada","Panel admin incluido","Deploy en producción","30 días de soporte post-entrega"],
-    1: ["Wireframes + prototipo Figma","Sistema de diseño reutilizable","Handoff completo para dev","Responsive mobile-first","2 rondas de revisión"],
+    0: ["Plataforma web a medida","Automatizaciones de procesos documentada","Panel de administrador","Despliegue en producción","30 días de soporte post-entrega"],
+    1: ["Prototipos de plataformas flexibles y a tu gusto","Sistema de diseño reutilizable","Handoff completo para tu facil actualización","Diseño responsivo multi-plataforma","Validación acompañada del diseño general"],
     2: ["Flujo automatizado end-to-end","Integración con tus herramientas actuales","Dashboard de monitoreo","Alertas y reportes automáticos","Documentación técnica"],
     3: ["Auditoría inicial gratuita","Plan de mejoras priorizado","Monitoreo 24/7","Respuesta en menos de 4 horas","Reportes mensuales"],
   },
@@ -28,7 +28,7 @@ export default function Services() {
   const del = deliverables[isEn ? "en" : "es"];
 
   const highlights = [
-    { icon: <FiZap size={13} />,    text: isEn ? "2–4 week delivery"       : "Entrega en 2–4 semanas"      },
+    { icon: <FiZap size={13} />,    text: isEn ? "2–4 week delivery"       : "Velocidad de desarrollo que marca la diferencia"      },
     { icon: <FiShield size={13} />, text: isEn ? "Clean, documented code"  : "Código limpio y documentado" },
     { icon: <FiClock size={13} />,  text: isEn ? "Available for freelance" : "Disponible para freelance"   },
     { icon: <FiCheck size={13} />,  text: isEn ? "Post-delivery support"   : "Soporte post-entrega incluido"},

@@ -1,11 +1,17 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function CustomCursor() {
   const dotRef  = useRef(null);
   const ringRef = useRef(null);
+  const [isTouch, setIsTouch] = useState(true); // default true — SSR safe
 
   useEffect(() => {
+    // Solo activar en dispositivos con mouse real
+    const hasPointer = window.matchMedia("(pointer: fine)").matches;
+    setIsTouch(!hasPointer);
+    if (!hasPointer) return; // touch device — no hacer nada
+
     const dot  = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;
@@ -34,8 +40,14 @@ export default function CustomCursor() {
       el.addEventListener("mouseleave", onLeave);
     });
     raf = requestAnimationFrame(loop);
-    return () => { window.removeEventListener("mousemove", onMove); cancelAnimationFrame(raf); };
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(raf);
+    };
   }, []);
+
+  // En touch devices no renderizar nada
+  if (isTouch) return null;
 
   return (
     <>
