@@ -24,15 +24,18 @@ export async function POST(req) {
     const destino = process.env.EMAIL_TO || process.env.EMAIL_USER;
     const fecha = new Date().toLocaleString("es-CO", { timeZone: "America/Bogota" });
 
-    // ── Ambos emails en paralelo ──
     await Promise.all([
 
       // 1. Notificación a Mauricio
       transporter.sendMail({
-        from: `"Vyntra Orbit Portfolio" <${process.env.EMAIL_USER}>`,
+        from: `"Vyntra Orbit Contact" <${process.env.EMAIL_USER}>`,
         to: destino,
         replyTo: email,
         subject: `[Portfolio] ${firstname} ${lastname} — ${service}`,
+        headers: {
+          "X-Priority": "1",
+          "X-Mailer": "Vyntra Orbit Portfolio",
+        },
         html: `
           <!DOCTYPE html>
           <html><head><meta charset="utf-8"></head>
@@ -66,9 +69,13 @@ export async function POST(req) {
 
       // 2. Confirmación al cliente
       transporter.sendMail({
-        from: `"Vyntra Orbit" <${process.env.EMAIL_USER}>`,
+        from: `"Vyntra Orbit Studio" <${process.env.EMAIL_USER}>`,
         to: email,
         subject: `Recibimos tu mensaje — Vyntra Orbit`,
+        headers: {
+          "X-Priority": "3",
+          "X-Mailer": "Vyntra Orbit Portfolio",
+        },
         html: `
           <!DOCTYPE html>
           <html><head><meta charset="utf-8"></head>
