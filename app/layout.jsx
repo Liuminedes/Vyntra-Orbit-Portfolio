@@ -10,6 +10,10 @@ const BASE_URL = "https://vyntra-orbit-portfolio.vercel.app";
 export const metadata = {
   metadataBase: new URL(BASE_URL),
 
+  verification: {
+    google: "PtgzjtRCvPrhhJasmF1Q4LzFAGJQyaCZ2lddpB-7Eh8",
+  },
+
   title: {
     default: "Vyntra Orbit — Full-Stack Developer Studio",
     template: "%s | Vyntra Orbit",
