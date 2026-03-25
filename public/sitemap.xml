@@ -26,13 +26,3 @@
     <priority>0.6</priority>
   </url>
 </urlset>
-```
-
----
-
-## `public/robots.txt` — crear este archivo
-```
-User-agent: *
-Allow: /
-
-Sitemap: https://vyntra-orbit-portfolio.vercel.app/sitemap.xml
