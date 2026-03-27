@@ -2,313 +2,347 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
-  FiArrowUpRight,
-  FiCheck,
-  FiZap,
-  FiShield,
-  FiClock,
+  FiArrowUpRight, FiCheck, FiZap, FiShield, FiClock, FiLayers,
+  FiCode, FiLayout,
 } from "react-icons/fi";
+import {
+  FaHtml5, FaCss3, FaJs, FaReact, FaNodeJs,
+  FaDatabase, FaWordpress,
+} from "react-icons/fa";
+import {
+  SiTailwindcss, SiNextdotjs, SiPhp, SiSequelize, SiExpress,
+} from "react-icons/si";
 import { useLang } from "@/lib/LangContext";
 
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
-};
-const cardAnim = {
-  hidden: { opacity: 0, y: 20 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-  },
-};
+/* ── Tech stack (igual que resume) ── */
+const skillIcons = [
+  { icon: <FaHtml5 />,       name: "HTML 5",       color: "#e34f26" },
+  { icon: <FaCss3 />,        name: "CSS 3",        color: "#1572b6" },
+  { icon: <FaJs />,          name: "JavaScript",   color: "#f7df1e" },
+  { icon: <FaReact />,       name: "React.JS",     color: "#61dafb" },
+  { icon: <SiNextdotjs />,   name: "Next.JS",      color: "#ffffff" },
+  { icon: <FaNodeJs />,      name: "Node.JS",      color: "#68a063" },
+  { icon: <SiExpress />,     name: "Express",      color: "#cccccc" },
+  { icon: <SiSequelize />,   name: "Sequelize",    color: "#52b0e7" },
+  { icon: <SiTailwindcss />, name: "Tailwind CSS", color: "#38bdf8" },
+  { icon: <FaDatabase />,    name: "MySQL",        color: "#4479a1" },
+  { icon: <FaWordpress />,   name: "WordPress",    color: "#21759b" },
+  { icon: <SiPhp />,         name: "PHP",          color: "#8892be" },
+];
 
-const deliverables = {
+const SERVICE_ICONS = [FiLayers, FiCode, FiZap, FiLayout];
+
+/* ── Contenido bilingüe ── */
+const CONTENT = {
   en: {
-    0: [
-      "Custom web app or dashboard",
-      "Documented REST API",
-      "Admin panel included",
-      "Production deploy",
-      "30 days post-delivery support",
+    navLabel:   "Services",
+    heading:    "What I build for you",
+    subheading: "End-to-end digital development at startup speed with enterprise-level quality.",
+    highlights: [
+      { icon: <FiZap size={13} />,    text: "2–4 week delivery"       },
+      { icon: <FiShield size={13} />, text: "Clean, documented code"  },
+      { icon: <FiClock size={13} />,  text: "Available for freelance" },
+      { icon: <FiCheck size={13} />,  text: "Post-delivery support"   },
     ],
-    1: [
-      "Wireframes + Figma prototype",
-      "Reusable design system",
-      "Complete dev handoff",
-      "Responsive mobile-first",
-      "2 revision rounds",
+    sectionServices: "What we offer",
+    servicesSubtitle: "Four core areas where we deliver the most value.",
+    services: [
+      {
+        icon: 0, num: "01",
+        title: "Platform Development",
+        desc:  "Custom web platforms focused on performance and security. API integrations, admin dashboards, and CI/CD pipelines ready to scale.",
+        tags:  ["React","Node.js","MySQL","REST API"],
+      },
+      {
+        icon: 3, num: "02",
+        title: "UI/UX Design",
+        desc:  "User-centered UI/UX: research, information architecture, and prototypes. Accessible, developer-ready handoff.",
+        tags:  ["Figma","Tailwind","Framer Motion"],
+      },
+      {
+        icon: 2, num: "03",
+        title: "Automation & Integrations",
+        desc:  "End-to-end automations via APIs, webhooks, and orchestrators (Zapier/Make) or Node.js cron jobs. Sync data, trigger alerts, generate reports.",
+        tags:  ["Zapier","Make","Webhooks","Cron"],
+      },
+      {
+        icon: 1, num: "04",
+        title: "Technical Support",
+        desc:  "Ongoing support: performance, security, backups, and monitoring. Fast incident response and continuous improvements.",
+        tags:  ["Monitoring","Security","DevOps"],
+      },
     ],
-    2: [
-      "End-to-end automated flow",
-      "Integration with current tools",
-      "Monitoring dashboard",
-      "Automatic alerts & reports",
-      "Technical documentation",
-    ],
-    3: [
-      "Free initial audit",
-      "Prioritized improvement plan",
-      "24/7 monitoring",
-      "Response in under 4 hours",
-      "Monthly reports",
+    sectionStack:   "Our tech stack",
+    stackSubtitle:  "Technologies we master to deliver robust, maintainable products.",
+    ctaTitle:  "Have a project in mind?",
+    ctaDesc:   "Tell us what you need. We'll get back to you within 24 hours with a proposal and timeline.",
+    ctaBtn:    "Get a free quote",
+    available: "Available for projects",
+    info: [
+      { label: "Studio",     value: "Vyntra Orbit"        },
+      { label: "Based in",   value: "Colombia 🇨🇴"         },
+      { label: "Lead dev",   value: "Mauricio Rodriguez"  },
+      { label: "Delivery",   value: "2–4 weeks avg"       },
+      { label: "Available",  value: "✓ Open for projects" },
+      { label: "Languages",  value: "Spanish & English"   },
     ],
   },
   es: {
-    0: [
-      "Plataforma web a medida",
-      "API REST documentada",
-      "Panel de administrador",
-      "Despliegue en producción",
-      "30 días de soporte post-entrega",
+    navLabel:   "Servicios",
+    heading:    "Lo que construyo para ti",
+    subheading: "Desarrollo digital end-to-end a velocidad de startup con calidad de nivel empresarial.",
+    highlights: [
+      { icon: <FiZap size={13} />,    text: "Entrega en 2–4 semanas"        },
+      { icon: <FiShield size={13} />, text: "Código limpio y documentado"   },
+      { icon: <FiClock size={13} />,  text: "Disponible para freelance"     },
+      { icon: <FiCheck size={13} />,  text: "Soporte post-entrega incluido" },
     ],
-    1: [
-      "Wireframes + prototipo Figma",
-      "Sistema de diseño reutilizable",
-      "Handoff completo para dev",
-      "Responsive mobile-first",
-      "2 rondas de revisión",
+    sectionServices: "Lo que ofrecemos",
+    servicesSubtitle: "Cuatro áreas principales donde entregamos el mayor valor.",
+    services: [
+      {
+        icon: 0, num: "01",
+        title: "Desarrollo de Plataformas",
+        desc:  "Desarrollo a medida con foco en rendimiento y seguridad. Integraciones (APIs, pagos), panel de control y CI/CD listos para crecer.",
+        tags:  ["React","Node.js","MySQL","REST API"],
+      },
+      {
+        icon: 3, num: "02",
+        title: "Diseño UI/UX",
+        desc:  "UI/UX centrado en el usuario: investigación, arquitectura de información y prototipos. Accesibilidad y handoff impecable para dev.",
+        tags:  ["Figma","Tailwind","Framer Motion"],
+      },
+      {
+        icon: 2, num: "03",
+        title: "Automatizaciones e Integraciones",
+        desc:  "Automatizaciones end-to-end con APIs, webhooks y orquestadores (Zapier/Make) o Node/cron jobs: sincroniza datos, envía alertas, genera reportes.",
+        tags:  ["Zapier","Make","Webhooks","Cron"],
+      },
+      {
+        icon: 1, num: "04",
+        title: "Soporte Técnico",
+        desc:  "Soporte continuo: rendimiento, seguridad, backups y monitoreo. Respuesta rápida ante incidentes y mejoras continuas.",
+        tags:  ["Monitoreo","Seguridad","DevOps"],
+      },
     ],
-    2: [
-      "Flujo automatizado end-to-end",
-      "Integración con tus herramientas actuales",
-      "Dashboard de monitoreo",
-      "Alertas y reportes automáticos",
-      "Documentación técnica",
-    ],
-    3: [
-      "Auditoría inicial gratuita",
-      "Plan de mejoras priorizado",
-      "Monitoreo 24/7",
-      "Respuesta en menos de 4 horas",
-      "Reportes mensuales",
+    sectionStack:   "Nuestro stack tecnológico",
+    stackSubtitle:  "Tecnologías que dominamos para entregar productos robustos y mantenibles.",
+    ctaTitle:  "¿Tienes un proyecto en mente?",
+    ctaDesc:   "Cuéntanos qué necesitas. Te respondemos en menos de 24 horas con una propuesta y cronograma.",
+    ctaBtn:    "Cotización gratis",
+    available: "Disponible para proyectos",
+    info: [
+      { label: "Studio",      value: "Vyntra Orbit"              },
+      { label: "Ubicación",   value: "Colombia 🇨🇴"               },
+      { label: "Dev líder",   value: "Mauricio Rodriguez"        },
+      { label: "Entrega",     value: "Promedio 2–4 semanas"      },
+      { label: "Disponible",  value: "✓ Abierto a proyectos"     },
+      { label: "Idiomas",     value: "Español e Inglés"          },
     ],
   },
 };
 
-export default function Services() {
-  const { t, lang } = useLang();
-  const isEn = lang === "en";
-  const del = deliverables[isEn ? "en" : "es"];
+/* ── Variantes — idénticas a resume ── */
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+};
+const stagger = {
+  hidden: {},
+  show:   { transition: { staggerChildren: 0.09, delayChildren: 0.04 } },
+};
 
-  const highlights = [
-    {
-      icon: <FiZap size={13} />,
-      text: isEn ? "2–4 week delivery" : "Entrega en 2–4 semanas",
-    },
-    {
-      icon: <FiShield size={13} />,
-      text: isEn ? "Clean, documented code" : "Código limpio y documentado",
-    },
-    {
-      icon: <FiClock size={13} />,
-      text: isEn ? "Available for freelance" : "Disponible para freelance",
-    },
-    {
-      icon: <FiCheck size={13} />,
-      text: isEn ? "Post-delivery support" : "Soporte post-entrega incluido",
-    },
-  ];
+/* ── Componentes idénticos a resume ── */
+const SectionLabel = ({ label }) => (
+  <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:"clamp(10px,1vw,16px)" }}>
+    <span style={{ display:"block", width:"clamp(28px,2.5vw,44px)", height:1, background:"linear-gradient(90deg,#8B5CF6,transparent)", flexShrink:0 }} />
+    <span style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(10px,0.7vw,12px)", letterSpacing:"0.2em", textTransform:"uppercase", color:"rgba(232,232,240,0.4)" }}>
+      {label}
+    </span>
+  </div>
+);
+
+const Divider = () => (
+  <div style={{ height:1, background:"linear-gradient(90deg,transparent,rgba(139,92,246,0.2),transparent)", margin:"clamp(56px,6vw,96px) 0" }} />
+);
+
+export default function Services() {
+  const { lang } = useLang();
+  const C = CONTENT[lang] || CONTENT.es;
 
   return (
-    <section className="relative min-h-[80vh] py-10 md:py-16 lg:py-20">
-      {/* Ambient */}
-      <div
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse,rgba(108,99,255,0.04) 0%,transparent 70%)",
-        }}
-      />
+    <div style={{ padding:"clamp(48px,5vw,80px) 0 clamp(60px,6vw,100px)", position:"relative" }}>
 
-      <div className="vo-container relative z-10">
-        {/* ── Header ── */}
-        <div
-          className="opacity-0 animate-fade-up delay-100 mb-6"
-          style={{ animationFillMode: "forwards" }}
-        >
-          <div className="flex items-center gap-3 mb-4">
-            <span className="line-accent" />
-            <span className="vo-label">{t.nav.services}</span>
-          </div>
-          {/* Título + CTA — fila en desktop, columna en móvil */}
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-0">
-            <h2 className="vo-heading text-white/95 m-0">
-              {isEn ? "What I build for you" : "Lo que construyo para ti"}
+      {/* Ambient — idéntico a resume */}
+      <div style={{ position:"fixed", top:"30%", left:"50%", transform:"translateX(-50%)", width:800, height:400, pointerEvents:"none", background:"radial-gradient(ellipse,rgba(139,92,246,0.04) 0%,transparent 70%)", zIndex:0 }} />
+
+      <div style={{ width:"100%", maxWidth:"min(1800px,94vw)", margin:"0 auto", padding:"0 clamp(20px,3vw,60px)", position:"relative", zIndex:1 }}>
+
+        {/* ══════════════════════════
+            1 — ENCABEZADO + HIGHLIGHTS
+        ══════════════════════════ */}
+        <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once:true, margin:"-60px" }}>
+
+          <motion.div variants={fadeUp} style={{ marginBottom:"clamp(36px,4vw,56px)" }}>
+            <SectionLabel label={C.navLabel} />
+            <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(32px,4vw,68px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-0.02em", color:"rgba(232,232,240,0.95)", margin:0 }}>
+              {C.heading}
             </h2>
-            <Link
-              href="/contact"
-              className="btn-glow-solid sm:whitespace-nowrap"
-              style={{
-                textDecoration: "none",
-                fontSize: "clamp(11px,0.75vw,13px)",
-                padding: "11px 22px",
-              }}
-            >
-              {isEn ? "Get a free quote →" : "Cotización gratis →"}
-            </Link>
-          </div>
-        </div>
+          </motion.div>
 
-        {/* ── Highlights strip ── */}
-        <div
-          className="opacity-0 animate-fade-up delay-200 flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 mb-8 p-3 sm:p-4 rounded-lg"
-          style={{
-            animationFillMode: "forwards",
-            background: "rgba(108,99,255,0.04)",
-            border: "1px solid rgba(108,99,255,0.12)",
-          }}
-        >
-          {highlights.map((h, i) => (
-            <div
-              key={i}
-              className="flex items-center gap-2 text-white/70 text-sm sm:text-[13px] sm:pr-4"
-            >
-              <span style={{ color: "#6C63FF", flexShrink: 0 }}>{h.icon}</span>
-              {h.text}
-            </div>
-          ))}
-        </div>
+          {/* Subheading + highlights + info pills — igual que el grid texto de resume */}
+          <style>{`@media(min-width:900px){ .svc-top-grid { grid-template-columns: 1fr clamp(260px,26vw,400px) !important; } }`}</style>
+          <div className="svc-top-grid" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(32px,4vw,64px)", alignItems:"center" }}>
 
-        {/* ── Services grid ── */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="grid grid-cols-1 md:grid-cols-2"
-          style={{ gap: "1px", background: "rgba(255,255,255,0.04)" }}
-        >
-          {t.services.items.map((service, index) => (
-            <motion.div
-              key={index}
-              variants={cardAnim}
-              className="flex flex-col p-5 sm:p-8 md:p-10 relative transition-colors duration-300"
-              style={{ background: "#080810" }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = "rgba(108,99,255,0.025)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = "#080810")
-              }
-            >
-              {/* Número + botón flecha */}
-              <div className="flex items-start justify-between mb-4">
-                {/* NÚMERO — visible con color sólido morado semitransparente */}
-                <span
-                  className="font-syne font-black leading-none select-none text-[52px] sm:text-[64px] md:text-[72px]"
-                  style={{
-                    color: "rgba(139,92,246,0.35)",
-                    fontFamily: "'Syne',sans-serif",
-                  }}
-                >
-                  {service.num}
-                </span>
-                <Link
-                  href="/contact"
-                  className="mt-2 w-9 h-9 rounded-full flex items-center justify-center text-white/30 transition-all duration-300 flex-shrink-0"
-                  style={{
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    textDecoration: "none",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(108,99,255,0.5)";
-                    e.currentTarget.style.color = "#6C63FF";
-                    e.currentTarget.style.transform = "rotate(45deg)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
-                    e.currentTarget.style.color = "rgba(255,255,255,0.3)";
-                    e.currentTarget.style.transform = "rotate(0deg)";
-                  }}
-                >
-                  <FiArrowUpRight size={14} />
-                </Link>
-              </div>
-
-              {/* Título */}
-              <h3 className="vo-subheading text-white mb-3">{service.title}</h3>
-
-              {/* Descripción — color blanco legible */}
-              <p className="text-white/65 leading-relaxed mb-6 text-sm sm:text-[14px]">
-                {service.description}
+            <motion.div variants={fadeUp} style={{ display:"flex", flexDirection:"column", gap:"clamp(14px,1.4vw,22px)" }}>
+              <p style={{ fontSize:"clamp(14px,1vw,18px)", lineHeight:1.85, color:"rgba(232,232,240,0.6)", margin:0, maxWidth:640 }}>
+                {C.subheading}
               </p>
-
-              {/* Deliverables */}
-              <div className="mt-auto">
-                <div
-                  className="text-[9px] uppercase tracking-[0.15em] mb-2"
-                  style={{ color: "rgba(108,99,255,0.7)" }}
-                >
-                  {isEn ? "Included" : "Incluye"}
-                </div>
-                <ul className="flex flex-col gap-1.5">
-                  {del[index]?.map((d, i) => (
-                    <li
-                      key={i}
-                      className="flex items-start gap-2 text-white/70 text-[12px] sm:text-[13px] leading-relaxed"
-                    >
-                      <FiCheck
-                        size={11}
-                        className="flex-shrink-0 mt-0.5"
-                        style={{ color: "#6C63FF" }}
-                      />
-                      {d}
-                    </li>
-                  ))}
-                </ul>
+              {/* Highlights — misma estructura que info pills de resume */}
+              <div style={{ display:"flex", flexWrap:"wrap", gap:"clamp(6px,0.7vw,10px)", paddingTop:"clamp(4px,0.5vw,8px)" }}>
+                {C.highlights.map((h, i) => (
+                  <div key={i} style={{ display:"flex", alignItems:"center", gap:8, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:6, padding:"clamp(6px,0.65vw,10px) clamp(10px,1vw,16px)" }}>
+                    <span style={{ color:"rgba(139,92,246,0.7)", flexShrink:0 }}>{h.icon}</span>
+                    <span style={{ width:1, height:10, background:"rgba(255,255,255,0.1)" }} />
+                    <span style={{ fontSize:"clamp(11px,0.72vw,13px)", color:"rgba(232,232,240,0.75)", fontWeight:500 }}>{h.text}</span>
+                  </div>
+                ))}
               </div>
             </motion.div>
-          ))}
+
+            {/* Info pills — columna derecha, igual a resume */}
+            <motion.div variants={fadeUp} style={{ display:"flex", flexDirection:"column", gap:"clamp(6px,0.7vw,10px)" }}>
+              {C.info.map((item, i) => (
+                <div key={i} style={{ display:"flex", alignItems:"center", gap:8, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:6, padding:"clamp(6px,0.65vw,10px) clamp(10px,1vw,16px)" }}>
+                  <span style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.58vw,11px)", color:"rgba(139,92,246,0.7)", textTransform:"uppercase", letterSpacing:"0.12em", flexShrink:0 }}>{item.label}</span>
+                  <span style={{ width:1, height:10, background:"rgba(255,255,255,0.1)", flexShrink:0 }} />
+                  <span style={{ fontSize:"clamp(11px,0.72vw,13px)", color:"rgba(232,232,240,0.75)", fontWeight:500 }}>{item.value}</span>
+                </div>
+              ))}
+              {/* Badge disponible — igual a resume */}
+              <div style={{ display:"flex", alignItems:"center", gap:8, background:"rgba(8,8,16,0.92)", border:"1px solid rgba(139,92,246,0.3)", borderRadius:100, padding:"8px 16px", marginTop:6, backdropFilter:"blur(12px)", alignSelf:"flex-start" }}>
+                <div style={{ width:6, height:6, borderRadius:"50%", background:"#00ff88", animation:"pulse-wip 2s infinite" }} />
+                <span style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(8px,0.56vw,10px)", letterSpacing:"0.14em", color:"rgba(232,232,240,0.55)", textTransform:"uppercase" }}>{C.available}</span>
+              </div>
+            </motion.div>
+          </div>
         </motion.div>
 
-        {/* ── CTA strip ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{
-            opacity: 1,
-            y: 0,
-            transition: { delay: 0.6, duration: 0.5 },
-          }}
-          className="mt-8 sm:mt-10 p-5 sm:p-8 rounded-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5"
-          style={{
-            background: "rgba(108,99,255,0.06)",
-            border: "1px solid rgba(108,99,255,0.15)",
-          }}
-        >
-          <div>
-            <div
-              className="text-white font-bold mb-2 text-lg sm:text-xl md:text-2xl"
-              style={{ fontFamily: "'Syne',sans-serif" }}
-            >
-              {isEn
-                ? "Have a project in mind?"
-                : "¿Tienes un proyecto en mente?"}
+        <Divider />
+
+        {/* ══════════════════════════
+            2 — SERVICIOS (grid 2×2 igual a resume "Qué hacemos")
+        ══════════════════════════ */}
+        <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once:true, margin:"-60px" }}>
+
+          <motion.div variants={fadeUp} style={{ marginBottom:"clamp(32px,3.5vw,52px)" }}>
+            <SectionLabel label={C.sectionServices} />
+            <div style={{ display:"flex", flexWrap:"wrap", alignItems:"flex-end", justifyContent:"space-between", gap:16 }}>
+              <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(28px,3.5vw,58px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-0.02em", color:"rgba(232,232,240,0.95)", margin:0 }}>
+                {C.sectionServices}
+              </h2>
+              <p style={{ fontSize:"clamp(13px,0.88vw,15px)", color:"rgba(232,232,240,0.4)", maxWidth:380, margin:0, lineHeight:1.65 }}>
+                {C.servicesSubtitle}
+              </p>
             </div>
-            <p className="text-white/60 text-sm max-w-md m-0">
-              {isEn
-                ? "Tell me what you need. I'll get back to you within 24 hours."
-                : "Cuéntame qué necesitas. Te respondo en menos de 24 horas."}
+          </motion.div>
+
+          {/* Grid 2×2 — exactamente igual que "svc-grid" de resume */}
+          <style>{`@media(min-width:700px){ .svc-cards-grid { grid-template-columns: 1fr 1fr !important; } }`}</style>
+          <motion.div className="svc-cards-grid" variants={stagger}
+            style={{ display:"grid", gridTemplateColumns:"1fr", gap:1, background:"rgba(255,255,255,0.04)" }}>
+            {C.services.map((s, i) => {
+              const Icon = SERVICE_ICONS[s.icon];
+              return (
+                <motion.div key={i} variants={fadeUp}
+                  style={{ background:"#080810", padding:"clamp(26px,2.8vw,44px)", display:"flex", flexDirection:"column", gap:"clamp(12px,1.2vw,18px)", position:"relative", transition:"background .35s", cursor:"default" }}
+                  onMouseEnter={e => e.currentTarget.style.background = "rgba(139,92,246,0.03)"}
+                  onMouseLeave={e => e.currentTarget.style.background = "#080810"}>
+                  <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+                    <span style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(48px,5.5vw,76px)", fontWeight:800, lineHeight:1, color:"rgba(139,92,246,0.3)", userSelect:"none" }}>
+                      {s.num}
+                    </span>
+                    <div style={{ width:"clamp(40px,4vw,56px)", height:"clamp(40px,4vw,56px)", borderRadius:"50%", border:"1px solid rgba(139,92,246,0.25)", display:"flex", alignItems:"center", justifyContent:"center", color:"rgba(139,92,246,0.7)" }}>
+                      <Icon size={18} />
+                    </div>
+                  </div>
+                  <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(17px,1.7vw,26px)", fontWeight:700, color:"white", margin:0, lineHeight:1.2 }}>
+                    {s.title}
+                  </h3>
+                  <p style={{ fontSize:"clamp(13px,0.86vw,15px)", lineHeight:1.75, color:"rgba(232,232,240,0.55)", margin:0 }}>
+                    {s.desc}
+                  </p>
+                  <div style={{ display:"flex", flexWrap:"wrap", gap:5, marginTop:2 }}>
+                    {s.tags.map(tag => (
+                      <span key={tag} style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(8px,0.58vw,10px)", padding:"3px 9px", borderRadius:4, background:"rgba(139,92,246,0.08)", border:"1px solid rgba(139,92,246,0.18)", color:"rgba(139,92,246,0.7)", letterSpacing:"0.08em" }}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </motion.div>
+
+        <Divider />
+
+        {/* ══════════════════════════
+            3 — TECH STACK (igual que habilidades de resume)
+        ══════════════════════════ */}
+        <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once:true, margin:"-60px" }}>
+
+          <motion.div variants={fadeUp} style={{ marginBottom:"clamp(28px,3vw,44px)" }}>
+            <SectionLabel label={C.sectionStack} />
+            <div style={{ display:"flex", flexWrap:"wrap", alignItems:"flex-end", justifyContent:"space-between", gap:16 }}>
+              <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(28px,3.5vw,58px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-0.02em", color:"rgba(232,232,240,0.95)", margin:0 }}>
+                {C.sectionStack}
+              </h2>
+              <p style={{ fontSize:"clamp(13px,0.88vw,15px)", color:"rgba(232,232,240,0.4)", maxWidth:380, margin:0, lineHeight:1.65 }}>
+                {C.stackSubtitle}
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Skill grid — 100% idéntico a resume */}
+          <motion.div variants={stagger}
+            style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(clamp(78px,7.5vw,124px),1fr))", gap:"clamp(8px,0.85vw,13px)" }}>
+            {skillIcons.map((skill, i) => (
+              <motion.div key={i} variants={fadeUp} className="skill-item">
+                <div style={{ fontSize:"clamp(26px,2.8vw,44px)", color:skill.color }}>{skill.icon}</div>
+                <span style={{ fontSize:"clamp(9px,0.6vw,11px)", color:"rgba(232,232,240,0.4)", textAlign:"center", letterSpacing:"0.05em", fontFamily:"'DM Mono',monospace" }}>{skill.name}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        <Divider />
+
+        {/* ══════════════════════════
+            CTA FINAL — idéntico a resume
+        ══════════════════════════ */}
+        <motion.div
+          variants={fadeUp} initial="hidden" whileInView="show"
+          viewport={{ once:true, margin:"-40px" }}
+          style={{ display:"flex", flexWrap:"wrap", alignItems:"center", justifyContent:"space-between", gap:"clamp(20px,2.5vw,40px)", padding:"clamp(28px,3vw,48px)", background:"rgba(139,92,246,0.05)", border:"1px solid rgba(139,92,246,0.15)", borderRadius:8 }}>
+          <div>
+            <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(20px,2vw,34px)", fontWeight:700, color:"white", margin:"0 0 clamp(8px,0.8vw,12px) 0" }}>
+              {C.ctaTitle}
+            </h3>
+            <p style={{ fontSize:"clamp(13px,0.88vw,15px)", color:"rgba(232,232,240,0.45)", margin:0, maxWidth:460, lineHeight:1.65 }}>
+              {C.ctaDesc}
             </p>
           </div>
-
-          <div className="flex flex-col sm:flex-row gap-3 sm:flex-shrink-0">
-            <Link
-              href="/contact"
-              className="btn-glow-solid text-center"
-              style={{ textDecoration: "none" }}
-            >
-              {isEn ? "Start a project" : "Iniciar proyecto"}
-            </Link>
-            <Link
-              href="/work"
-              className="btn-glow text-center"
-              style={{ textDecoration: "none" }}
-            >
-              {isEn ? "See my work" : "Ver trabajos"}
-            </Link>
-          </div>
+          <Link href="/contact"
+            style={{ display:"inline-flex", alignItems:"center", gap:8, background:"linear-gradient(135deg,#8B5CF6,#6C63FF)", color:"white", padding:"clamp(12px,1.1vw,18px) clamp(22px,2vw,34px)", fontFamily:"'DM Mono',monospace", fontSize:"clamp(11px,0.72vw,13px)", letterSpacing:"0.14em", textTransform:"uppercase", textDecoration:"none", boxShadow:"0 0 32px rgba(139,92,246,0.3)", transition:"opacity .2s,transform .2s", flexShrink:0 }}
+            onMouseEnter={e => { e.currentTarget.style.opacity="0.88"; e.currentTarget.style.transform="translateY(-1px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.opacity="1"; e.currentTarget.style.transform="translateY(0)"; }}>
+            {C.ctaBtn}
+            <FiArrowUpRight size={14} />
+          </Link>
         </motion.div>
+
       </div>
-    </section>
+    </div>
   );
 }

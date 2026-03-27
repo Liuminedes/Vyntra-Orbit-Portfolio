@@ -87,9 +87,14 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 1;
-  opacity: 0.3;
+  z-index: 0;
+  /* ← era z-index:1, ahora 0 — debajo de todo */
+  opacity: 0.15;
+  /* ← era 0.3, más sutil */
+  background-color: transparent;
+  /* ← sin color sólido de fondo */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  background-color: transparent;
 }
 
 /* Container */
@@ -719,8 +724,11 @@ body::before {
 }
 
 @media (max-width: 767px) {
+
   /* Espacio correcto bajo el navbar */
-  body { padding-top: 56px !important; }
+  body {
+    padding-top: 56px !important;
+  }
 
   /* Números de servicios — color visible en móvil */
   .num-badge,
@@ -732,14 +740,21 @@ body::before {
 
   /* Textos de descripción — más legibles */
   .vo-body,
-  p { color: rgba(232, 232, 240, 0.72) !important; }
+  p {
+    color: rgba(232, 232, 240, 0.72) !important;
+  }
 
   /* Textos sobre fondo oscuro en servicios */
-  .svc-card p { color: rgba(232, 232, 240, 0.7) !important; }
-  .svc-card li { color: rgba(232, 232, 240, 0.7) !important; }
+  .svc-card p {
+    color: rgba(232, 232, 240, 0.7) !important;
+  }
+
+  .svc-card li {
+    color: rgba(232, 232, 240, 0.7) !important;
+  }
 
   /* Items de highlights — más visibles */
-  .svc-highlights > div {
+  .svc-highlights>div {
     color: rgba(232, 232, 240, 0.75) !important;
     font-size: 13px !important;
   }
@@ -752,7 +767,9 @@ body::before {
   }
 
   /* Eliminar espacio muerto entre header y primer elemento */
-  section { padding-top: clamp(28px, 4vw, 56px) !important; }
+  section {
+    padding-top: clamp(28px, 4vw, 56px) !important;
+  }
 
   /* Cards de servicios sin espacio extra lateral */
   .svc-card {
@@ -760,18 +777,23 @@ body::before {
   }
 
   /* Título de página — más grande y legible */
-  .vo-heading, .display-lg, .h2 {
+  .vo-heading,
+  .display-lg,
+  .h2 {
     font-size: clamp(24px, 7vw, 36px) !important;
     line-height: 1.1 !important;
   }
 
   /* Subheading — ajustado */
-  .vo-subheading, .display-md, .h3 {
+  .vo-subheading,
+  .display-md,
+  .h3 {
     font-size: clamp(16px, 5vw, 22px) !important;
   }
 
   /* Labels — más visibles */
-  .vo-label, .label-sm {
+  .vo-label,
+  .label-sm {
     color: rgba(232, 232, 240, 0.55) !important;
   }
 
@@ -784,7 +806,9 @@ body::before {
 }
 
 @media (max-width: 480px) {
-  body { padding-top: 52px !important; }
+  body {
+    padding-top: 52px !important;
+  }
 
   .vo-container {
     padding-left: 14px !important;

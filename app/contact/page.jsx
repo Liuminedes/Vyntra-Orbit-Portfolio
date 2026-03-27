@@ -1,13 +1,19 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { FiSend, FiLoader, FiPhone, FiMail, FiCheck } from "react-icons/fi";
-import { FaInstagram } from "react-icons/fa";
+import Link from "next/link";
+import {
+  FiSend, FiLoader, FiCheck, FiPhone, FiMail,
+  FiArrowUpRight, FiMessageSquare, FiClock, FiZap,
+} from "react-icons/fi";
+import { FaDiscord, FaInstagram } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
 import { useLang } from "@/lib/LangContext";
 
+/* ── Validación ── */
 const isEmail = (s = "") => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s.trim());
 
+/* ── Toast idéntico al resto del proyecto ── */
 function showToast(kind, title, detail = "") {
   toast.custom((t) => (
     <div style={{
@@ -21,7 +27,7 @@ function showToast(kind, title, detail = "") {
     }}>
       <div style={{ width:8,height:8,borderRadius:"50%",flexShrink:0,marginTop:4,background:kind==="success"?"#00ff88":"#ff6060" }} />
       <div style={{ flex:1 }}>
-        <p style={{ fontSize:13,fontWeight:600,color:"#6C63FF",margin:0 }}>{title}</p>
+        <p style={{ fontSize:13,fontWeight:600,color:"#8B5CF6",margin:0 }}>{title}</p>
         {detail && <p style={{ fontSize:11,color:"rgba(255,255,255,0.4)",marginTop:3 }}>{detail}</p>}
       </div>
       <button onClick={() => toast.dismiss(t.id)} style={{ background:"none",border:"none",color:"rgba(255,255,255,0.3)",cursor:"pointer",fontSize:14,padding:0,lineHeight:1 }}>✕</button>
@@ -29,11 +35,32 @@ function showToast(kind, title, detail = "") {
   ), { position:"top-right", duration:4500, id:kind });
 }
 
-const INFO_ICONS = [
-  { Icon: FiPhone,    color:"#8B5CF6" },
-  { Icon: FiMail,     color:"#00D4FF" },
-  { Icon: FaInstagram,color:"#ff6090" },
-];
+/* ── Íconos de info ── */
+const INFO_ICONS = [FiPhone, FiMail, FaDiscord];
+
+/* ── Variantes — idénticas a resume ── */
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+};
+const stagger = {
+  hidden: {},
+  show:   { transition: { staggerChildren: 0.09, delayChildren: 0.04 } },
+};
+
+/* ── Componentes idénticos a resume ── */
+const SectionLabel = ({ label }) => (
+  <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:"clamp(10px,1vw,16px)" }}>
+    <span style={{ display:"block", width:"clamp(28px,2.5vw,44px)", height:1, background:"linear-gradient(90deg,#8B5CF6,transparent)", flexShrink:0 }} />
+    <span style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(10px,0.7vw,12px)", letterSpacing:"0.2em", textTransform:"uppercase", color:"rgba(232,232,240,0.4)" }}>
+      {label}
+    </span>
+  </div>
+);
+
+const Divider = () => (
+  <div style={{ height:1, background:"linear-gradient(90deg,transparent,rgba(139,92,246,0.2),transparent)", margin:"clamp(56px,6vw,96px) 0" }} />
+);
 
 export default function Contact() {
   const { t, lang } = useLang();
@@ -74,202 +101,239 @@ export default function Contact() {
     }
   };
 
-  /* Estilo base de inputs */
+  /* Estilo base inputs — línea inferior únicamente */
   const inp = {
-    width:"100%",
-    background:"transparent",
-    border:"none",
-    borderBottom:"1px solid rgba(255,255,255,0.12)",
-    outline:"none",
-    fontSize:"14px",
-    color:"rgba(255,255,255,0.85)",
-    padding:"10px 0",
-    fontFamily:"'DM Mono',monospace",
-    transition:"border-color .2s",
+    width:"100%", background:"transparent",
+    border:"none", borderBottom:"1px solid rgba(255,255,255,0.1)",
+    outline:"none", fontSize:"clamp(13px,0.88vw,15px)",
+    color:"rgba(232,232,240,0.8)", padding:"clamp(10px,1vw,14px) 0",
+    fontFamily:"'DM Mono',monospace", transition:"border-color .2s",
   };
+
+  /* Razones para contactar — igual que info pills de resume */
+  const reasons = isEn ? [
+    { icon: <FiZap size={14}/>,           text:"Fast responses in under 24h"    },
+    { icon: <FiMessageSquare size={14}/>, text:"Free initial consultation"       },
+    { icon: <FiClock size={14}/>,         text:"Project delivery in 2–4 weeks"  },
+    { icon: <FiCheck size={14}/>,         text:"Post-delivery support included"  },
+  ] : [
+    { icon: <FiZap size={14}/>,           text:"Respuesta rápida en menos de 24h"   },
+    { icon: <FiMessageSquare size={14}/>, text:"Consulta inicial gratuita"           },
+    { icon: <FiClock size={14}/>,         text:"Entrega del proyecto en 2–4 semanas" },
+    { icon: <FiCheck size={14}/>,         text:"Soporte post-entrega incluido"       },
+  ];
 
   return (
     <>
       <Toaster position="top-right" containerStyle={{ zIndex:80 }} />
-
-      {/* Focus styles via style tag — Tailwind no cubre pseudo-clases en inline */}
       <style>{`
-        .ct-input:focus { border-bottom-color: rgba(108,99,255,0.7) !important; }
+        .ct-input:focus { border-bottom-color: rgba(139,92,246,0.6) !important; }
         select.ct-input option { background:#080810; color:#e8e8f0; }
+        @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
       `}</style>
 
-      <section className="relative min-h-[80vh] py-10 md:py-16 lg:py-20 flex items-start md:items-center">
+      <div style={{ padding:"clamp(48px,5vw,80px) 0 clamp(60px,6vw,100px)", position:"relative" }}>
 
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] pointer-events-none"
-          style={{ background:"radial-gradient(ellipse,rgba(108,99,255,0.05) 0%,transparent 70%)" }} />
+        {/* Ambient — idéntico a resume */}
+        <div style={{ position:"fixed", top:"30%", left:"50%", transform:"translateX(-50%)", width:800, height:400, pointerEvents:"none", background:"radial-gradient(ellipse,rgba(139,92,246,0.04) 0%,transparent 70%)", zIndex:0 }} />
 
-        <div className="vo-container relative z-10 w-full">
+        <div style={{ width:"100%", maxWidth:"min(1800px,94vw)", margin:"0 auto", padding:"0 clamp(20px,3vw,60px)", position:"relative", zIndex:1 }}>
 
-          {/* ── Header — siempre visible ── */}
-          <div className="opacity-0 animate-fade-up mb-8 md:mb-10" style={{ animationFillMode:"forwards" }}>
-            <div className="flex items-center gap-3 mb-3">
-              <span className="line-accent" />
-              <span className="vo-label">{t.nav.contact}</span>
-            </div>
-            <h2 className="vo-heading text-white/95 mb-2">{c.heading}</h2>
-            <p className="text-white/60 text-sm sm:text-base max-w-md leading-relaxed m-0">{c.subheading}</p>
-          </div>
+          {/* ══════════════════════════
+              1 — ENCABEZADO
+          ══════════════════════════ */}
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once:true, margin:"-60px" }}>
 
-          {/* ── Grid: info (desktop) + form ── */}
-          <div className="grid grid-cols-1 xl:grid-cols-[1fr_480px] gap-8 xl:gap-20">
+            <motion.div variants={fadeUp} style={{ marginBottom:"clamp(36px,4vw,56px)" }}>
+              <SectionLabel label={isEn?"Contact":"Contacto"} />
+              <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(32px,4vw,68px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-0.02em", color:"rgba(232,232,240,0.95)", margin:0 }}>
+                {c.heading}
+              </h2>
+            </motion.div>
 
-            {/* Info lateral — solo desktop */}
-            <div className="hidden xl:flex flex-col justify-center gap-8">
-              <ul className="flex flex-col gap-7 list-none p-0 m-0">
+            {/* Grid: texto/razones (izq) + info de contacto (der) — igual que "who-grid" de resume */}
+            <style>{`@media(min-width:900px){ .ct-top-grid { grid-template-columns: 1fr clamp(260px,26vw,400px) !important; } }`}</style>
+            <div className="ct-top-grid" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(32px,4vw,64px)", alignItems:"center" }}>
+
+              {/* Texto + razones */}
+              <motion.div variants={fadeUp} style={{ display:"flex", flexDirection:"column", gap:"clamp(14px,1.4vw,22px)" }}>
+                <p style={{ fontSize:"clamp(14px,1vw,18px)", lineHeight:1.85, color:"rgba(232,232,240,0.6)", margin:0, maxWidth:640 }}>
+                  {c.subheading}
+                </p>
+                {/* Razones — misma estructura que info pills de resume */}
+                <div style={{ display:"flex", flexWrap:"wrap", gap:"clamp(6px,0.7vw,10px)", paddingTop:"clamp(4px,0.5vw,8px)" }}>
+                  {reasons.map((r, i) => (
+                    <div key={i} style={{ display:"flex", alignItems:"center", gap:8, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:6, padding:"clamp(6px,0.65vw,10px) clamp(10px,1vw,16px)" }}>
+                      <span style={{ color:"rgba(139,92,246,0.7)", flexShrink:0 }}>{r.icon}</span>
+                      <span style={{ width:1, height:10, background:"rgba(255,255,255,0.1)" }} />
+                      <span style={{ fontSize:"clamp(11px,0.72vw,13px)", color:"rgba(232,232,240,0.75)", fontWeight:500 }}>{r.text}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Info de contacto — columna derecha, igual que logo card de resume */}
+              <motion.div variants={fadeUp} style={{ display:"flex", flexDirection:"column", gap:"clamp(10px,1vw,14px)" }}>
                 {c.info.map((item, i) => {
-                  const { Icon, color } = INFO_ICONS[i] || { Icon: FiPhone, color:"#6C63FF" };
+                  const Icon = INFO_ICONS[i] || FiPhone;
                   return (
-                    <li key={i} className="flex items-center gap-5">
-                      <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
-                        style={{ border:`1px solid ${color}30`, background:`${color}08`, color }}>
+                    <div key={i} style={{ display:"flex", alignItems:"center", gap:14, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:8, padding:"clamp(10px,1vw,16px) clamp(12px,1.2vw,18px)" }}>
+                      <div style={{ width:"clamp(36px,3.5vw,44px)", height:"clamp(36px,3.5vw,44px)", borderRadius:"50%", border:"1px solid rgba(139,92,246,0.25)", display:"flex", alignItems:"center", justifyContent:"center", color:"rgba(139,92,246,0.7)", flexShrink:0 }}>
                         <Icon size={16} />
                       </div>
                       <div>
-                        <p className="text-[10px] text-white/30 uppercase tracking-[0.15em] m-0 mb-1 font-mono">{item.title}</p>
-                        <p className="text-sm text-white/75 m-0">{item.description}</p>
+                        <div style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.58vw,11px)", color:"rgba(139,92,246,0.6)", textTransform:"uppercase", letterSpacing:"0.15em", marginBottom:3 }}>{item.title}</div>
+                        <div style={{ fontSize:"clamp(12px,0.82vw,14px)", color:"rgba(232,232,240,0.8)", fontWeight:500 }}>{item.description}</div>
                       </div>
-                    </li>
+                    </div>
                   );
                 })}
-              </ul>
-
-              {/* Social */}
-              <div className="border-t border-white/5 pt-6">
-                <p className="text-[10px] text-white/20 tracking-[0.15em] uppercase font-mono mb-3">Social</p>
-                <div className="flex gap-4 items-center flex-wrap">
+                {/* Social + badge disponible */}
+                <div style={{ display:"flex", alignItems:"center", gap:12, paddingTop:4, flexWrap:"wrap" }}>
                   {[
-                    { Icon: FaInstagram, label:"@vyntra_orbit", href:"https://www.instagram.com/vyntra_orbit/", color:"#ff6090" },
-                    { Icon: FiMail,      label:"Email",         href:"mailto:liu.galax.dev.ops@gmail.com",       color:"#00D4FF" },
+                    { icon:<FaInstagram size={14}/>, label:"@vyntra_orbit", href:"https://www.instagram.com/vyntra_orbit/" },
+                    { icon:<FiMail size={14}/>,      label:"Email",         href:"mailto:liu.galax.dev.ops@gmail.com" },
                   ].map((s, i) => (
                     <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-[13px] text-white/40 no-underline font-mono transition-colors duration-200 hover:text-[#8B5CF6]">
-                      <s.Icon size={14} style={{ color: s.color }} />
-                      {s.label}
+                      style={{ display:"flex",alignItems:"center",gap:5,fontSize:"clamp(10px,0.7vw,12px)",color:"rgba(232,232,240,0.35)",textDecoration:"none",fontFamily:"'DM Mono',monospace",transition:"color .2s",letterSpacing:"0.08em" }}
+                      onMouseEnter={e=>e.currentTarget.style.color="#8B5CF6"}
+                      onMouseLeave={e=>e.currentTarget.style.color="rgba(232,232,240,0.35)"}>
+                      {s.icon}{s.label}
                     </a>
                   ))}
                 </div>
-              </div>
-
-              {/* Disponible badge */}
-              <div className="flex items-center gap-3 p-3 rounded-lg"
-                style={{ background:"rgba(0,255,136,0.05)", border:"1px solid rgba(0,255,136,0.15)" }}>
-                <div className="w-2 h-2 rounded-full flex-shrink-0"
-                  style={{ background:"#00ff88", animation:"pulse-wip 2s infinite" }} />
-                <span className="text-white/60 text-[13px] font-mono">
-                  {isEn ? "Available for new projects — responds within 24h" : "Disponible para nuevos proyectos — responde en 24h"}
-                </span>
-              </div>
+                {/* Badge disponible — idéntico a resume */}
+                <div style={{ display:"flex", alignItems:"center", gap:8, background:"rgba(8,8,16,0.92)", border:"1px solid rgba(139,92,246,0.3)", borderRadius:100, padding:"8px 16px", backdropFilter:"blur(12px)", alignSelf:"flex-start" }}>
+                  <div style={{ width:6, height:6, borderRadius:"50%", background:"#00ff88", animation:"pulse-wip 2s infinite" }} />
+                  <span style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(8px,0.56vw,10px)", letterSpacing:"0.14em", color:"rgba(232,232,240,0.55)", textTransform:"uppercase" }}>
+                    {isEn?"Available for projects":"Disponible para proyectos"}
+                  </span>
+                </div>
+              </motion.div>
             </div>
+          </motion.div>
 
-            {/* ── FORM ── */}
-            <motion.div
-              initial={{ opacity:0, y:24 }}
-              animate={{ opacity:1, y:0, transition:{ delay:0.15, duration:0.5, ease:[0.22,1,0.36,1] } }}>
+          <Divider />
 
+          {/* ══════════════════════════
+              2 — FORMULARIO
+              Ocupa el ancho completo igual que el grid de skills en resume
+          ══════════════════════════ */}
+          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once:true, margin:"-60px" }}>
+
+            <motion.div variants={fadeUp} style={{ marginBottom:"clamp(28px,3vw,44px)" }}>
+              <SectionLabel label={isEn?"Send a message":"Enviar mensaje"} />
+              <div style={{ display:"flex", flexWrap:"wrap", alignItems:"flex-end", justifyContent:"space-between", gap:16 }}>
+                <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(28px,3.5vw,58px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-0.02em", color:"rgba(232,232,240,0.95)", margin:0 }}>
+                  {isEn?"Let's work together":"Trabajemos juntos"}
+                </h2>
+                <p style={{ fontSize:"clamp(13px,0.88vw,15px)", color:"rgba(232,232,240,0.4)", maxWidth:380, margin:0, lineHeight:1.65 }}>
+                  {isEn?"Fill in the form and we'll get back to you in under 24h.":"Completa el formulario y te respondemos en menos de 24h."}
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Formulario — grid 2 columnas en desktop, igual que svc-grid de resume */}
+            <motion.div variants={fadeUp}>
               <form onSubmit={onSubmit}
-                className="flex flex-col gap-5 p-5 sm:p-8 rounded-xl"
-                style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)" }}>
+                style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:8, padding:"clamp(24px,3vw,48px)", display:"flex", flexDirection:"column", gap:"clamp(18px,2vw,28px)" }}>
 
-                {/* Nombre + Apellido */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[9px] text-white/30 uppercase tracking-[0.12em] font-mono">{c.fields.firstname}</label>
-                    <input className="ct-input" placeholder="Mauricio" value={form.firstname} onChange={set("firstname")} style={inp} />
+                {/* Nombre + Apellido — grid 2 col igual que svc-grid */}
+                <style>{`@media(min-width:600px){ .ct-names { grid-template-columns: 1fr 1fr !important; } }`}</style>
+                <div className="ct-names" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(18px,2vw,28px)" }}>
+                  <div style={{ display:"flex",flexDirection:"column",gap:6 }}>
+                    <label style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.6vw,11px)", color:"rgba(139,92,246,0.6)", textTransform:"uppercase", letterSpacing:"0.15em" }}>{c.fields.firstname}</label>
+                    <input className="ct-input" value={form.firstname} onChange={set("firstname")} placeholder="Mauricio" style={inp} />
                   </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[9px] text-white/30 uppercase tracking-[0.12em] font-mono">{c.fields.lastname}</label>
-                    <input className="ct-input" placeholder="Rodriguez" value={form.lastname} onChange={set("lastname")} style={inp} />
+                  <div style={{ display:"flex",flexDirection:"column",gap:6 }}>
+                    <label style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.6vw,11px)", color:"rgba(139,92,246,0.6)", textTransform:"uppercase", letterSpacing:"0.15em" }}>{c.fields.lastname}</label>
+                    <input className="ct-input" value={form.lastname} onChange={set("lastname")} placeholder="Rodriguez" style={inp} />
                   </div>
                 </div>
 
-                {/* Email */}
-                <div className="flex flex-col gap-1">
-                  <label className="text-[9px] text-white/30 uppercase tracking-[0.12em] font-mono">{c.fields.email}</label>
-                  <input className="ct-input" type="email" placeholder="hello@company.com" value={form.email} onChange={set("email")} style={inp} />
-                </div>
-
-                {/* Teléfono */}
-                <div className="flex flex-col gap-1">
-                  <label className="text-[9px] text-white/30 uppercase tracking-[0.12em] font-mono">{c.fields.phone}</label>
-                  <input className="ct-input" type="tel" inputMode="numeric" placeholder="+57 300 000 0000"
-                    value={form.phone} onChange={e => setForm(s => ({ ...s, phone: e.target.value.replace(/\D/g,"") }))} style={inp} />
+                {/* Email + Teléfono — grid 2 col */}
+                <div className="ct-names" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(18px,2vw,28px)" }}>
+                  <div style={{ display:"flex",flexDirection:"column",gap:6 }}>
+                    <label style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.6vw,11px)", color:"rgba(139,92,246,0.6)", textTransform:"uppercase", letterSpacing:"0.15em" }}>{c.fields.email}</label>
+                    <input className="ct-input" type="email" value={form.email} onChange={set("email")} placeholder="hello@company.com" style={inp} />
+                  </div>
+                  <div style={{ display:"flex",flexDirection:"column",gap:6 }}>
+                    <label style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.6vw,11px)", color:"rgba(139,92,246,0.6)", textTransform:"uppercase", letterSpacing:"0.15em" }}>{c.fields.phone}</label>
+                    <input className="ct-input" type="tel" inputMode="numeric" value={form.phone}
+                      onChange={e=>setForm(s=>({...s,phone:e.target.value.replace(/\D/g,"")}))}
+                      placeholder="+57 300 000 0000" style={inp} />
+                  </div>
                 </div>
 
                 {/* Servicio */}
-                <div className="flex flex-col gap-1">
-                  <label className="text-[9px] text-white/30 uppercase tracking-[0.12em] font-mono">{isEn ? "Service" : "Servicio"}</label>
+                <div style={{ display:"flex",flexDirection:"column",gap:6 }}>
+                  <label style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.6vw,11px)", color:"rgba(139,92,246,0.6)", textTransform:"uppercase", letterSpacing:"0.15em" }}>
+                    {isEn?"Service":"Servicio"}
+                  </label>
                   <select className="ct-input" value={form.service} onChange={set("service")}
-                    style={{ ...inp, background:"#080810", paddingLeft:0 }}>
+                    style={{ ...inp, background:"transparent", paddingLeft:0 }}>
                     <option value="" disabled>{c.fields.selectService}</option>
                     {c.services.map(s => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </div>
 
                 {/* Mensaje */}
-                <div className="flex flex-col gap-1">
-                  <label className="text-[9px] text-white/30 uppercase tracking-[0.12em] font-mono">{c.fields.message}</label>
-                  <textarea className="ct-input" rows={5} value={form.message} onChange={set("message")}
-                    placeholder={isEn ? "Tell me about your project..." : "Cuéntame sobre tu proyecto..."}
+                <div style={{ display:"flex",flexDirection:"column",gap:6 }}>
+                  <label style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.6vw,11px)", color:"rgba(139,92,246,0.6)", textTransform:"uppercase", letterSpacing:"0.15em" }}>{c.fields.message}</label>
+                  <textarea className="ct-input" rows={6} value={form.message} onChange={set("message")}
+                    placeholder={isEn?"Tell me about your project...":"Cuéntame sobre tu proyecto..."}
                     style={{ ...inp, resize:"none" }} />
                 </div>
 
-                {/* Submit */}
-                <button type="submit" disabled={loading || sent}
-                  className="w-full flex items-center justify-content-center gap-2 py-3 font-mono text-[12px] tracking-[0.15em] uppercase rounded transition-all duration-300"
-                  style={{
-                    display:"flex", justifyContent:"center",
-                    background: sent ? "rgba(0,255,136,0.12)" : "linear-gradient(135deg,#6C63FF,#5a52e0)",
-                    border: sent ? "1px solid rgba(0,255,136,0.3)" : "none",
-                    color: sent ? "#00ff88" : "white",
-                    boxShadow: sent ? "none" : "0 0 24px rgba(108,99,255,0.3)",
-                    opacity: loading ? 0.7 : 1,
-                    cursor: loading || sent ? "default" : "pointer",
-                  }}>
-                  {sent
-                    ? <><FiCheck size={13} />{isEn ? "Message sent!" : "¡Mensaje enviado!"}</>
-                    : loading
-                    ? <><FiLoader style={{ animation:"spin .8s linear infinite" }} size={13} />{c.fields.sending}</>
-                    : <><FiSend size={13} />{c.fields.send}</>
-                  }
-                </button>
-                <style>{`@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}`}</style>
-
-                <p className="text-[10px] text-white/25 text-center m-0 font-mono tracking-wide">
-                  {isEn ? "We respond within 24 hours" : "Respondemos en menos de 24 horas"}
-                </p>
+                {/* Botón enviar — estilo idéntico al CTA de resume */}
+                <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:16, paddingTop:4 }}>
+                  <p style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.6vw,11px)", color:"rgba(232,232,240,0.25)", margin:0, letterSpacing:"0.1em" }}>
+                    {isEn?"We respond within 24 hours":"Respondemos en menos de 24 horas"}
+                  </p>
+                  <button type="submit" disabled={loading||sent}
+                    style={{ display:"inline-flex", alignItems:"center", gap:8, background:sent?"rgba(0,255,136,0.12)":"linear-gradient(135deg,#8B5CF6,#6C63FF)", border:sent?"1px solid rgba(0,255,136,0.3)":"none", color:sent?"#00ff88":"white", padding:"clamp(12px,1.1vw,18px) clamp(22px,2vw,34px)", fontFamily:"'DM Mono',monospace", fontSize:"clamp(11px,0.72vw,13px)", letterSpacing:"0.14em", textTransform:"uppercase", cursor:loading||sent?"default":"pointer", boxShadow:sent?"none":"0 0 32px rgba(139,92,246,0.3)", transition:"opacity .2s, transform .2s", borderRadius:0, opacity:loading?0.7:1, flexShrink:0 }}
+                    onMouseEnter={e => { if (!loading&&!sent) { e.currentTarget.style.opacity="0.88"; e.currentTarget.style.transform="translateY(-1px)"; } }}
+                    onMouseLeave={e => { e.currentTarget.style.opacity="1"; e.currentTarget.style.transform="translateY(0)"; }}>
+                    {sent
+                      ? <><FiCheck size={13}/>{isEn?"Message sent!":"¡Mensaje enviado!"}</>
+                      : loading
+                      ? <><FiLoader style={{ animation:"spin .8s linear infinite" }} size={13}/>{c.fields.sending}</>
+                      : <><FiSend size={13}/>{c.fields.send}</>
+                    }
+                  </button>
+                </div>
               </form>
-
-              {/* Info de contacto — solo móvil, debajo del form */}
-              <div className="xl:hidden mt-6 flex flex-col gap-4">
-                {c.info.map((item, i) => {
-                  const { Icon, color } = INFO_ICONS[i] || { Icon: FiPhone, color:"#6C63FF" };
-                  return (
-                    <div key={i} className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-                        style={{ border:`1px solid ${color}30`, background:`${color}08`, color }}>
-                        <Icon size={14} />
-                      </div>
-                      <div>
-                        <p className="text-[9px] text-white/30 uppercase tracking-[0.12em] font-mono m-0 mb-0.5">{item.title}</p>
-                        <p className="text-[13px] text-white/70 m-0">{item.description}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-                <p className="text-[9px] text-white/20 font-mono tracking-wider mt-1">
-                  @vyntra_orbit · Instagram · Facebook
-                </p>
-              </div>
-
             </motion.div>
-          </div>
+          </motion.div>
+
+          <Divider />
+
+          {/* ══════════════════════════
+              CTA FINAL — idéntico a resume
+          ══════════════════════════ */}
+          <motion.div
+            variants={fadeUp} initial="hidden" whileInView="show"
+            viewport={{ once:true, margin:"-40px" }}
+            style={{ display:"flex", flexWrap:"wrap", alignItems:"center", justifyContent:"space-between", gap:"clamp(20px,2.5vw,40px)", padding:"clamp(28px,3vw,48px)", background:"rgba(139,92,246,0.05)", border:"1px solid rgba(139,92,246,0.15)", borderRadius:8 }}>
+            <div>
+              <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(20px,2vw,34px)", fontWeight:700, color:"white", margin:"0 0 clamp(8px,0.8vw,12px) 0" }}>
+                {isEn?"Prefer to see our work first?":"¿Prefieres ver nuestros trabajos primero?"}
+              </h3>
+              <p style={{ fontSize:"clamp(13px,0.88vw,15px)", color:"rgba(232,232,240,0.45)", margin:0, maxWidth:460, lineHeight:1.65 }}>
+                {isEn?"Check out what we've built for our clients before reaching out.":"Revisa lo que hemos construido para nuestros clientes antes de escribirnos."}
+              </p>
+            </div>
+            <Link href="/work"
+              style={{ display:"inline-flex", alignItems:"center", gap:8, background:"linear-gradient(135deg,#8B5CF6,#6C63FF)", color:"white", padding:"clamp(12px,1.1vw,18px) clamp(22px,2vw,34px)", fontFamily:"'DM Mono',monospace", fontSize:"clamp(11px,0.72vw,13px)", letterSpacing:"0.14em", textTransform:"uppercase", textDecoration:"none", boxShadow:"0 0 32px rgba(139,92,246,0.3)", transition:"opacity .2s,transform .2s", flexShrink:0 }}
+              onMouseEnter={e => { e.currentTarget.style.opacity="0.88"; e.currentTarget.style.transform="translateY(-1px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.opacity="1"; e.currentTarget.style.transform="translateY(0)"; }}>
+              {isEn?"See our work":"Ver trabajos"}
+              <FiArrowUpRight size={14} />
+            </Link>
+          </motion.div>
+
         </div>
-      </section>
+      </div>
     </>
   );
 }
