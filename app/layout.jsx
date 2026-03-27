@@ -140,7 +140,7 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body style={{ paddingTop: "clamp(60px, 6vw, 96px)" }}>
+      <body style={{ paddingTop: "clamp(56px, 5vw, 88px)" }}>
         <LangProvider>
           <CustomCursor />
           <StairTransition />

@@ -706,3 +706,93 @@ body::before {
     padding: 3px 8px !important;
   }
 }
+
+/* ═══════════════════════════════════════════
+   FIXES LEGIBILIDAD Y ESPACIADO MÓVIL
+═══════════════════════════════════════════ */
+
+/* Números de servicios — visibles en móvil */
+.num-badge,
+.svc-num {
+  -webkit-text-stroke: 1.5px rgba(139, 92, 246, 0.5);
+  color: transparent;
+}
+
+@media (max-width: 767px) {
+  /* Espacio correcto bajo el navbar */
+  body { padding-top: 56px !important; }
+
+  /* Números de servicios — color visible en móvil */
+  .num-badge,
+  .svc-num {
+    -webkit-text-stroke: 2px #8B5CF6 !important;
+    color: rgba(139, 92, 246, 0.25) !important;
+    font-size: 52px !important;
+  }
+
+  /* Textos de descripción — más legibles */
+  .vo-body,
+  p { color: rgba(232, 232, 240, 0.72) !important; }
+
+  /* Textos sobre fondo oscuro en servicios */
+  .svc-card p { color: rgba(232, 232, 240, 0.7) !important; }
+  .svc-card li { color: rgba(232, 232, 240, 0.7) !important; }
+
+  /* Items de highlights — más visibles */
+  .svc-highlights > div {
+    color: rgba(232, 232, 240, 0.75) !important;
+    font-size: 13px !important;
+  }
+
+  /* Botón cotización — ancho completo en móvil */
+  .svc-header-row .btn-glow-solid {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  /* Eliminar espacio muerto entre header y primer elemento */
+  section { padding-top: clamp(28px, 4vw, 56px) !important; }
+
+  /* Cards de servicios sin espacio extra lateral */
+  .svc-card {
+    padding: 20px 16px !important;
+  }
+
+  /* Título de página — más grande y legible */
+  .vo-heading, .display-lg, .h2 {
+    font-size: clamp(24px, 7vw, 36px) !important;
+    line-height: 1.1 !important;
+  }
+
+  /* Subheading — ajustado */
+  .vo-subheading, .display-md, .h3 {
+    font-size: clamp(16px, 5vw, 22px) !important;
+  }
+
+  /* Labels — más visibles */
+  .vo-label, .label-sm {
+    color: rgba(232, 232, 240, 0.55) !important;
+  }
+
+  /* num-badge en work */
+  .num-badge {
+    font-size: 44px !important;
+    -webkit-text-stroke: 1.5px rgba(139, 92, 246, 0.5) !important;
+    color: transparent !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body { padding-top: 52px !important; }
+
+  .vo-container {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  /* Números aún más visibles en pantallas muy pequeñas */
+  .svc-num {
+    font-size: 44px !important;
+  }
+}
