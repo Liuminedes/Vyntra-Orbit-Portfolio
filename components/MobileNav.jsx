@@ -251,7 +251,7 @@ export default function MobileNav() {
               letterSpacing: "0.1em",
             }}
           >
-            liu.galax.dev.ops@gmail.com
+            vyntraorbit@gmail.com
           </p>
         </div>
       </div>
