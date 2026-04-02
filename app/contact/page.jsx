@@ -192,7 +192,7 @@ export default function Contact() {
                 <div style={{ display:"flex", alignItems:"center", gap:12, paddingTop:4, flexWrap:"wrap" }}>
                   {[
                     { icon:<FaInstagram size={14}/>, label:"@vyntra_orbit", href:"https://www.instagram.com/vyntra_orbit/" },
-                    { icon:<FiMail size={14}/>,      label:"Email",         href:"mailto:liu.galax.dev.ops@gmail.com" },
+                    { icon:<FiMail size={14}/>,      label:"Email",         href:"mailto:vyntraorbit@gmail.com" },
                   ].map((s, i) => (
                     <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
                       style={{ display:"flex",alignItems:"center",gap:5,fontSize:"clamp(10px,0.7vw,12px)",color:"rgba(232,232,240,0.35)",textDecoration:"none",fontFamily:"'DM Mono',monospace",transition:"color .2s",letterSpacing:"0.08em" }}
