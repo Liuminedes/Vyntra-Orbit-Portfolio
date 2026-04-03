@@ -102,84 +102,110 @@ function ContactModal({ open, onClose, lang }) {
           <motion.div
             initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
             onClick={onClose}
-            style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.75)", backdropFilter:"blur(8px)", zIndex:200 }}
-          />
-          {/* Modal */}
-          <motion.div
-            initial={{ opacity:0, scale:0.92, y:20 }}
-            animate={{ opacity:1, scale:1, y:0, transition:{ duration:0.3, ease:[0.22,1,0.36,1] } }}
-            exit={{ opacity:0, scale:0.95, y:10, transition:{ duration:0.2 } }}
             style={{
-              position:"fixed", top:"50%", left:"50%",
-              transform:"translate(-50%,-50%)",
-              zIndex:201, width:"min(90vw, 480px)",
-              background:"#0c0c18",
-              border:"1px solid rgba(139,92,246,0.2)",
-              borderRadius:12,
-              overflow:"hidden",
-              boxShadow:"0 0 80px rgba(139,92,246,0.15), 0 24px 64px rgba(0,0,0,0.6)",
+              position:"fixed", inset:0,
+              background:"rgba(0,0,0,0.8)",
+              backdropFilter:"blur(8px)",
+              zIndex:200,
+              /* Centra el modal usando flex en lugar de transform */
+              display:"flex",
+              alignItems:"center",
+              justifyContent:"center",
+              padding:"clamp(16px,3vw,32px)",
+              overflowY:"auto",
             }}>
-            {/* Header del modal */}
-            <div style={{ padding:"20px 24px 16px", borderBottom:"1px solid rgba(255,255,255,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-              <div>
-                <div style={{ fontFamily:"'Syne',sans-serif", fontSize:18, fontWeight:700, color:"white" }}>
-                  {isEn?"Contact & Social":"Contacto y Redes"}
+            {/* Modal — clic interno no cierra */}
+            <motion.div
+              initial={{ opacity:0, scale:0.92, y:20 }}
+              animate={{ opacity:1, scale:1, y:0, transition:{ duration:0.3, ease:[0.22,1,0.36,1] } }}
+              exit={{ opacity:0, scale:0.95, y:10, transition:{ duration:0.2 } }}
+              onClick={e => e.stopPropagation()}
+              style={{
+                width:"100%",
+                maxWidth:480,
+                /* Nunca más alto que el viewport disponible */
+                maxHeight:"calc(100dvh - clamp(32px,6vw,64px))",
+                background:"#0c0c18",
+                border:"1px solid rgba(139,92,246,0.2)",
+                borderRadius:12,
+                overflow:"hidden",
+                display:"flex",
+                flexDirection:"column",
+                boxShadow:"0 0 80px rgba(139,92,246,0.15), 0 24px 64px rgba(0,0,0,0.6)",
+                /* Posición relativa al flex del overlay, no fixed */
+                position:"relative",
+                margin:"auto",
+              }}>
+
+              {/* Header */}
+              <div style={{
+                padding:"20px 22px 16px",
+                borderBottom:"1px solid rgba(255,255,255,0.06)",
+                display:"flex", justifyContent:"space-between", alignItems:"center",
+                flexShrink:0,
+              }}>
+                <div>
+                  <div style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(15px,1.2vw,18px)", fontWeight:700, color:"white" }}>
+                    {isEn?"Contact & Social":"Contacto y Redes"}
+                  </div>
+                  <div style={{ fontFamily:"'DM Mono',monospace", fontSize:10, color:"rgba(255,255,255,0.3)", marginTop:3, letterSpacing:"0.1em" }}>
+                    {isEn?"Choose how to reach us":"Elige cómo contactarnos"}
+                  </div>
                 </div>
-                <div style={{ fontFamily:"'DM Mono',monospace", fontSize:10, color:"rgba(255,255,255,0.3)", marginTop:3, letterSpacing:"0.1em" }}>
-                  {isEn?"Choose how to reach us":"Elige cómo contactarnos"}
-                </div>
+                <button onClick={onClose}
+                  style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:"50%", width:32, height:32, display:"flex", alignItems:"center", justifyContent:"center", color:"rgba(255,255,255,0.5)", cursor:"pointer", transition:"all .15s", flexShrink:0 }}
+                  onMouseEnter={e => { e.currentTarget.style.background="rgba(255,255,255,0.1)"; e.currentTarget.style.color="white"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background="rgba(255,255,255,0.06)"; e.currentTarget.style.color="rgba(255,255,255,0.5)"; }}>
+                  <FiX size={14} />
+                </button>
               </div>
-              <button onClick={onClose}
-                style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:"50%", width:32, height:32, display:"flex", alignItems:"center", justifyContent:"center", color:"rgba(255,255,255,0.5)", cursor:"pointer", transition:"all .15s" }}
-                onMouseEnter={e => { e.currentTarget.style.background="rgba(255,255,255,0.1)"; e.currentTarget.style.color="white"; }}
-                onMouseLeave={e => { e.currentTarget.style.background="rgba(255,255,255,0.06)"; e.currentTarget.style.color="rgba(255,255,255,0.5)"; }}>
-                <FiX size={14} />
-              </button>
-            </div>
 
-            {/* Lista de redes */}
-            <div style={{ padding:"12px 16px 20px", display:"flex", flexDirection:"column", gap:8 }}>
-              {SOCIAL_LINKS.map((s, i) => (
-                <motion.a
-                  key={i}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity:0, x:-12 }}
-                  animate={{ opacity:1, x:0, transition:{ delay: i * 0.06, duration:0.3, ease:[0.22,1,0.36,1] } }}
-                  style={{
-                    display:"flex", alignItems:"center", gap:14,
-                    padding:"14px 16px", borderRadius:9,
-                    background:s.bg, border:`1px solid ${s.border}`,
-                    textDecoration:"none", transition:"all .2s",
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.transform="translateX(4px)"; e.currentTarget.style.boxShadow=`0 0 20px ${s.color}20`; }}
-                  onMouseLeave={e => { e.currentTarget.style.transform="translateX(0)"; e.currentTarget.style.boxShadow="none"; }}>
-                  {/* Ícono */}
-                  <div style={{ width:44, height:44, borderRadius:10, background:`${s.color}18`, border:`1px solid ${s.color}30`, display:"flex", alignItems:"center", justifyContent:"center", color:s.color, flexShrink:0 }}>
-                    {s.icon}
-                  </div>
-                  {/* Info */}
-                  <div style={{ flex:1, minWidth:0 }}>
-                    <div style={{ fontFamily:"'Syne',sans-serif", fontSize:14, fontWeight:600, color:"white" }}>{s.name}</div>
-                    <div style={{ fontFamily:"'DM Mono',monospace", fontSize:11, color:"rgba(255,255,255,0.45)", marginTop:1, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{s.handle}</div>
-                  </div>
-                  {/* Descripción + flecha */}
-                  <div style={{ textAlign:"right", flexShrink:0 }}>
-                    <div style={{ fontFamily:"'DM Mono',monospace", fontSize:9, color:s.color, letterSpacing:"0.06em", opacity:0.8 }}>{s.desc[lang] || s.desc.es}</div>
-                    <FiArrowUpRight size={14} style={{ color:"rgba(255,255,255,0.2)", marginTop:4 }} />
-                  </div>
-                </motion.a>
-              ))}
-            </div>
+              {/* Lista — scrollable si es necesario en móvil */}
+              <div style={{ padding:"10px 14px 12px", display:"flex", flexDirection:"column", gap:7, overflowY:"auto", flex:1 }}>
+                {SOCIAL_LINKS.map((s, i) => (
+                  <motion.a
+                    key={i}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity:0, x:-12 }}
+                    animate={{ opacity:1, x:0, transition:{ delay: i * 0.06, duration:0.3, ease:[0.22,1,0.36,1] } }}
+                    style={{
+                      display:"flex", alignItems:"center", gap:12,
+                      padding:"clamp(11px,1.2vw,14px) clamp(12px,1.2vw,16px)",
+                      borderRadius:9,
+                      background:s.bg, border:`1px solid ${s.border}`,
+                      textDecoration:"none", transition:"all .2s",
+                      flexShrink:0,
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.transform="translateX(4px)"; e.currentTarget.style.boxShadow=`0 0 20px ${s.color}20`; }}
+                    onMouseLeave={e => { e.currentTarget.style.transform="translateX(0)"; e.currentTarget.style.boxShadow="none"; }}>
+                    {/* Ícono */}
+                    <div style={{ width:40, height:40, borderRadius:9, background:`${s.color}18`, border:`1px solid ${s.color}30`, display:"flex", alignItems:"center", justifyContent:"center", color:s.color, flexShrink:0 }}>
+                      {s.icon}
+                    </div>
+                    {/* Info */}
+                    <div style={{ flex:1, minWidth:0 }}>
+                      <div style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(13px,1vw,15px)", fontWeight:600, color:"white" }}>{s.name}</div>
+                      <div style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.65vw,11px)", color:"rgba(255,255,255,0.4)", marginTop:1, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{s.handle}</div>
+                    </div>
+                    {/* Descripción */}
+                    <div style={{ textAlign:"right", flexShrink:0 }}>
+                      <div style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(8px,0.6vw,10px)", color:s.color, letterSpacing:"0.05em", opacity:0.85 }}>{s.desc[lang] || s.desc.es}</div>
+                      <FiArrowUpRight size={13} style={{ color:"rgba(255,255,255,0.2)", marginTop:3, display:"block", marginLeft:"auto" }} />
+                    </div>
+                  </motion.a>
+                ))}
+              </div>
 
-            {/* Footer */}
-            <div style={{ padding:"12px 24px 18px", borderTop:"1px solid rgba(255,255,255,0.05)", display:"flex", alignItems:"center", gap:7 }}>
-              <div style={{ width:5, height:5, borderRadius:"50%", background:"#00ff88", animation:"pulse-wip 2s infinite" }} />
-              <span style={{ fontFamily:"'DM Mono',monospace", fontSize:9, color:"rgba(255,255,255,0.3)", letterSpacing:"0.1em", textTransform:"uppercase" }}>
-                {isEn?"Typically responds in under 24 hours":"Respondemos en menos de 24 horas"}
-              </span>
-            </div>
+              {/* Footer */}
+              <div style={{ padding:"10px 20px 16px", borderTop:"1px solid rgba(255,255,255,0.05)", display:"flex", alignItems:"center", gap:7, flexShrink:0 }}>
+                <div style={{ width:5, height:5, borderRadius:"50%", background:"#00ff88", animation:"pulse-wip 2s infinite" }} />
+                <span style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(8px,0.58vw,10px)", color:"rgba(255,255,255,0.3)", letterSpacing:"0.1em", textTransform:"uppercase" }}>
+                  {isEn?"Typically responds in under 24 hours":"Respondemos en menos de 24 horas"}
+                </span>
+              </div>
+            </motion.div>
           </motion.div>
         </>
       )}
@@ -283,8 +309,20 @@ export default function Contact() {
   ];
 
   const budgets = isEn
-    ? ["Less than $500 USD","$500 – $1,500 USD","$1,500 – $5,000 USD","More than $5,000 USD","I don't know yet"]
-    : ["Menos de $500 USD","$500 – $1,500 USD","$1,500 – $5,000 USD","Más de $5,000 USD","Aún no lo sé"];
+  ? [
+      "Less than $100 USD",
+      "$100 – $250 COP",
+      "$250 – $500 USD",
+      "More than $500 USD",
+      "I don't know yet",
+    ]
+  : [
+      "Menos de $500.000 COP",
+      "$500.000 – $1.500.000 COP",
+      "$1.500.000 – $3.000.000 COP",
+      "Más de $3.000.000 COP",
+      "Aún no lo sé",
+    ];
 
   const timelines = isEn
     ? ["As soon as possible","In 1–2 months","In 3–6 months","No fixed deadline"]
