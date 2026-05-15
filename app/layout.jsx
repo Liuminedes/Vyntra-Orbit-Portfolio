@@ -1,9 +1,7 @@
 import "./globals.css";
 import Header from "@/components/Header";
-import PageTransition from "@/components/PageTransition";
-import StairTransition from "@/components/StairTransition";
-import CustomCursor from "@/components/CustomCursor";
 import { LangProvider } from "@/lib/LangContext";
+import NoiseOverlay from "@/components/NoiseOverlay";
 
 const BASE_URL = "https://vyntra-orbit-portfolio.vercel.app";
 
@@ -140,14 +138,13 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body style={{ paddingTop: "clamp(56px, 5vw, 88px)" }}>
+      <body suppressHydrationWarning style={{ paddingTop: "clamp(56px, 5vw, 88px)" }}>
+        <NoiseOverlay />
         <LangProvider>
-          <CustomCursor />
-          <StairTransition />
-          <PageTransition>
-            <Header />
+          <Header />
+          <main>
             {children}
-          </PageTransition>
+          </main>
         </LangProvider>
       </body>
     </html>

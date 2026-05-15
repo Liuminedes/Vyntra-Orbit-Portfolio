@@ -1,389 +1,190 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiArrowUpRight, FiGithub } from "react-icons/fi";
+import { FiArrowUpRight, FiGithub, FiMaximize2, FiX } from "react-icons/fi";
 import { useLang } from "@/lib/LangContext";
-import dynamic from "next/dynamic";
-
-const DemoSkeleton = () => (
-  <div
-    style={{
-      height: 420,
-      background: "rgba(255,255,255,0.02)",
-      border: "1px solid rgba(255,255,255,0.06)",
-      borderRadius: 12,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}
-  >
-    <span
-      style={{
-        fontSize: 11,
-        color: "rgba(255,255,255,0.2)",
-        letterSpacing: "0.1em",
-        fontFamily: "'DM Mono',monospace",
-      }}
-    >
-      Cargando demo...
-    </span>
-  </div>
-);
-
-const SyncDealerDemo = dynamic(
-  () => import("@/components/demos/SyncDealerDemo"),
-  { ssr: false, loading: () => <DemoSkeleton /> },
-);
-const ShaddaiDemo = dynamic(() => import("@/components/demos/ShaddaiDemo"), {
-  ssr: false,
-  loading: () => <DemoSkeleton />,
-});
-const AtlasMarketDemo = dynamic(
-  () => import("@/components/demos/AtlasMarketDemo"),
-  { ssr: false, loading: () => <DemoSkeleton /> },
-);
-const IntraComDemo = dynamic(() => import("@/components/demos/IntraComDemo"), {
-  ssr: false,
-  loading: () => <DemoSkeleton />,
-});
-const DentalSaaSDemo = dynamic(
-  () => import("@/components/demos/DentalSaaSDemo"),
-  { ssr: false, loading: () => <DemoSkeleton /> },
-);
-const MiListaDemo = dynamic(() => import("@/components/demos/MiListaDemo"), {
-  ssr: false,
-  loading: () => <DemoSkeleton />,
-});
-
-const getDemos = (lang) => ({
-  SyncDealer: <SyncDealerDemo lang={lang} />,
-  "Shaddai Canino": <ShaddaiDemo lang={lang} />,
-  "Atlas Market Suite": <AtlasMarketDemo lang={lang} />,
-  IntraCom: <IntraComDemo lang={lang} />,
-  DentalSaaS: <DentalSaaSDemo lang={lang} />,
-  "Mi Lista": <MiListaDemo lang={lang} />,
-  MercadoApp: <MiListaDemo lang={lang} />,
-});
-
-const Badge = ({ badge, inDevLabel, completedLabel }) =>
-  badge === "in-dev" ? (
-    <span className="badge-wip">
-      <span className="badge-dot-wip" />
-      {inDevLabel}
-    </span>
-  ) : (
-    <span className="badge-done">
-      <span className="badge-dot-done" />
-      {completedLabel}
-    </span>
-  );
-
-const infoPane = {
-  hidden: { opacity: 0, x: -12 },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
-  },
-  exit: { opacity: 0, x: 8, transition: { duration: 0.15 } },
-};
-const demoPane = {
-  hidden: { opacity: 0, y: 10 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
-  },
-  exit: { opacity: 0, y: -6, transition: { duration: 0.15 } },
-};
+import Image from "next/image";
 
 export default function Work() {
   const { t, lang } = useLang();
   const projects = t.work.projects;
-  const [active, setActive] = useState(0);
-  const project = projects[active];
-  const demos = getDemos(lang);
-  const demo = demos[project.category];
+  
+  const [activeDemo, setActiveDemo] = useState(null);
 
   return (
-    <section
-      style={{
-        minHeight: "80vh",
-        padding: "clamp(40px,5vw,80px) 0 clamp(60px,6vw,100px)",
-        position: "relative",
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          width: "min(500px,40vw)",
-          height: "min(500px,40vw)",
-          pointerEvents: "none",
-          background:
-            "radial-gradient(circle at 80% 20%,rgba(108,99,255,0.05) 0%,transparent 70%)",
-        }}
-      />
-      <div className="vo-container" style={{ position: "relative", zIndex: 2 }}>
-        <div
-          className="opacity-0 animate-fade-up"
-          style={{
-            animationFillMode: "forwards",
-            marginBottom: "clamp(20px,3vw,36px)",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              marginBottom: 10,
-            }}
+    <section className="min-h-screen py-32 relative z-10">
+      {/* Background glow */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="max-w-3xl mx-auto text-center mb-20">
+          <motion.h3 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-accent font-mono text-sm tracking-widest uppercase mb-4"
           >
-            <span className="line-accent" />
-            <span className="vo-label">{t.nav.work}</span>
-          </div>
-          <h2 className="vo-heading" style={{ color: "rgba(232,232,240,0.9)" }}>
-            {lang === "en" ? "Selected work" : "Trabajos"}
-          </h2>
+            {t.nav.work}
+          </motion.h3>
+          <motion.h2 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold font-syne text-white"
+          >
+            {lang === "en" ? "Selected Projects" : "Proyectos Destacados"}
+          </motion.h2>
         </div>
 
-        <div
-          className="tab-scroll"
-          style={{
-            display: "flex",
-            gap: 6,
-            marginBottom: "clamp(20px,3vw,36px)",
-            flexWrap: "wrap",
-          }}
-        >
-          {projects.map((p, i) => (
-            <button
-              key={i}
-              onClick={() => setActive(i)}
-              style={{
-                padding: "clamp(6px,0.5vw,8px) clamp(12px,1.2vw,18px)",
-                borderRadius: 100,
-                border: `1px solid ${active === i ? "rgba(108,99,255,0.5)" : "rgba(255,255,255,0.08)"}`,
-                background:
-                  active === i ? "rgba(108,99,255,0.12)" : "transparent",
-                color: active === i ? "#6C63FF" : "rgba(255,255,255,0.35)",
-                fontSize: "clamp(10px,0.7vw,12px)",
-                cursor: "pointer",
-                fontFamily: "'DM Mono',monospace",
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                transition: "all 0.2s",
-                whiteSpace: "nowrap",
-              }}
+        {/* Showcase Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {projects.map((project, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5, delay: (idx % 3) * 0.1 }}
+              className="group flex flex-col rounded-3xl bg-white/5 border border-white/10 overflow-hidden hover:border-accent/50 transition-colors duration-500 relative"
             >
-              {p.category}
-            </button>
+              {/* Image Container */}
+              <div className="relative aspect-video w-full overflow-hidden bg-black">
+                {project.image ? (
+                  <Image 
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-white/20 font-mono">No Image</div>
+                )}
+                
+                {/* Overlay with CTA */}
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm z-10 gap-4">
+                  <button 
+                    onClick={() => setActiveDemo(project)}
+                    className="w-12 h-12 rounded-full bg-accent text-white flex items-center justify-center hover:scale-110 transition-transform"
+                    title={lang === "es" ? "Ampliar Vista" : "Expand View"}
+                  >
+                    <FiMaximize2 size={20} />
+                  </button>
+                  {project.live && (
+                    <a 
+                      href={project.live} target="_blank" rel="noopener noreferrer"
+                      className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform"
+                      title={t.work.live}
+                    >
+                      <FiArrowUpRight size={20} />
+                    </a>
+                  )}
+                  {project.github && (
+                    <a 
+                      href={project.github} target="_blank" rel="noopener noreferrer"
+                      className="w-12 h-12 rounded-full bg-[#333] text-white flex items-center justify-center hover:scale-110 transition-transform"
+                      title={t.work.github}
+                    >
+                      <FiGithub size={20} />
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-6 flex flex-col flex-grow">
+                <div className="flex justify-between items-start mb-4 gap-4">
+                  <div>
+                    <span className="text-accent font-mono text-xs tracking-widest uppercase mb-2 block">
+                      {project.category}
+                    </span>
+                    <h3 className="text-xl font-bold font-syne text-white group-hover:text-accent transition-colors">
+                      {project.title}
+                    </h3>
+                  </div>
+                  {project.badge === "in-dev" ? (
+                    <span className="shrink-0 flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-[10px] font-mono uppercase tracking-wider">
+                      <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse"></span>
+                      {t.work.inDev}
+                    </span>
+                  ) : (
+                    <span className="shrink-0 flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-500 text-[10px] font-mono uppercase tracking-wider">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                      {t.work.completed}
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-white/60 text-sm leading-relaxed mb-6 line-clamp-3 group-hover:line-clamp-none transition-all duration-300">
+                  {project.description}
+                </p>
+
+                <div className="mt-auto flex flex-wrap gap-2">
+                  {project.stack.map((tech, i) => (
+                    <span key={i} className="px-2.5 py-1 text-[10px] font-mono rounded bg-white/5 text-white/50 border border-white/5">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
           ))}
         </div>
-
-        <style>{`@media(min-width:1024px){.work-layout{grid-template-columns:clamp(260px,22vw,340px) 1fr !important;}}`}</style>
-        <div
-          className="work-layout"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr",
-            gap: "clamp(24px,3.5vw,48px)",
-            alignItems: "start",
-          }}
-        >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`info-${active}`}
-              variants={infoPane}
-              initial="hidden"
-              animate="show"
-              exit="exit"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "clamp(12px,1.5vw,20px)",
-              }}
-            >
-              <span className="num-badge">{project.num}</span>
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                  gap: 10,
-                }}
-              >
-                <h3 className="vo-subheading" style={{ color: "white" }}>
-                  {project.category}
-                </h3>
-                <Badge
-                  badge={project.badge}
-                  inDevLabel={t.work.inDev}
-                  completedLabel={t.work.completed}
-                />
-              </div>
-              <p
-                className="vo-body"
-                style={{ maxWidth: "clamp(280px,36vw,480px)", lineHeight: 1.8 }}
-              >
-                {project.description}
-              </p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
-                {project.stack.map((s, i) => (
-                  <span
-                    key={i}
-                    style={{
-                      fontSize: "clamp(9px,0.6vw,11px)",
-                      padding: "3px clamp(8px,0.8vw,12px)",
-                      borderRadius: 4,
-                      background: "rgba(255,255,255,0.04)",
-                      border: "1px solid rgba(255,255,255,0.08)",
-                      color: "rgba(255,255,255,0.4)",
-                      letterSpacing: "0.05em",
-                      fontFamily: "'DM Mono',monospace",
-                    }}
-                  >
-                    {s}
-                  </span>
-                ))}
-              </div>
-              <div style={{ display: "flex", gap: 20, paddingTop: 4 }}>
-                {project.live && (
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 5,
-                      fontSize: "clamp(10px,0.7vw,12px)",
-                      color: "#6C63FF",
-                      textDecoration: "none",
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      fontFamily: "'DM Mono',monospace",
-                    }}
-                  >
-                    <FiArrowUpRight size={13} />
-                    {t.work.live}
-                  </a>
-                )}
-                {project.github && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 5,
-                      fontSize: "clamp(10px,0.7vw,12px)",
-                      color: "rgba(255,255,255,0.35)",
-                      textDecoration: "none",
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      fontFamily: "'DM Mono',monospace",
-                    }}
-                  >
-                    <FiGithub size={13} />
-                    {t.work.github}
-                  </a>
-                )}
-              </div>
-              {/* Mobile view ≤1023px */}
-              <style>{`.mob-demo{display:none}@media(max-width:1023px){.mob-demo{display:block;margin-top:4px}}`}</style>
-              <div className="mob-demo">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`mob-${active}-${lang}`}
-                    variants={demoPane}
-                    initial="hidden"
-                    animate="show"
-                    exit="exit"
-                  >
-                    <div
-                      style={{
-                        marginBottom: 10,
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 6,
-                        fontFamily: "'DM Mono',monospace",
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: 5,
-                          height: 5,
-                          borderRadius: "50%",
-                          background: "#00ff88",
-                          animation: "pulse-wip 2s infinite",
-                        }}
-                      />
-                      <span
-                        style={{
-                          fontSize: 9,
-                          color: "rgba(255,255,255,0.25)",
-                          letterSpacing: "0.12em",
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        {lang === "en"
-                          ? "Project preview"
-                          : "Vista previa del proyecto"}
-                      </span>
-                    </div>
-                    {demo || <DemoSkeleton />}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              className="demo-panel"
-              key={`demo-${active}-${lang}`}
-              variants={demoPane}
-              initial="hidden"
-              animate="show"
-              exit="exit"
-            >
-              <div
-                style={{
-                  fontSize: "clamp(9px,0.6vw,11px)",
-                  color: "rgba(255,255,255,0.25)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.15em",
-                  marginBottom: 10,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  fontFamily: "'DM Mono',monospace",
-                }}
-              >
-                <span
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    background: "#00ff88",
-                    display: "inline-block",
-                    animation: "pulse-wip 2s infinite",
-                    flexShrink: 0,
-                  }}
-                />
-                {lang === "en"
-                  ? "Interactive demo — explore the platform"
-                  : "Demo interactiva — explora la plataforma"}
-              </div>
-              {demo || <DemoSkeleton />}
-            </motion.div>
-          </AnimatePresence>
-        </div>
       </div>
+
+      {/* Interactive Demo Modal */}
+      <AnimatePresence>
+        {activeDemo && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-12 bg-black/80 backdrop-blur-md"
+          >
+            <motion.div 
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20 }}
+              className="w-full max-w-6xl max-h-full flex flex-col bg-[#0A0A0E] border border-white/10 rounded-2xl overflow-hidden shadow-2xl relative"
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-4 border-b border-white/10 bg-white/5">
+                <div className="flex items-center gap-4">
+                  <div className="w-3 h-3 rounded-full bg-accent animate-pulse"></div>
+                  <h3 className="font-syne font-bold text-white text-lg">{activeDemo.title}</h3>
+                  <span className="hidden sm:block text-white/40 font-mono text-xs uppercase tracking-widest border-l border-white/10 pl-4">
+                    {lang === "es" ? "Demo Interactiva" : "Interactive Demo"}
+                  </span>
+                </div>
+                <button 
+                  onClick={() => setActiveDemo(null)}
+                  className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+                >
+                  <FiX size={20} />
+                </button>
+              </div>
+
+              {/* Modal Body (High Res Image) */}
+              <div className="flex-1 overflow-auto p-4 md:p-8 custom-scrollbar relative bg-black/20 flex items-center justify-center min-h-[60vh]">
+                {activeDemo.image ? (
+                  <div className="relative w-full h-full min-h-[60vh] rounded-xl overflow-hidden border border-white/5">
+                    <Image 
+                      src={activeDemo.image}
+                      alt={activeDemo.title}
+                      fill
+                      className="object-contain"
+                      sizes="100vw"
+                      quality={100}
+                    />
+                  </div>
+                ) : (
+                  <div className="text-white/40 font-mono">No Image Available</div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

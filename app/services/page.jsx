@@ -107,6 +107,12 @@ const CONTENT = {
       { label: "Status", value: "✓ Open for projects" },
       { label: "Languages", value: "Spanish & English" },
     ],
+    saasBanner: {
+      headline: "Stop Losing Leads After Hours",
+      subtitle: "Automate responses, follow-ups, and appointments with AI and WhatsApp for dealerships and growing businesses.",
+      btnPrimary: "Book Free Demo",
+      btnSecondary: "Watch Live Demo"
+    },
   },
   es: {
     navLabel: "Servicios",
@@ -168,6 +174,12 @@ const CONTENT = {
       { label: "Estado", value: "✓ Abierto a proyectos" },
       { label: "Idiomas", value: "Español e Inglés" },
     ],
+    saasBanner: {
+      headline: "Deja de Perder Leads Fuera de Horario",
+      subtitle: "Automatiza respuestas, seguimiento y citas con IA y WhatsApp para concesionarios y empresas en expansión.",
+      btnPrimary: "Agendar Demo Gratis",
+      btnSecondary: "Ver Demo en Vivo"
+    },
   },
 };
 
@@ -639,6 +651,110 @@ export default function Services() {
               );
             })}
           </motion.div>
+        </motion.div>
+
+        {/* ══════════════════════════
+            2.5 — SAAS BANNER (DRIVESYNC / EXPANSION)
+        ══════════════════════════ */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-40px" }}
+          style={{
+            marginTop: "clamp(32px, 4vw, 56px)",
+            padding: "clamp(32px, 4vw, 56px)",
+            borderRadius: 16,
+            background: "linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(8,8,16,0.8) 100%)",
+            border: "1px solid rgba(139,92,246,0.2)",
+            boxShadow: "0 0 40px rgba(139,92,246,0.05), inset 0 0 20px rgba(139,92,246,0.05)",
+            backdropFilter: "blur(12px)",
+            position: "relative",
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+            gap: "clamp(16px, 2vw, 24px)"
+          }}
+        >
+          {/* Decorative glow */}
+          <div style={{
+            position: "absolute",
+            top: "-50%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "60%",
+            height: "100%",
+            background: "radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }} />
+          
+          <h3 style={{
+            fontFamily: "'Syne',sans-serif",
+            fontSize: "clamp(24px, 3.5vw, 48px)",
+            fontWeight: 800,
+            lineHeight: 1.1,
+            color: "white",
+            margin: 0,
+            zIndex: 1
+          }}>
+            {C.saasBanner.headline}
+          </h3>
+          <p style={{
+            fontSize: "clamp(14px, 1vw, 18px)",
+            color: "rgba(232,232,240,0.6)",
+            maxWidth: 680,
+            margin: 0,
+            lineHeight: 1.6,
+            zIndex: 1
+          }}>
+            {C.saasBanner.subtitle}
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center", marginTop: 8, zIndex: 1 }}>
+            <Link href="/contact" style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "linear-gradient(135deg,#00ff88,#00cc6a)",
+              color: "#080810",
+              padding: "clamp(12px,1vw,16px) clamp(24px,2vw,32px)",
+              fontFamily: "'DM Mono',monospace",
+              fontSize: "clamp(11px,0.75vw,13px)",
+              fontWeight: 600,
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              borderRadius: 4,
+              transition: "transform .2s, box-shadow .2s",
+              boxShadow: "0 0 20px rgba(0,255,136,0.2)"
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 0 30px rgba(0,255,136,0.4)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 0 20px rgba(0,255,136,0.2)"; }}>
+              <FiCheck size={16} />
+              {C.saasBanner.btnPrimary}
+            </Link>
+            <Link href="/contact" style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              color: "white",
+              padding: "clamp(12px,1vw,16px) clamp(24px,2vw,32px)",
+              fontFamily: "'DM Mono',monospace",
+              fontSize: "clamp(11px,0.75vw,13px)",
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              borderRadius: 4,
+              transition: "background .2s, border-color .2s"
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; }}>
+              {C.saasBanner.btnSecondary}
+            </Link>
+          </div>
         </motion.div>
 
         <Divider />
