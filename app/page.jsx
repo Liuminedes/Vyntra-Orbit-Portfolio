@@ -165,7 +165,7 @@ const FinalCTA = ({ lang }) => (
             <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
           </Link>
           <a
-            href="https://wa.me/573000000000"
+            href="https://wa.me/573177686358"
             target="_blank"
             rel="noopener noreferrer"
             className="px-10 py-5 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/30 text-[#25D366] rounded-full font-semibold text-lg transition-all flex items-center gap-3"
