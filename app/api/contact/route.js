@@ -36,7 +36,7 @@ export async function POST(req) {
         html: `
           <!DOCTYPE html>
           <html><head><meta charset="utf-8"></head>
-          <body style="margin:0;padding:0;background:#080810;font-family:monospace;">
+          <body style="margin:0;padding:0;background:#08070C;font-family:monospace;">
             <div style="max-width:600px;margin:0 auto;padding:32px 24px;">
               <div style="border-bottom:1px solid #1a1a30;padding-bottom:20px;margin-bottom:24px;">
                 <h2 style="color:#8B5CF6;margin:0 0 4px;font-size:18px;">📬 Nuevo contacto desde el portfolio</h2>
@@ -75,7 +75,7 @@ export async function POST(req) {
         html: `
           <!DOCTYPE html>
           <html><head><meta charset="utf-8"></head>
-          <body style="margin:0;padding:0;background:#080810;font-family:monospace;">
+          <body style="margin:0;padding:0;background:#08070C;font-family:monospace;">
             <div style="max-width:560px;margin:0 auto;padding:40px 24px;">
               <div style="text-align:center;margin-bottom:32px;">
                 <h1 style="color:#8B5CF6;font-size:22px;margin:0 0 6px;">Vyntra Orbit</h1>

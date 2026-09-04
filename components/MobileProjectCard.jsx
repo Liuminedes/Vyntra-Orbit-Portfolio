@@ -1034,7 +1034,7 @@ const IntraComCard = ({ lang }) => {
                 justifyContent: "center",
                 fontSize: 6,
                 fontWeight: 700,
-                color: "#080810",
+                color: "#08070C",
               }}
             >
               {av}
@@ -1071,7 +1071,7 @@ const IntraComCard = ({ lang }) => {
                 justifyContent: "center",
                 fontSize: 7,
                 fontWeight: 700,
-                color: "#080810",
+                color: "#08070C",
                 flexShrink: 0,
               }}
             >
@@ -1155,11 +1155,114 @@ const IntraComCard = ({ lang }) => {
   );
 };
 
+/* ── 07 IvyOS ── */
+const IvyOSCard = ({ lang }) => {
+  const isEn = lang === "en";
+  const lowStock = [
+    { name: isEn ? "Coca-Cola 400ml" : "Coca-Cola 400ml", qty: 3, color: "#ff6060" },
+    { name: isEn ? "Bread x10" : "Pan tajado x10", qty: 5, color: "#ffb400" },
+    { name: isEn ? "Bottled water 600ml" : "Agua 600ml", qty: 2, color: "#ff6060" },
+  ];
+  return (
+    <Card bg="#0a0a12" border="rgba(139,92,246,0.2)">
+      <Chrome url="pos.ivyos.app" />
+      <div style={{ padding: "12px 14px", display: "flex", flexDirection: "column", gap: 10 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 700, color: "white" }}>
+            IvyOS · {isEn ? "Register" : "Caja"}
+          </div>
+          <div style={{ background: "rgba(0,255,136,0.1)", color: "#00ff88", padding: "2px 9px", borderRadius: 100, fontSize: 8, border: "1px solid rgba(0,255,136,0.2)" }}>
+            ● {isEn ? "Open shift" : "Turno abierto"}
+          </div>
+        </div>
+        <KpiRow
+          items={[
+            { l: isEn ? "Today's sales" : "Ventas hoy", v: "$2.1M", c: "#68D391" },
+            { l: isEn ? "Tickets" : "Tickets", v: "84", c: "#61DAFB" },
+            { l: isEn ? "Low stock" : "Stock bajo", v: "3", c: "#ff6060" },
+          ]}
+        />
+        <div>
+          <div style={{ fontSize: 7, color: "rgba(255,255,255,0.3)", letterSpacing: "0.1em", marginBottom: 7 }}>
+            {isEn ? "LOW STOCK ALERTS" : "ALERTAS DE STOCK BAJO"}
+          </div>
+          {lowStock.map((item, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "5px 0", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+              <span style={{ fontSize: 9, color: "rgba(255,255,255,0.7)" }}>{item.name}</span>
+              <span style={{ fontSize: 9, fontWeight: 700, color: item.color }}>{item.qty} {isEn ? "left" : "und."}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Card>
+  );
+};
+
+/* ── 08 Emissary ── */
+const EmissaryCard = ({ lang }) => {
+  const isEn = lang === "en";
+  const flow = [
+    isEn ? "Welcome" : "Bienvenida",
+    isEn ? "Catalog" : "Catálogo",
+    isEn ? "Book" : "Agendar",
+  ];
+  const msgs = [
+    { self: false, text: isEn ? "Hi! Do you have the blue sofa in stock? 🛋️" : "¡Hola! ¿Tienen el sofá azul disponible? 🛋️" },
+    { self: true, text: isEn ? "Yes! Here's our catalog 👇" : "¡Sí! Aquí tienes el catálogo 👇" },
+    { self: true, text: isEn ? "Want to book a visit to see it in person?" : "¿Quieres agendar una visita para verlo en persona?" },
+    { self: false, text: isEn ? "Yes, tomorrow 3pm works" : "Sí, mañana 3pm me sirve" },
+  ];
+  return (
+    <Card bg="#08140f" border="rgba(37,211,102,0.25)">
+      <Chrome url="emissary.app/inbox" />
+      <div style={{ padding: "10px 12px", borderBottom: "1px solid rgba(255,255,255,0.05)", display: "flex", gap: 6, flexWrap: "wrap" }}>
+        {flow.map((step, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <span style={{ fontSize: 8, padding: "3px 9px", borderRadius: 100, background: "rgba(37,211,102,0.1)", border: "1px solid rgba(37,211,102,0.25)", color: "#25D366" }}>
+              {step}
+            </span>
+            {i < flow.length - 1 && <span style={{ color: "rgba(255,255,255,0.2)", fontSize: 9 }}>→</span>}
+          </div>
+        ))}
+      </div>
+      <div style={{ padding: "12px 14px", display: "flex", flexDirection: "column", gap: 7 }}>
+        {msgs.map((m, i) => (
+          <div key={i} style={{ display: "flex", justifyContent: m.self ? "flex-end" : "flex-start" }}>
+            <div
+              style={{
+                maxWidth: "78%",
+                background: m.self ? "rgba(37,211,102,0.16)" : "rgba(255,255,255,0.05)",
+                border: `1px solid ${m.self ? "rgba(37,211,102,0.3)" : "rgba(255,255,255,0.07)"}`,
+                borderRadius: m.self ? "9px 9px 2px 9px" : "9px 9px 9px 2px",
+                padding: "6px 10px",
+                fontSize: 10,
+                color: "rgba(255,255,255,0.85)",
+                lineHeight: 1.4,
+              }}
+            >
+              {m.text}
+            </div>
+          </div>
+        ))}
+        <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 2 }}>
+          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#25D366", animation: "pulse-wip 2s infinite", flexShrink: 0 }} />
+          <span style={{ fontSize: 8, color: "rgba(255,255,255,0.3)", letterSpacing: "0.08em" }}>
+            {isEn ? "AI agent responding automatically" : "Agente IA respondiendo automáticamente"}
+          </span>
+        </div>
+      </div>
+    </Card>
+  );
+};
+
 /* ══════════════════════════════════════════════════════
    EXPORT
 ══════════════════════════════════════════════════════ */
 export default function MobileProjectCard({ category, lang }) {
   const map = {
+    IvyOS: <IvyOSCard lang={lang} />,
+    Clinova: <DentalCard lang={lang} />,
+    Emissary: <EmissaryCard lang={lang} />,
     SyncDealer: <SyncDealerCard lang={lang} />,
     "Shaddai Canino": <ShaddaiCard lang={lang} />,
     "Atlas Market Suite": <AtlasCard lang={lang} />,

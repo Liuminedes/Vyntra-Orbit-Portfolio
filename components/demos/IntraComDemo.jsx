@@ -103,7 +103,7 @@ export default function IntraComDemo({ lang = "es" }) {
             ))}
             <div style={{ marginTop:"auto",padding:"7px 5px 0",borderTop:"1px solid rgba(255,255,255,0.04)" }}>
               <div style={{ display:"flex",alignItems:"center",gap:5 }}>
-                <div style={{ width:20,height:20,borderRadius:"50%",background:"#00ff88",display:"flex",alignItems:"center",justifyContent:"center",fontSize:7,fontWeight:700,color:"#080810",flexShrink:0 }}>{youAvatar}</div>
+                <div style={{ width:20,height:20,borderRadius:"50%",background:"#00ff88",display:"flex",alignItems:"center",justifyContent:"center",fontSize:7,fontWeight:700,color:"#08070C",flexShrink:0 }}>{youAvatar}</div>
                 <div>
                   <div style={{ fontSize:8,color:"rgba(255,255,255,0.65)",lineHeight:1 }}>{youName}</div>
                   <div style={{ fontSize:7,color:"#00ff88" }}>● {isEn?"active":"activo"}</div>
@@ -121,7 +121,7 @@ export default function IntraComDemo({ lang = "es" }) {
             <div style={{ flex:1,overflowY:"auto",padding:"10px 12px",display:"flex",flexDirection:"column",gap:7 }}>
               {msgs.map((m,i) => (
                 <div key={i} style={{ display:"flex",alignItems:"flex-start",gap:6,flexDirection:m.self?"row-reverse":"row" }}>
-                  <div style={{ width:22,height:22,borderRadius:"50%",background:m.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:7,fontWeight:700,color:"#080810",flexShrink:0 }}>{m.avatar}</div>
+                  <div style={{ width:22,height:22,borderRadius:"50%",background:m.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:7,fontWeight:700,color:"#08070C",flexShrink:0 }}>{m.avatar}</div>
                   <div style={{ maxWidth:"72%",display:"flex",flexDirection:"column",alignItems:m.self?"flex-end":"flex-start" }}>
                     <div style={{ fontSize:7,color:"rgba(255,255,255,0.25)",marginBottom:1 }}>{m.self?"":`${m.user} · `}{m.time}</div>
                     <div style={{ background:m.self?"rgba(108,99,255,0.18)":"rgba(255,255,255,0.05)",border:`1px solid ${m.self?"rgba(108,99,255,0.3)":"rgba(255,255,255,0.06)"}`,borderRadius:m.self?"9px 9px 2px 9px":"9px 9px 9px 2px",padding:"6px 9px",fontSize:11,color:"rgba(255,255,255,0.8)",lineHeight:1.5 }}>
@@ -149,7 +149,7 @@ export default function IntraComDemo({ lang = "es" }) {
             {users.map((u,i) => (
               <div key={i} style={{ display:"flex",alignItems:"center",gap:6,marginBottom:8 }}>
                 <div style={{ position:"relative" }}>
-                  <div style={{ width:22,height:22,borderRadius:"50%",background:u.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:7,fontWeight:700,color:"#080810" }}>{u.avatar}</div>
+                  <div style={{ width:22,height:22,borderRadius:"50%",background:u.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:7,fontWeight:700,color:"#08070C" }}>{u.avatar}</div>
                   <div style={{ position:"absolute",bottom:0,right:0,width:6,height:6,borderRadius:"50%",background:u.online?"#00ff88":"#444",border:"1.5px solid #080812" }} />
                 </div>
                 <div>

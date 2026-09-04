@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
@@ -26,12 +25,7 @@ const SplitSection = ({
           
           {/* Text Content */}
           <div className="w-full lg:w-1/2 space-y-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
+            <div>
               <h3 className="text-accent font-mono text-sm tracking-widest uppercase mb-4">{subtitle}</h3>
               <h2 className="text-4xl md:text-5xl font-bold font-syne text-white leading-tight mb-6">
                 {title}
@@ -39,50 +33,31 @@ const SplitSection = ({
               <p className="text-white/70 text-lg leading-relaxed">
                 {description}
               </p>
-            </motion.div>
+            </div>
 
             {features.length > 0 && (
-              <motion.div 
-                className="space-y-4"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
+              <div className="space-y-4">
                 {features.map((feature, idx) => (
                   <div key={idx} className="flex items-start gap-3">
                     <CheckCircle2 className="w-6 h-6 text-accent shrink-0 mt-0.5" />
                     <span className="text-white/80">{feature}</span>
                   </div>
                 ))}
-              </motion.div>
+              </div>
             )}
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+            <Link
+              href={ctaLink}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-white font-medium transition-all group"
             >
-              <Link 
-                href={ctaLink}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-white font-medium transition-all group"
-              >
-                {ctaText}
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </motion.div>
+              {ctaText}
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
 
           {/* Image/Mockup Content */}
           <div className="w-full lg:w-1/2">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm group aspect-[4/3] md:aspect-auto md:h-[500px]"
-            >
+            <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm group aspect-[4/3] md:aspect-auto md:h-[500px]">
               <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"></div>
               {imagePath ? (
                  <Image 
@@ -109,7 +84,7 @@ const SplitSection = ({
                    <span className="text-xs text-white/50">Performance: 99.9%</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
 
         </div>

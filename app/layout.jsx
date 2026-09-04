@@ -1,5 +1,9 @@
 import "./globals.css";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
+import CustomCursor from "@/components/CustomCursor";
 import { LangProvider } from "@/lib/LangContext";
 import NoiseOverlay from "@/components/NoiseOverlay";
 
@@ -141,10 +145,14 @@ export default function RootLayout({ children }) {
       <body suppressHydrationWarning style={{ paddingTop: "clamp(56px, 5vw, 88px)" }}>
         <NoiseOverlay />
         <LangProvider>
+          <ScrollProgressBar />
+          <CustomCursor />
           <Header />
           <main>
             {children}
           </main>
+          <Footer />
+          <WhatsAppFloat />
         </LangProvider>
       </body>
     </html>

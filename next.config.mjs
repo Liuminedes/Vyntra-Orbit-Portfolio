@@ -7,6 +7,9 @@ const nextConfig = {
   images: {
     // Permite imágenes locales sin restricciones
     unoptimized: false,
+    // Caché corta: al regenerar un archivo con el mismo nombre (ej. /assets/work/*.png),
+    // se refleja en máx. 60s sin depender de hard-refresh.
+    minimumCacheTTL: 60,
   },
 };
 

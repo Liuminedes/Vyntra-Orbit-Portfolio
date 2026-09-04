@@ -106,7 +106,7 @@ export default function Header() {
         right: 0,
         zIndex: 50,
         padding: "clamp(12px,1.4vw,24px) 0",
-        background: "rgba(8,8,16,0.92)",
+        background: "rgba(8,7,12,0.92)",
         backdropFilter: "blur(24px)",
         WebkitBackdropFilter: "blur(24px)",
         borderBottom: "1px solid rgba(255,255,255,0.05)",

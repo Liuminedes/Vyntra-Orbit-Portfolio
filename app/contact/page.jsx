@@ -10,6 +10,8 @@ import {
 import { FaDiscord, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
 import { useLang } from "@/lib/LangContext";
+import { Checkbox } from "@/components/animate-ui/components/radix/checkbox";
+import { Switch } from "@/components/animate-ui/components/radix/switch";
 
 /* ── Validación básica ── */
 const isEmail = (s = "") => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s.trim());
@@ -19,7 +21,7 @@ function showToast(kind, title, detail = "") {
   toast.custom((t) => (
     <div style={{
       display:"flex", alignItems:"flex-start", gap:10,
-      padding:"12px 16px", borderRadius:8,
+      padding:"12px 16px", borderRadius:"var(--vo-radius-sm)",
       border:`1px solid ${kind==="success"?"rgba(0,255,136,0.2)":"rgba(255,80,80,0.2)"}`,
       background:"rgba(10,10,20,0.97)", backdropFilter:"blur(16px)",
       boxShadow:"0 8px 32px rgba(0,0,0,0.5)",
@@ -98,7 +100,6 @@ function ContactModal({ open, onClose, lang }) {
     <AnimatePresence>
       {open && (
         <>
-          {/* Overlay */}
           <motion.div
             initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
             onClick={onClose}
@@ -107,14 +108,12 @@ function ContactModal({ open, onClose, lang }) {
               background:"rgba(0,0,0,0.8)",
               backdropFilter:"blur(8px)",
               zIndex:200,
-              /* Centra el modal usando flex en lugar de transform */
               display:"flex",
               alignItems:"center",
               justifyContent:"center",
               padding:"clamp(16px,3vw,32px)",
               overflowY:"auto",
             }}>
-            {/* Modal — clic interno no cierra */}
             <motion.div
               initial={{ opacity:0, scale:0.92, y:20 }}
               animate={{ opacity:1, scale:1, y:0, transition:{ duration:0.3, ease:[0.22,1,0.36,1] } }}
@@ -123,21 +122,18 @@ function ContactModal({ open, onClose, lang }) {
               style={{
                 width:"100%",
                 maxWidth:480,
-                /* Nunca más alto que el viewport disponible */
                 maxHeight:"calc(100dvh - clamp(32px,6vw,64px))",
                 background:"#0c0c18",
                 border:"1px solid rgba(139,92,246,0.2)",
-                borderRadius:12,
+                borderRadius:"var(--vo-radius-lg)",
                 overflow:"hidden",
                 display:"flex",
                 flexDirection:"column",
                 boxShadow:"0 0 80px rgba(139,92,246,0.15), 0 24px 64px rgba(0,0,0,0.6)",
-                /* Posición relativa al flex del overlay, no fixed */
                 position:"relative",
                 margin:"auto",
               }}>
 
-              {/* Header */}
               <div style={{
                 padding:"20px 22px 16px",
                 borderBottom:"1px solid rgba(255,255,255,0.06)",
@@ -160,7 +156,6 @@ function ContactModal({ open, onClose, lang }) {
                 </button>
               </div>
 
-              {/* Lista — scrollable si es necesario en móvil */}
               <div style={{ padding:"10px 14px 12px", display:"flex", flexDirection:"column", gap:7, overflowY:"auto", flex:1 }}>
                 {SOCIAL_LINKS.map((s, i) => (
                   <motion.a
@@ -173,23 +168,20 @@ function ContactModal({ open, onClose, lang }) {
                     style={{
                       display:"flex", alignItems:"center", gap:12,
                       padding:"clamp(11px,1.2vw,14px) clamp(12px,1.2vw,16px)",
-                      borderRadius:9,
+                      borderRadius:"var(--vo-radius-sm)",
                       background:s.bg, border:`1px solid ${s.border}`,
                       textDecoration:"none", transition:"all .2s",
                       flexShrink:0,
                     }}
                     onMouseEnter={e => { e.currentTarget.style.transform="translateX(4px)"; e.currentTarget.style.boxShadow=`0 0 20px ${s.color}20`; }}
                     onMouseLeave={e => { e.currentTarget.style.transform="translateX(0)"; e.currentTarget.style.boxShadow="none"; }}>
-                    {/* Ícono */}
-                    <div style={{ width:40, height:40, borderRadius:9, background:`${s.color}18`, border:`1px solid ${s.color}30`, display:"flex", alignItems:"center", justifyContent:"center", color:s.color, flexShrink:0 }}>
+                    <div style={{ width:40, height:40, borderRadius:"var(--vo-radius-sm)", background:`${s.color}18`, border:`1px solid ${s.color}30`, display:"flex", alignItems:"center", justifyContent:"center", color:s.color, flexShrink:0 }}>
                       {s.icon}
                     </div>
-                    {/* Info */}
                     <div style={{ flex:1, minWidth:0 }}>
                       <div style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(13px,1vw,15px)", fontWeight:600, color:"white" }}>{s.name}</div>
                       <div style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.65vw,11px)", color:"rgba(255,255,255,0.4)", marginTop:1, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{s.handle}</div>
                     </div>
-                    {/* Descripción */}
                     <div style={{ textAlign:"right", flexShrink:0 }}>
                       <div style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(8px,0.6vw,10px)", color:s.color, letterSpacing:"0.05em", opacity:0.85 }}>{s.desc[lang] || s.desc.es}</div>
                       <FiArrowUpRight size={13} style={{ color:"rgba(255,255,255,0.2)", marginTop:3, display:"block", marginLeft:"auto" }} />
@@ -198,7 +190,6 @@ function ContactModal({ open, onClose, lang }) {
                 ))}
               </div>
 
-              {/* Footer */}
               <div style={{ padding:"10px 20px 16px", borderTop:"1px solid rgba(255,255,255,0.05)", display:"flex", alignItems:"center", gap:7, flexShrink:0 }}>
                 <div style={{ width:5, height:5, borderRadius:"50%", background:"#00ff88", animation:"pulse-wip 2s infinite" }} />
                 <span style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(8px,0.58vw,10px)", color:"rgba(255,255,255,0.3)", letterSpacing:"0.1em", textTransform:"uppercase" }}>
@@ -213,17 +204,6 @@ function ContactModal({ open, onClose, lang }) {
   );
 }
 
-/* ── Variantes — idénticas a resume ── */
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
-};
-const stagger = {
-  hidden: {},
-  show:   { transition: { staggerChildren: 0.09, delayChildren: 0.04 } },
-};
-
-/* ── Componentes idénticos a resume ── */
 const SectionLabel = ({ label }) => (
   <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:"clamp(10px,1vw,16px)" }}>
     <span style={{ display:"block", width:"clamp(28px,2.5vw,44px)", height:1, background:"linear-gradient(90deg,#8B5CF6,transparent)", flexShrink:0 }} />
@@ -243,7 +223,7 @@ export default function Contact() {
   const isEn = lang === "en";
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [form, setForm] = useState({ firstname:"", lastname:"", email:"", phone:"", service:"", budget:"", message:"", timeline:"" });
+  const [form, setForm] = useState({ firstname:"", lastname:"", email:"", phone:"", service:"", budget:"", message:"", timeline:"", preferWhatsapp:false, urgent:false });
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const set = (k) => (e) => setForm(s => ({ ...s, [k]: e.target.value }));
@@ -268,7 +248,7 @@ export default function Contact() {
       if (res.ok && json.ok) {
         setSent(true);
         showToast("success", c.toast.successTitle, c.toast.successDetail);
-        setForm({ firstname:"", lastname:"", email:"", phone:"", service:"", budget:"", message:"", timeline:"" });
+        setForm({ firstname:"", lastname:"", email:"", phone:"", service:"", budget:"", message:"", timeline:"", preferWhatsapp:false, urgent:false });
         setTimeout(() => setSent(false), 5000);
       } else {
         showToast("error", c.toast.errorTitle, json?.error || c.toast.errorRetry);
@@ -280,7 +260,6 @@ export default function Contact() {
     }
   };
 
-  /* Estilo base inputs */
   const inp = {
     width:"100%", background:"transparent",
     border:"none", borderBottom:"1px solid rgba(255,255,255,0.1)",
@@ -295,7 +274,6 @@ export default function Contact() {
     </label>
   );
 
-  /* Razones para contactar */
   const reasons = isEn ? [
     { icon: <FiZap size={14}/>,           text:"Response in under 24 hours"   },
     { icon: <FiMessageSquare size={14}/>, text:"Free initial consultation"     },
@@ -335,7 +313,7 @@ export default function Contact() {
 
       <style>{`
         .ct-input:focus { border-bottom-color: rgba(139,92,246,0.6) !important; }
-        select.ct-input option { background:#080810; color:#e8e8f0; }
+        select.ct-input option { background:#08070C; color:#e8e8f0; }
         @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
       `}</style>
 
@@ -345,65 +323,47 @@ export default function Contact() {
 
         <div style={{ width:"100%", maxWidth:"min(1800px,94vw)", margin:"0 auto", padding:"0 clamp(20px,3vw,60px)", position:"relative", zIndex:1 }}>
 
-          {/* ══════════════════════════
-              1 — ENCABEZADO
-          ══════════════════════════ */}
-          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once:true, margin:"-60px" }}>
-
-            <motion.div variants={fadeUp} style={{ marginBottom:"clamp(36px,4vw,56px)" }}>
+          {/* 1 — ENCABEZADO */}
+          <div>
+            <div style={{ marginBottom:"clamp(36px,4vw,56px)" }}>
               <SectionLabel label={isEn?"Contact":"Contacto"} />
               <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(32px,4vw,68px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-0.02em", color:"rgba(232,232,240,0.95)", margin:"0 0 clamp(16px,2vw,28px)" }}>
                 {c.heading}
               </h2>
-              {/* Botón modal — CTA principal */}
-              <motion.button
-                variants={fadeUp}
+              <button
                 onClick={() => setModalOpen(true)}
-                style={{
-                  display:"inline-flex", alignItems:"center", gap:10,
-                  background:"linear-gradient(135deg,#8B5CF6,#6C63FF)",
-                  border:"none", color:"white",
-                  padding:"clamp(12px,1.2vw,18px) clamp(20px,2vw,32px)",
-                  fontFamily:"'DM Mono',monospace",
-                  fontSize:"clamp(11px,0.78vw,14px)",
-                  letterSpacing:"0.12em", textTransform:"uppercase",
-                  cursor:"pointer",
-                  boxShadow:"0 0 32px rgba(139,92,246,0.35)",
-                  transition:"all .2s", borderRadius:6,
-                }}
-                onMouseEnter={e => { e.currentTarget.style.opacity="0.88"; e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.boxShadow="0 0 48px rgba(139,92,246,0.5)"; }}
-                onMouseLeave={e => { e.currentTarget.style.opacity="1"; e.currentTarget.style.transform="translateY(0)"; e.currentTarget.style.boxShadow="0 0 32px rgba(139,92,246,0.35)"; }}>
+                className="btn-glow-solid"
+                style={{ border:"none", cursor:"pointer" }}
+              >
                 <FiShare2 size={15} />
                 {isEn?"Contact & Social Networks":"Contacto y Redes Sociales"}
-              </motion.button>
-            </motion.div>
+              </button>
+            </div>
 
-            {/* Grid encabezado — igual que who-grid de resume */}
             <style>{`@media(min-width:900px){ .ct-top-grid { grid-template-columns: 1fr clamp(260px,26vw,400px) !important; } }`}</style>
             <div className="ct-top-grid" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(32px,4vw,64px)", alignItems:"center" }}>
 
-              <motion.div variants={fadeUp} style={{ display:"flex", flexDirection:"column", gap:"clamp(14px,1.4vw,22px)" }}>
+              <div style={{ display:"flex", flexDirection:"column", gap:"clamp(14px,1.4vw,22px)" }}>
                 <p style={{ fontSize:"clamp(14px,1vw,18px)", lineHeight:1.85, color:"rgba(232,232,240,0.6)", margin:0, maxWidth:640 }}>
                   {c.subheading}
                 </p>
                 <div style={{ display:"flex", flexWrap:"wrap", gap:"clamp(6px,0.7vw,10px)", paddingTop:"clamp(4px,0.5vw,8px)" }}>
                   {reasons.map((r, i) => (
-                    <div key={i} style={{ display:"flex", alignItems:"center", gap:8, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:6, padding:"clamp(6px,0.65vw,10px) clamp(10px,1vw,16px)" }}>
+                    <div key={i} style={{ display:"flex", alignItems:"center", gap:8, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:"var(--vo-radius-sm)", padding:"clamp(6px,0.65vw,10px) clamp(10px,1vw,16px)" }}>
                       <span style={{ color:"rgba(139,92,246,0.7)", flexShrink:0 }}>{r.icon}</span>
                       <span style={{ width:1, height:10, background:"rgba(255,255,255,0.1)" }} />
                       <span style={{ fontSize:"clamp(11px,0.72vw,13px)", color:"rgba(232,232,240,0.75)", fontWeight:500 }}>{r.text}</span>
                     </div>
                   ))}
                 </div>
-              </motion.div>
+              </div>
 
-              {/* Info de contacto rápida */}
-              <motion.div variants={fadeUp} style={{ display:"flex", flexDirection:"column", gap:"clamp(10px,1vw,14px)" }}>
+              <div style={{ display:"flex", flexDirection:"column", gap:"clamp(10px,1vw,14px)" }}>
                 {c.info.map((item, i) => {
                   const icons = [FiPhone, FiMail, FaDiscord];
                   const Icon = icons[i] || FiPhone;
                   return (
-                    <div key={i} style={{ display:"flex", alignItems:"center", gap:14, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:8, padding:"clamp(10px,1vw,16px) clamp(12px,1.2vw,18px)" }}>
+                    <div key={i} style={{ display:"flex", alignItems:"center", gap:14, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:"var(--vo-radius-sm)", padding:"clamp(10px,1vw,16px) clamp(12px,1.2vw,18px)" }}>
                       <div style={{ width:"clamp(36px,3.5vw,44px)", height:"clamp(36px,3.5vw,44px)", borderRadius:"50%", border:"1px solid rgba(139,92,246,0.25)", display:"flex", alignItems:"center", justifyContent:"center", color:"rgba(139,92,246,0.7)", flexShrink:0 }}>
                         <Icon size={16} />
                       </div>
@@ -414,24 +374,21 @@ export default function Contact() {
                     </div>
                   );
                 })}
-                <div style={{ display:"flex", alignItems:"center", gap:8, background:"rgba(8,8,16,0.92)", border:"1px solid rgba(139,92,246,0.3)", borderRadius:100, padding:"8px 16px", backdropFilter:"blur(12px)", alignSelf:"flex-start" }}>
+                <div style={{ display:"flex", alignItems:"center", gap:8, background:"rgba(8,7,12,0.92)", border:"1px solid rgba(139,92,246,0.3)", borderRadius:100, padding:"8px 16px", backdropFilter:"blur(12px)", alignSelf:"flex-start" }}>
                   <div style={{ width:6, height:6, borderRadius:"50%", background:"#00ff88", animation:"pulse-wip 2s infinite" }} />
                   <span style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(8px,0.56vw,10px)", letterSpacing:"0.14em", color:"rgba(232,232,240,0.55)", textTransform:"uppercase" }}>
                     {isEn?"Available for projects":"Disponible para proyectos"}
                   </span>
                 </div>
-              </motion.div>
+              </div>
             </div>
-          </motion.div>
+          </div>
 
           <Divider />
 
-          {/* ══════════════════════════
-              2 — FORMULARIO MEJORADO
-          ══════════════════════════ */}
-          <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once:true, margin:"-60px" }}>
-
-            <motion.div variants={fadeUp} style={{ marginBottom:"clamp(28px,3vw,44px)" }}>
+          {/* 2 — FORMULARIO */}
+          <div>
+            <div style={{ marginBottom:"clamp(28px,3vw,44px)" }}>
               <SectionLabel label={isEn?"Project form":"Formulario de proyecto"} />
               <div style={{ display:"flex", flexWrap:"wrap", alignItems:"flex-end", justifyContent:"space-between", gap:16 }}>
                 <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(28px,3.5vw,58px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-0.02em", color:"rgba(232,232,240,0.95)", margin:0 }}>
@@ -441,114 +398,125 @@ export default function Contact() {
                   {isEn?"Fill in what you can — no technical knowledge required.":"Llena lo que puedas — no se necesita conocimiento técnico."}
                 </p>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div variants={fadeUp}>
-              <form onSubmit={onSubmit}
-                style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:8, padding:"clamp(24px,3vw,48px)", display:"flex", flexDirection:"column", gap:"clamp(20px,2.2vw,32px)" }}>
+            <form onSubmit={onSubmit}
+              style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:"var(--vo-radius-lg)", padding:"clamp(24px,3vw,48px)", display:"flex", flexDirection:"column", gap:"clamp(20px,2.2vw,32px)" }}>
 
-                {/* Nombre + Apellido */}
-                <style>{`@media(min-width:600px){ .ct-2col { grid-template-columns: 1fr 1fr !important; } }`}</style>
-                <div className="ct-2col" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(20px,2vw,32px)" }}>
-                  <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
-                    {label(c.fields.firstname + " *")}
-                    <input className="ct-input" value={form.firstname} onChange={set("firstname")} placeholder="Mauricio" style={inp} />
-                  </div>
-                  <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
-                    {label(c.fields.lastname + " *")}
-                    <input className="ct-input" value={form.lastname} onChange={set("lastname")} placeholder="Rodriguez" style={inp} />
-                  </div>
-                </div>
-
-                {/* Email + Teléfono */}
-                <div className="ct-2col" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(20px,2vw,32px)" }}>
-                  <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
-                    {label(c.fields.email + " *")}
-                    <input className="ct-input" type="email" value={form.email} onChange={set("email")} placeholder="tucorreo@empresa.com" style={inp} />
-                  </div>
-                  <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
-                    {label(isEn?"Phone (optional)":"Celular (opcional)")}
-                    <input className="ct-input" type="tel" inputMode="numeric" value={form.phone}
-                      onChange={e=>setForm(s=>({...s,phone:e.target.value.replace(/\D/g,"")}))}
-                      placeholder="+57 300 000 0000" style={inp} />
-                  </div>
-                </div>
-
-                {/* Servicio — ahora opcional y flexible */}
+              <style>{`@media(min-width:600px){ .ct-2col { grid-template-columns: 1fr 1fr !important; } }`}</style>
+              <div className="ct-2col" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(20px,2vw,32px)" }}>
                 <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
-                  {label(isEn?"What do you need? (optional)":"¿Qué necesitas? (opcional)")}
-                  <select className="ct-input" value={form.service} onChange={set("service")}
+                  {label(c.fields.firstname + " *")}
+                  <input className="ct-input" value={form.firstname} onChange={set("firstname")} placeholder="Mauricio" style={inp} />
+                </div>
+                <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
+                  {label(c.fields.lastname + " *")}
+                  <input className="ct-input" value={form.lastname} onChange={set("lastname")} placeholder="Rodriguez" style={inp} />
+                </div>
+              </div>
+
+              <div className="ct-2col" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(20px,2vw,32px)" }}>
+                <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
+                  {label(c.fields.email + " *")}
+                  <input className="ct-input" type="email" value={form.email} onChange={set("email")} placeholder="tucorreo@empresa.com" style={inp} />
+                </div>
+                <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
+                  {label(isEn?"Phone (optional)":"Celular (opcional)")}
+                  <input className="ct-input" type="tel" inputMode="numeric" value={form.phone}
+                    onChange={e=>setForm(s=>({...s,phone:e.target.value.replace(/\D/g,"")}))}
+                    placeholder="+57 300 000 0000" style={inp} />
+                </div>
+              </div>
+
+              <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
+                {label(isEn?"What do you need? (optional)":"¿Qué necesitas? (opcional)")}
+                <select className="ct-input" value={form.service} onChange={set("service")}
+                  style={{ ...inp, background:"transparent", paddingLeft:0 }}>
+                  <option value="">{isEn?"I'm not sure yet / Other":"Aún no lo sé / Otro"}</option>
+                  {c.services.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </div>
+
+              <div className="ct-2col" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(20px,2vw,32px)" }}>
+                <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
+                  {label(isEn?"Budget range (optional)":"Rango de presupuesto (opcional)")}
+                  <select className="ct-input" value={form.budget} onChange={set("budget")}
                     style={{ ...inp, background:"transparent", paddingLeft:0 }}>
-                    <option value="">{isEn?"I'm not sure yet / Other":"Aún no lo sé / Otro"}</option>
-                    {c.services.map(s => <option key={s} value={s}>{s}</option>)}
+                    <option value="">{isEn?"Select a range":"Selecciona un rango"}</option>
+                    {budgets.map(b => <option key={b} value={b}>{b}</option>)}
                   </select>
                 </div>
-
-                {/* Presupuesto + Timeline */}
-                <div className="ct-2col" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(20px,2vw,32px)" }}>
-                  <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
-                    {label(isEn?"Budget range (optional)":"Rango de presupuesto (opcional)")}
-                    <select className="ct-input" value={form.budget} onChange={set("budget")}
-                      style={{ ...inp, background:"transparent", paddingLeft:0 }}>
-                      <option value="">{isEn?"Select a range":"Selecciona un rango"}</option>
-                      {budgets.map(b => <option key={b} value={b}>{b}</option>)}
-                    </select>
-                  </div>
-                  <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
-                    {label(isEn?"When do you need it? (optional)":"¿Cuándo lo necesitas? (opcional)")}
-                    <select className="ct-input" value={form.timeline} onChange={set("timeline")}
-                      style={{ ...inp, background:"transparent", paddingLeft:0 }}>
-                      <option value="">{isEn?"Select a timeframe":"Selecciona un plazo"}</option>
-                      {timelines.map(tl => <option key={tl} value={tl}>{tl}</option>)}
-                    </select>
-                  </div>
-                </div>
-
-                {/* Mensaje — más espacio y placeholder amigable */}
                 <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
-                  {label(c.fields.message + " *")}
-                  <textarea className="ct-input" rows={7} value={form.message} onChange={set("message")}
-                    placeholder={isEn
-                      ? "Tell us what you have in mind — even if it's just a rough idea. We'll figure out the rest together."
-                      : "Cuéntanos qué tienes en mente — aunque sea una idea general. Lo demás lo resolvemos juntos."}
-                    style={{ ...inp, resize:"vertical", minHeight:"120px" }} />
+                  {label(isEn?"When do you need it? (optional)":"¿Cuándo lo necesitas? (opcional)")}
+                  <select className="ct-input" value={form.timeline} onChange={set("timeline")}
+                    style={{ ...inp, background:"transparent", paddingLeft:0 }}>
+                    <option value="">{isEn?"Select a timeframe":"Selecciona un plazo"}</option>
+                    {timelines.map(tl => <option key={tl} value={tl}>{tl}</option>)}
+                  </select>
                 </div>
+              </div>
 
-                {/* Nota aclaratoria */}
-                <p style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.62vw,11px)", color:"rgba(232,232,240,0.22)", margin:0, lineHeight:1.7 }}>
-                  {isEn
-                    ? "* Required fields. The rest is optional — fill in what you can and we'll work out the details together."
-                    : "* Campos obligatorios. Lo demás es opcional — llena lo que puedas y resolvemos los detalles juntos."}
+              <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
+                {label(c.fields.message + " *")}
+                <textarea className="ct-input" rows={7} value={form.message} onChange={set("message")}
+                  placeholder={isEn
+                    ? "Tell us what you have in mind — even if it's just a rough idea. We'll figure out the rest together."
+                    : "Cuéntanos qué tienes en mente — aunque sea una idea general. Lo demás lo resolvemos juntos."}
+                  style={{ ...inp, resize:"vertical", minHeight:"120px" }} />
+              </div>
+
+              <div style={{ display:"flex", flexWrap:"wrap", alignItems:"center", justifyContent:"space-between", gap:20, padding:"clamp(14px,1.5vw,20px)", background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:"var(--vo-radius-sm)" }}>
+                <label style={{ display:"flex", alignItems:"center", gap:10, cursor:"pointer" }}>
+                  <Checkbox
+                    checked={form.preferWhatsapp}
+                    onCheckedChange={(v) => setForm(s => ({ ...s, preferWhatsapp: !!v }))}
+                  />
+                  <span style={{ fontSize:"clamp(12px,0.82vw,14px)", color:"rgba(232,232,240,0.75)" }}>
+                    {isEn ? "I'd rather be contacted on WhatsApp" : "Prefiero que me contacten por WhatsApp"}
+                  </span>
+                </label>
+                <label style={{ display:"flex", alignItems:"center", gap:10, cursor:"pointer" }}>
+                  <span style={{ fontSize:"clamp(12px,0.82vw,14px)", color:"rgba(232,232,240,0.75)" }}>
+                    {isEn ? "This is urgent" : "Esto es urgente"}
+                  </span>
+                  <Switch
+                    checked={form.urgent}
+                    onCheckedChange={(v) => setForm(s => ({ ...s, urgent: !!v }))}
+                  />
+                </label>
+              </div>
+
+              <p style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.62vw,11px)", color:"rgba(232,232,240,0.22)", margin:0, lineHeight:1.7 }}>
+                {isEn
+                  ? "* Required fields. The rest is optional — fill in what you can and we'll work out the details together."
+                  : "* Campos obligatorios. Lo demás es opcional — llena lo que puedas y resolvemos los detalles juntos."}
+              </p>
+
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:16, paddingTop:4 }}>
+                <p style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.6vw,11px)", color:"rgba(232,232,240,0.25)", margin:0, letterSpacing:"0.1em" }}>
+                  {isEn?"We respond within 24 hours":"Respondemos en menos de 24 horas"}
                 </p>
-
-                {/* Botón enviar */}
-                <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:16, paddingTop:4 }}>
-                  <p style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.6vw,11px)", color:"rgba(232,232,240,0.25)", margin:0, letterSpacing:"0.1em" }}>
-                    {isEn?"We respond within 24 hours":"Respondemos en menos de 24 horas"}
-                  </p>
-                  <button type="submit" disabled={loading||sent}
-                    style={{ display:"inline-flex", alignItems:"center", gap:8, background:sent?"rgba(0,255,136,0.12)":"linear-gradient(135deg,#8B5CF6,#6C63FF)", border:sent?"1px solid rgba(0,255,136,0.3)":"none", color:sent?"#00ff88":"white", padding:"clamp(12px,1.1vw,18px) clamp(22px,2vw,34px)", fontFamily:"'DM Mono',monospace", fontSize:"clamp(11px,0.72vw,13px)", letterSpacing:"0.14em", textTransform:"uppercase", cursor:loading||sent?"default":"pointer", boxShadow:sent?"none":"0 0 32px rgba(139,92,246,0.3)", transition:"opacity .2s, transform .2s", borderRadius:0, opacity:loading?0.7:1, flexShrink:0 }}
-                    onMouseEnter={e => { if (!loading&&!sent) { e.currentTarget.style.opacity="0.88"; e.currentTarget.style.transform="translateY(-1px)"; } }}
-                    onMouseLeave={e => { e.currentTarget.style.opacity="1"; e.currentTarget.style.transform="translateY(0)"; }}>
-                    {sent
-                      ? <><FiCheck size={13}/>{isEn?"Message sent!":"¡Mensaje enviado!"}</>
-                      : loading
-                      ? <><FiLoader style={{ animation:"spin .8s linear infinite" }} size={13}/>{c.fields.sending}</>
-                      : <><FiSend size={13}/>{c.fields.send}</>
-                    }
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          </motion.div>
+                <button type="submit" disabled={loading||sent}
+                  className={sent ? "" : "btn-glow-solid"}
+                  style={sent
+                    ? { display:"inline-flex", alignItems:"center", gap:8, background:"rgba(0,255,136,0.12)", border:"1px solid rgba(0,255,136,0.3)", color:"#00ff88", padding:"clamp(12px,1.1vw,18px) clamp(22px,2vw,34px)", fontFamily:"'DM Mono',monospace", fontSize:"clamp(11px,0.72vw,13px)", letterSpacing:"0.14em", textTransform:"uppercase", cursor:"default", borderRadius:100, flexShrink:0 }
+                    : { cursor:loading?"default":"pointer", opacity:loading?0.7:1, border:"none", flexShrink:0 }
+                  }>
+                  {sent
+                    ? <><FiCheck size={13}/>{isEn?"Message sent!":"¡Mensaje enviado!"}</>
+                    : loading
+                    ? <><FiLoader style={{ animation:"spin .8s linear infinite" }} size={13}/>{c.fields.sending}</>
+                    : <><FiSend size={13}/>{c.fields.send}</>
+                  }
+                </button>
+              </div>
+            </form>
+          </div>
 
           <Divider />
 
-          {/* CTA FINAL — idéntico a resume */}
-          <motion.div
-            variants={fadeUp} initial="hidden" whileInView="show"
-            viewport={{ once:true, margin:"-40px" }}
-            style={{ display:"flex", flexWrap:"wrap", alignItems:"center", justifyContent:"space-between", gap:"clamp(20px,2.5vw,40px)", padding:"clamp(28px,3vw,48px)", background:"rgba(139,92,246,0.05)", border:"1px solid rgba(139,92,246,0.15)", borderRadius:8 }}>
+          {/* CTA FINAL */}
+          <div style={{ display:"flex", flexWrap:"wrap", alignItems:"center", justifyContent:"space-between", gap:"clamp(20px,2.5vw,40px)", padding:"clamp(28px,3vw,48px)", background:"rgba(139,92,246,0.05)", border:"1px solid rgba(139,92,246,0.15)", borderRadius:"var(--vo-radius-lg)" }}>
             <div>
               <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(20px,2vw,34px)", fontWeight:700, color:"white", margin:"0 0 clamp(8px,0.8vw,12px) 0" }}>
                 {isEn?"Want to see our work first?":"¿Quieres ver nuestros trabajos primero?"}
@@ -557,14 +525,11 @@ export default function Contact() {
                 {isEn?"Check out what we've built for other clients — real projects, real results.":"Revisa lo que hemos construido para otros clientes — proyectos reales, resultados reales."}
               </p>
             </div>
-            <Link href="/work"
-              style={{ display:"inline-flex", alignItems:"center", gap:8, background:"linear-gradient(135deg,#8B5CF6,#6C63FF)", color:"white", padding:"clamp(12px,1.1vw,18px) clamp(22px,2vw,34px)", fontFamily:"'DM Mono',monospace", fontSize:"clamp(11px,0.72vw,13px)", letterSpacing:"0.14em", textTransform:"uppercase", textDecoration:"none", boxShadow:"0 0 32px rgba(139,92,246,0.3)", transition:"opacity .2s,transform .2s", flexShrink:0 }}
-              onMouseEnter={e => { e.currentTarget.style.opacity="0.88"; e.currentTarget.style.transform="translateY(-1px)"; }}
-              onMouseLeave={e => { e.currentTarget.style.opacity="1"; e.currentTarget.style.transform="translateY(0)"; }}>
+            <Link href="/work" className="btn-glow-solid" style={{ textDecoration:"none", flexShrink:0 }}>
               {isEn?"See our work":"Ver trabajos"}
               <FiArrowUpRight size={14} />
             </Link>
-          </motion.div>
+          </div>
 
         </div>
       </div>

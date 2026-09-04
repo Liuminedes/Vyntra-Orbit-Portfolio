@@ -1,6 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
+
+:root {
+  --vo-bg: #08070C;
+  --vo-accent: #8B5CF6;
+  --vo-accent-light: #C4B5FD;
+  --vo-text: #E8E8F0;
+  --vo-surface-from: #2A2A35;
+  --vo-surface-to: #1A1A20;
+  --vo-radius-lg: 24px;
+  --vo-radius-md: 20px;
+  --vo-radius-sm: 14px;
+}
+
+/* Semantic tokens for shadcn / Animate UI components (Tabs, Accordion, Switch,
+   Checkbox, Dropdown, Tooltip) — without these they render unstyled/invisible. */
+@theme {
+  --color-background: #08070C;
+  --color-foreground: #E8E8F0;
+  --color-card: #0d0c13;
+  --color-card-foreground: #E8E8F0;
+  --color-popover: #16151d;
+  --color-popover-foreground: #E8E8F0;
+  --color-primary: #8B5CF6;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #1A1A20;
+  --color-secondary-foreground: #E8E8F0;
+  --color-muted: #16151d;
+  --color-muted-foreground: rgba(232, 232, 240, 0.55);
+  --color-accent: #8B5CF6;
+  --color-accent-foreground: #ffffff;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-input: rgba(255, 255, 255, 0.08);
+  --color-ring: #8B5CF6;
+  --radius: 14px;
+}
 
 *,
 *::before,
@@ -15,7 +52,7 @@ html {
 
 html,
 body {
-  background-color: #080810;
+  background-color: #08070C;
 }
 
 html {
@@ -23,7 +60,7 @@ html {
 }
 
 body {
-  font-family: 'DM Mono', monospace;
+  font-family: 'Inter', system-ui, sans-serif;
   color: #e8e8f0;
   overscroll-behavior-y: none;
   -webkit-font-smoothing: antialiased;
@@ -97,6 +134,7 @@ body::before {
 }
 
 .vo-body {
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: clamp(13px, 0.9vw, 16px);
   line-height: 1.75;
   color: rgba(232, 232, 240, 0.5);
@@ -120,6 +158,7 @@ body::before {
   border: 1px solid rgba(108, 99, 255, 0.4);
   color: #e8e8f0;
   padding: clamp(10px, 0.8vw, 14px) clamp(20px, 1.8vw, 32px);
+  border-radius: 100px;
   font-family: 'DM Mono', monospace;
   font-size: clamp(11px, 0.75vw, 13px);
   letter-spacing: 0.12em;
@@ -140,6 +179,7 @@ body::before {
   border: none;
   color: #fff;
   padding: clamp(10px, 0.8vw, 14px) clamp(20px, 1.8vw, 32px);
+  border-radius: 100px;
   font-family: 'DM Mono', monospace;
   font-size: clamp(11px, 0.75vw, 13px);
   letter-spacing: 0.12em;
@@ -162,7 +202,7 @@ body::before {
 .vo-card {
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 4px;
+  border-radius: var(--vo-radius-md);
   transition: border-color .3s, background .3s;
 }
 
@@ -171,11 +211,18 @@ body::before {
   background: rgba(108, 99, 255, 0.04);
 }
 
+/* Metallic surface — headers/footer/tarjetas destacadas, eco del metal cepillado del logo */
+.vo-surface {
+  background: linear-gradient(160deg, var(--vo-surface-from) 0%, var(--vo-surface-to) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--vo-radius-lg);
+}
+
 /* Skills */
 .skill-item {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 3px;
+  border-radius: var(--vo-radius-sm);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -201,7 +248,7 @@ body::before {
   align-items: center;
   gap: 5px;
   padding: 3px 10px;
-  border-radius: 2px;
+  border-radius: 100px;
   font-size: clamp(9px, 0.6vw, 11px);
   font-family: 'DM Mono', monospace;
   letter-spacing: 0.1em;
@@ -216,7 +263,7 @@ body::before {
   align-items: center;
   gap: 5px;
   padding: 3px 10px;
-  border-radius: 2px;
+  border-radius: 100px;
   font-size: clamp(9px, 0.6vw, 11px);
   font-family: 'DM Mono', monospace;
   letter-spacing: 0.1em;
@@ -283,11 +330,11 @@ body::before {
 }
 
 .text-primary {
-  color: #080810;
+  color: #08070C;
 }
 
 .bg-primary {
-  background-color: #080810;
+  background-color: #08070C;
 }
 
 .bg-accent-hover {
@@ -441,7 +488,7 @@ body::before {
 }
 
 ::-webkit-scrollbar-track {
-  background: #080810;
+  background: #08070C;
 }
 
 ::-webkit-scrollbar-thumb {

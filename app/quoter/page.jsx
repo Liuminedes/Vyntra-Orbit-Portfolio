@@ -37,7 +37,7 @@ function PinGate({ onUnlock }) {
   const keys = ["1","2","3","4","5","6","7","8","9","","0","⌫"];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#080810]">
+    <div className="min-h-screen flex items-center justify-center bg-[#08070C]">
       <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-cyan-500/5 pointer-events-none" />
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
         className="relative flex flex-col items-center gap-8 w-full max-w-sm px-6">
@@ -211,7 +211,7 @@ function QuoterApp() {
     const H = doc.internal.pageSize.getHeight();
 
     // ── HEADER BACKGROUND ──
-    doc.setFillColor(8, 8, 16);
+    doc.setFillColor(8, 7, 12);
     doc.rect(0, 0, W, 52, "F");
 
     // Accent top bar
@@ -362,7 +362,7 @@ function QuoterApp() {
   // ── SUMMARY VIEW ──
   if (showSummary) {
     return (
-      <div className="min-h-screen bg-[#080810] flex flex-col items-center justify-start pt-12 px-4 pb-20">
+      <div className="min-h-screen bg-[#08070C] flex flex-col items-center justify-start pt-12 px-4 pb-20">
         <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-cyan-500/5 pointer-events-none" />
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-2xl relative">
           <div className="flex items-center justify-between mb-8">
@@ -447,7 +447,7 @@ function QuoterApp() {
 
   // ── QUOTER FORM ──
   return (
-    <div className="min-h-screen bg-[#080810] flex flex-col items-center justify-start pt-12 px-4 pb-20">
+    <div className="min-h-screen bg-[#08070C] flex flex-col items-center justify-start pt-12 px-4 pb-20">
       <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-cyan-500/5 pointer-events-none" />
       <InfoModal item={infoItem} onClose={() => setInfoItem(null)} />
 
@@ -603,7 +603,7 @@ export default function QuoterPage() {
   }, []);
 
   if (checking) return (
-    <div className="min-h-screen bg-[#080810] flex items-center justify-center">
+    <div className="min-h-screen bg-[#08070C] flex items-center justify-center">
       <div className="w-6 h-6 border-2 border-accent/40 border-t-accent rounded-full animate-spin" />
     </div>
   );

@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Code2, PenTool, Bot, HeartHandshake, Zap, Shield, Server, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
@@ -24,25 +23,14 @@ const BentoGrid = ({ items = [], title, subtitle, columns = 2 }) => {
         {(title || subtitle) && (
           <div className="max-w-3xl mx-auto text-center mb-16 space-y-4">
             {subtitle && (
-              <motion.h3 
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-accent font-mono text-sm tracking-widest uppercase"
-              >
+              <h3 className="text-accent font-mono text-sm tracking-widest uppercase">
                 {subtitle}
-              </motion.h3>
+              </h3>
             )}
             {title && (
-              <motion.h2 
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                className="text-3xl md:text-5xl font-bold font-syne text-white"
-              >
+              <h2 className="text-3xl md:text-5xl font-bold font-syne text-white">
                 {title}
-              </motion.h2>
+              </h2>
             )}
           </div>
         )}
@@ -52,12 +40,8 @@ const BentoGrid = ({ items = [], title, subtitle, columns = 2 }) => {
           {items.map((item, idx) => {
             const Icon = item.icon ? iconMap[item.icon] : null;
             return (
-              <motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
                 className="group relative rounded-3xl bg-white/5 border border-white/10 p-8 hover:bg-white/10 transition-all duration-300 overflow-hidden"
               >
                 {/* Glow Effect */}
@@ -98,7 +82,7 @@ const BentoGrid = ({ items = [], title, subtitle, columns = 2 }) => {
                     </div>
                   )}
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

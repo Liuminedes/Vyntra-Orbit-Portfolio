@@ -1,31 +1,21 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { FiArrowRight, FiPhone } from "react-icons/fi";
-import { FaGithub, FaLinkedin, FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { FiArrowRight, FiPhone, FiRefreshCw } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 import { useLang } from "@/lib/LangContext";
-import { motion } from "framer-motion";
 import BentoGrid from "@/components/BentoGrid";
 import SplitSection from "@/components/SplitSection";
-
-const C = {
-  accent: "#8B5CF6",
-  muted: "rgba(232,232,240,0.3)",
-  mutedMid: "rgba(232,232,240,0.4)",
-  mutedText: "rgba(232,232,240,0.5)",
-  divider: "rgba(255,255,255,0.1)",
-};
-
-const socials = [
-  { icon: <FaGithub size={16} />, href: "https://github.com/Liuminedes", label: "GitHub" },
-  { icon: <FaLinkedin size={16} />, href: "https://www.linkedin.com/in/mauricio-rodriguez-lemos-78a33b268/", label: "LinkedIn" },
-  { icon: <FaInstagram size={16} />, href: "https://www.instagram.com/vyntra_orbit/", label: "Instagram" },
-];
+import { StarsBackground } from "@/components/animate-ui/components/backgrounds/stars";
+import {
+  FlipButton,
+  FlipButtonFront,
+  FlipButtonBack,
+} from "@/components/animate-ui/components/buttons/flip";
 
 const techStack = [
-  "Next.js", "React", "Node.js", "TypeScript", "Supabase", "PostgreSQL",
-  "Tailwind CSS", "Framer Motion", "OpenAI", "WhatsApp API", "Vercel", "Firebase",
-  "Prisma", "GitHub Actions", "Python", "Vite",
+  "Next.js", "React", "Angular", "Laravel", "Node.js", "TypeScript", "PostgreSQL",
+  "Tailwind CSS", "n8n", "Baileys", "OpenAI", "WhatsApp API", "Vercel", "Firebase",
 ];
 
 /* ── Logo card ── */
@@ -36,7 +26,7 @@ const LogoCard = () => (
       <ellipse cx="200" cy="200" rx="190" ry="70" stroke="url(#orbitGrad)" strokeWidth="1.5" strokeDasharray="8 14" />
       <defs><linearGradient id="orbitGrad" x1="0" y1="0" x2="400" y2="0"><stop offset="0%" stopColor="#8B5CF6" stopOpacity="0" /><stop offset="40%" stopColor="#8B5CF6" stopOpacity="1" /><stop offset="100%" stopColor="#00D4FF" stopOpacity="0.4" /></linearGradient></defs>
     </svg>
-    <div style={{ position: "relative", width: "clamp(220px, 23vw, 400px)", height: "clamp(220px, 23vw, 400px)", borderRadius: "clamp(16px, 1.5vw, 28px)", overflow: "hidden", boxShadow: "0 0 0 1px rgba(139,92,246,0.3), 0 0 60px rgba(139,92,246,0.12), inset 0 0 40px rgba(139,92,246,0.04)", background: "linear-gradient(145deg, rgba(139,92,246,0.08) 0%, rgba(8,8,16,0.95) 50%, rgba(0,212,255,0.04) 100%)" }}>
+    <div style={{ position: "relative", width: "clamp(220px, 23vw, 400px)", height: "clamp(220px, 23vw, 400px)", borderRadius: "clamp(16px, 1.5vw, 28px)", overflow: "hidden", boxShadow: "0 0 0 1px rgba(139,92,246,0.3), 0 0 60px rgba(139,92,246,0.12), inset 0 0 40px rgba(139,92,246,0.04)", background: "linear-gradient(145deg, rgba(139,92,246,0.08) 0%, rgba(8,7,12,0.95) 50%, rgba(0,212,255,0.04) 100%)" }}>
       <Image src="/assets/VYNTRA_ORBIT.png" fill priority sizes="(max-width: 768px) 220px, 400px" alt="Vyntra Orbit" style={{ objectFit: "contain", padding: "clamp(16px,2vw,32px)" }} />
       <div style={{ position: "absolute", inset: 0, backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(139,92,246,0.015) 3px, rgba(139,92,246,0.015) 4px)", pointerEvents: "none", borderRadius: "inherit" }} />
       {[
@@ -48,7 +38,7 @@ const LogoCard = () => (
         <div key={i} style={{ position: "absolute", width: "clamp(14px,1.8vw,24px)", height: "clamp(14px,1.8vw,24px)", ...s }} />
       ))}
     </div>
-    <div style={{ position: "absolute", bottom: "-12px", left: "50%", transform: "translateX(-50%)", background: "rgba(8,8,16,0.9)", border: "1px solid rgba(139,92,246,0.35)", borderRadius: 100, padding: "5px 14px", display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap", backdropFilter: "blur(12px)" }}>
+    <div style={{ position: "absolute", bottom: "-12px", left: "50%", transform: "translateX(-50%)", background: "rgba(8,7,12,0.9)", border: "1px solid rgba(139,92,246,0.35)", borderRadius: 100, padding: "5px 14px", display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap", backdropFilter: "blur(12px)" }}>
       <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#00ff88", animation: "pulse-wip 2s infinite" }} />
       <span style={{ fontFamily: "'DM Mono',monospace", fontSize: "clamp(8px,0.6vw,10px)", letterSpacing: "0.15em", color: "rgba(232,232,240,0.6)", textTransform: "uppercase" }}>
         Enterprise Architecture
@@ -60,8 +50,8 @@ const LogoCard = () => (
 /* ── Tech Marquee ── */
 const TechMarquee = () => (
   <div className="relative py-12 overflow-hidden border-y border-white/5 bg-black/30">
-    <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#080810] to-transparent z-10" />
-    <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#080810] to-transparent z-10" />
+    <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#08070C] to-transparent z-10" />
+    <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#08070C] to-transparent z-10" />
     <div className="flex animate-marquee whitespace-nowrap">
       {[...techStack, ...techStack].map((tech, i) => (
         <span key={i} className="mx-6 text-sm font-mono text-white/30 uppercase tracking-widest flex items-center gap-3 shrink-0">
@@ -96,40 +86,164 @@ const HowWeWork = ({ lang }) => {
   return (
     <section className="py-24 lg:py-32 relative">
       <div className="container mx-auto px-4">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16 space-y-4">
+        <div className="text-center mb-16 space-y-4">
           <h3 className="text-accent font-mono text-sm tracking-widest uppercase">
             {lang === "es" ? "Proceso" : "Process"}
           </h3>
           <h2 className="text-3xl md:text-5xl font-bold font-syne text-white">
             {lang === "es" ? "Cómo Trabajamos" : "How We Work"}
           </h2>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0 relative">
-          {/* Connecting line */}
           <div className="hidden md:block absolute top-12 left-[16.66%] right-[16.66%] h-px bg-gradient-to-r from-accent/0 via-accent/40 to-accent/0" />
 
           {steps.map((step, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.15 }}
-              className="relative flex flex-col items-center text-center px-8 py-8"
-            >
+            <div key={idx} className="relative flex flex-col items-center text-center px-8 py-8">
               <div className="w-24 h-24 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center mb-8 relative z-10">
                 <span className="font-syne text-3xl font-bold text-accent">{step.num}</span>
               </div>
               <h3 className="text-xl font-bold font-syne text-white mb-3">{step.title}</h3>
               <p className="text-white/50 text-sm leading-relaxed max-w-xs">{step.desc}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
     </section>
   );
 };
+
+/* ── Cases / Trust cards (real products, review slot ready) ── */
+const CasesSection = ({ lang }) => {
+  const cases = [
+    {
+      name: "IvyOS",
+      line: lang === "es"
+        ? "En uso diario para inventario y caja de negocios físicos — control de stock, turnos y proveedores sin hojas de cálculo."
+        : "In daily use for physical-business inventory and register — stock, shifts, and suppliers with no spreadsheets.",
+    },
+    {
+      name: "Clinova",
+      line: lang === "es"
+        ? "SaaS de gestión clínica operando con citas, historia clínica y facturación para consultorios reales."
+        : "Clinical management SaaS running appointments, medical history, and billing for real practices.",
+    },
+    {
+      name: "DriveSync",
+      line: lang === "es"
+        ? "Catálogo público y CRM de leads para inventario vehicular, integrado con WhatsApp para respuesta inmediata."
+        : "Public catalog and lead CRM for vehicle inventory, integrated with WhatsApp for instant response.",
+    },
+  ];
+
+  return (
+    <section className="py-20 lg:py-32 relative z-10">
+      <div className="container mx-auto px-4">
+        <div className="max-w-3xl mx-auto text-center mb-16 space-y-4">
+          <h3 className="text-accent font-mono text-sm tracking-widest uppercase">
+            {lang === "es" ? "Casos Reales" : "Real Cases"}
+          </h3>
+          <h2 className="text-3xl md:text-5xl font-bold font-syne text-white">
+            {lang === "es" ? "Productos en Uso, No Promesas" : "Products in Use, Not Promises"}
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {cases.map((c, i) => (
+            <div
+              key={i}
+              className="vo-card"
+              style={{ padding: "clamp(24px,2.2vw,32px)", display: "flex", flexDirection: "column", gap: 20 }}
+            >
+              <span className="font-syne text-2xl font-bold text-white">{c.name}</span>
+              <p className="text-white/60 text-sm leading-relaxed flex-1">{c.line}</p>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                <div style={{ width: 30, height: 30, borderRadius: "50%", background: "rgba(139,92,246,0.12)", border: "1px dashed rgba(139,92,246,0.4)", flexShrink: 0 }} />
+                <span className="vo-label" style={{ textTransform: "none", letterSpacing: "0.03em" }}>
+                  {lang === "es" ? "Reseña de cliente próximamente" : "Client review coming soon"}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ── Direct contact — solo operator as advantage ── */
+const DirectContactSection = ({ lang, t }) => (
+  <section className="py-20 lg:py-28 relative z-10">
+    <div className="container mx-auto px-4">
+      <div className="vo-surface grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-10 items-center" style={{ padding: "clamp(32px,4vw,56px)" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <span className="vo-label">{t.directContact.label}</span>
+          <h2 className="text-3xl md:text-4xl font-bold font-syne text-white leading-tight">
+            {t.directContact.title}
+          </h2>
+          <p className="text-white/60 leading-relaxed max-w-2xl">{t.directContact.body}</p>
+        </div>
+        <div
+          style={{
+            background: "rgba(0,0,0,0.25)",
+            border: "1px solid rgba(139,92,246,0.25)",
+            borderRadius: "var(--vo-radius-md)",
+            padding: 24,
+            display: "flex",
+            flexDirection: "column",
+            gap: 10,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#00ff88", animation: "pulse-wip 2s infinite", flexShrink: 0 }} />
+            <span className="vo-label" style={{ color: "#00ff88" }}>
+              {lang === "es" ? "Disponible ahora" : "Available now"}
+            </span>
+          </div>
+          <span className="font-syne text-xl font-bold text-white">Mauricio Rodríguez</span>
+          <span className="text-white/50 text-sm">
+            {lang === "es" ? "Fundador & Desarrollador Full-Stack" : "Founder & Full-Stack Developer"}
+          </span>
+          <span className="text-white/40 text-sm">Cali, Colombia — {lang === "es" ? "atención nacional" : "national reach"}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+/* ── Switch providers CTA ── */
+const SwitchCtaSection = ({ t }) => (
+  <section className="py-8 lg:py-12 relative z-10">
+    <div className="container mx-auto px-4">
+      <div
+        className="vo-card"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 24,
+          padding: "clamp(24px,2.5vw,36px)",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 18, maxWidth: 640 }}>
+          <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(139,92,246,0.12)", border: "1px solid rgba(139,92,246,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#C4B5FD" }}>
+            <FiRefreshCw size={18} />
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <span className="vo-label">{t.switchCta.label}</span>
+            <span className="font-syne text-xl font-bold text-white">{t.switchCta.title}</span>
+            <p className="text-white/55 text-sm leading-relaxed">{t.switchCta.body}</p>
+          </div>
+        </div>
+        <Link href="/contact" className="btn-glow" style={{ flexShrink: 0 }}>
+          {t.switchCta.cta}
+          <FiArrowRight />
+        </Link>
+      </div>
+    </div>
+  </section>
+);
 
 /* ── Final CTA ── */
 const FinalCTA = ({ lang }) => (
@@ -138,12 +252,7 @@ const FinalCTA = ({ lang }) => (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 blur-[150px] rounded-full pointer-events-none" />
 
     <div className="container mx-auto px-4 relative z-10">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="max-w-4xl mx-auto text-center space-y-8"
-      >
+      <div className="max-w-4xl mx-auto text-center space-y-8">
         <h2 className="text-4xl md:text-6xl font-bold font-syne text-white leading-tight">
           {lang === "es"
             ? "¿Listo para transformar tu operación digital?"
@@ -156,14 +265,23 @@ const FinalCTA = ({ lang }) => (
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-          <Link
-            href="/contact"
-            className="px-10 py-5 bg-accent hover:bg-accent/90 text-white rounded-full font-semibold text-lg transition-all group flex items-center gap-3 shadow-lg shadow-accent/20"
-          >
-            <FiPhone className="w-5 h-5" />
-            {lang === "es" ? "Agendar Llamada Gratis" : "Schedule Free Call"}
-            <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
-          </Link>
+          <FlipButton asChild>
+            <Link
+              href="/contact"
+              className="rounded-full font-semibold text-lg shadow-lg shadow-accent/20"
+              style={{ padding: "20px 40px" }}
+            >
+              <FlipButtonFront className="bg-accent text-white gap-3">
+                <FiPhone className="w-5 h-5" />
+                {lang === "es" ? "Agendar Llamada Gratis" : "Schedule Free Call"}
+                <FiArrowRight />
+              </FlipButtonFront>
+              <FlipButtonBack className="bg-white text-[#08070C] gap-3">
+                {lang === "es" ? "¡Hablemos ahora!" : "Let's talk now!"}
+                <FiArrowRight />
+              </FlipButtonBack>
+            </Link>
+          </FlipButton>
           <a
             href="https://wa.me/573177686358"
             target="_blank"
@@ -174,7 +292,7 @@ const FinalCTA = ({ lang }) => (
             WhatsApp
           </a>
         </div>
-      </motion.div>
+      </div>
     </div>
   </section>
 );
@@ -236,8 +354,16 @@ export default function Home() {
         }
       `}</style>
 
-      {/* ── HERO SECTION ── */}
-      <section className="relative min-h-[calc(100vh-80px)] flex items-center justify-center py-20">
+      {/* ── HERO SECTION — the one orchestrated motion moment ── */}
+      <section className="relative min-h-[calc(100vh-80px)] flex items-center justify-center py-20 overflow-hidden">
+        <StarsBackground
+          starColor="#C4B5FD"
+          factor={0.02}
+          speed={70}
+          pointerEvents={false}
+          className="absolute inset-0 z-0"
+          style={{ background: "transparent" }}
+        />
         <div style={{ position: "absolute", top: "-5%", left: "25%", width: "50vw", height: "50vw", maxWidth: 700, maxHeight: 700, borderRadius: "50%", pointerEvents: "none", background: "radial-gradient(circle,rgba(139,92,246,0.07) 0%,transparent 70%)" }} />
         <div style={{ position: "absolute", bottom: "5%", right: "5%", width: "35vw", height: "35vw", maxWidth: 500, maxHeight: 500, borderRadius: "50%", pointerEvents: "none", background: "radial-gradient(circle,rgba(0,212,255,0.04) 0%,transparent 70%)" }} />
 
@@ -323,7 +449,7 @@ export default function Home() {
           ? "Deja que la inteligencia artificial trabaje por ti las 24 horas. Creamos agentes virtuales que entienden el contexto de tu negocio, presentan tus productos y capturan leads calificados sin que muevas un dedo."
           : "Let artificial intelligence work for you around the clock. We create virtual agents that understand your business context, present your products, and capture qualified leads without lifting a finger."}
         features={splitFeaturesAI}
-        imagePath="/assets/work/kiabot.png"
+        imagePath="/assets/work/emissary.png"
         reverse={true}
         ctaText={lang === "es" ? "Automatizar Ahora" : "Automate Now"}
         ctaLink="/contact"
@@ -333,6 +459,15 @@ export default function Home() {
       <div className="relative border-y border-white/5 bg-black/30">
         <HowWeWork lang={lang} />
       </div>
+
+      {/* ── CASES / TRUST ── */}
+      <CasesSection lang={lang} />
+
+      {/* ── DIRECT CONTACT ── */}
+      <DirectContactSection lang={lang} t={t} />
+
+      {/* ── SWITCH PROVIDERS CTA ── */}
+      <SwitchCtaSection t={t} />
 
       {/* ── INFRASTRUCTURE GRID ── */}
       <BentoGrid
