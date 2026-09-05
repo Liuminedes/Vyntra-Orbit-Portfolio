@@ -16,7 +16,7 @@ const SplitSection = ({
   ctaLink = "/contact"
 }) => {
   return (
-    <section className="py-20 lg:py-32 overflow-hidden relative">
+    <section className="py-24 lg:py-32 overflow-hidden relative">
       {/* Background glow specific to this section */}
       <div className={`absolute top-1/2 -translate-y-1/2 ${reverse ? '-left-20' : '-right-20'} w-96 h-96 bg-accent/10 blur-[120px] rounded-full pointer-events-none`}></div>
 
