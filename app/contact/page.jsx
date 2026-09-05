@@ -224,12 +224,16 @@ export default function Contact() {
   const isEn = lang === "en";
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [form, setForm] = useState({ firstname:"", lastname:"", email:"", phone:"", service:"", message:"", timeline:"", preferWhatsapp:false, urgent:false });
+  const [form, setForm] = useState({ firstname:"", lastname:"", email:"", phone:"", service:[], message:"", timeline:"", preferWhatsapp:false, urgent:false });
   const [budgetAmount, setBudgetAmount] = useState("");
   const [budgetCurrency, setBudgetCurrency] = useState("COP");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const set = (k) => (e) => setForm(s => ({ ...s, [k]: e.target.value }));
+  const toggleService = (value) => setForm(s => ({
+    ...s,
+    service: s.service.includes(value) ? s.service.filter(v => v !== value) : [...s.service, value],
+  }));
 
   const formattedBudget = budgetAmount
     ? `$${Number(budgetAmount).toLocaleString(budgetCurrency === "COP" ? "es-CO" : "en-US")} ${budgetCurrency}`
@@ -249,13 +253,13 @@ export default function Contact() {
       const res  = await fetch("/api/contact", {
         method:"POST",
         headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({ ...form, budget: formattedBudget, service: form.service || (isEn?"Not specified":"No especificado") }),
+        body:JSON.stringify({ ...form, budget: formattedBudget, service: form.service.length ? form.service.join(", ") : (isEn?"Not specified":"No especificado") }),
       });
       const json = await res.json();
       if (res.ok && json.ok) {
         setSent(true);
         showToast("success", c.toast.successTitle, c.toast.successDetail);
-        setForm({ firstname:"", lastname:"", email:"", phone:"", service:"", message:"", timeline:"", preferWhatsapp:false, urgent:false });
+        setForm({ firstname:"", lastname:"", email:"", phone:"", service:[], message:"", timeline:"", preferWhatsapp:false, urgent:false });
         setBudgetAmount("");
         setTimeout(() => setSent(false), 5000);
       } else {
@@ -422,11 +426,32 @@ export default function Contact() {
               </div>
 
               <div style={{ display:"flex",flexDirection:"column",gap:9 }}>
-                {label(isEn?"What do you need? (optional)":"¿Qué necesitas? (opcional)")}
-                <select className="ct-input" value={form.service} onChange={set("service")} style={inp}>
-                  <option value="">{isEn?"I'm not sure yet / Other":"Aún no lo sé / Otro"}</option>
-                  {c.services.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
+                {label(isEn?"What do you need? (optional, choose all that apply)":"¿Qué necesitas? (opcional, puedes elegir varios)")}
+                <div style={{ display:"flex", flexWrap:"wrap", gap:8 }}>
+                  {c.services.map(s => {
+                    const active = form.service.includes(s);
+                    return (
+                      <button
+                        type="button"
+                        key={s}
+                        onClick={() => toggleService(s)}
+                        style={{
+                          padding:"9px 16px",
+                          borderRadius:"var(--vo-radius-sm)",
+                          fontSize:"clamp(12px,0.85vw,14px)",
+                          fontWeight:500,
+                          cursor:"pointer",
+                          transition:"background .2s, border-color .2s, color .2s",
+                          border: active ? "1px solid #8B5CF6" : "1px solid rgba(255,255,255,0.12)",
+                          background: active ? "rgba(139,92,246,0.18)" : "rgba(255,255,255,0.04)",
+                          color: active ? "#E8E8F0" : "rgba(232,232,240,0.6)",
+                        }}
+                      >
+                        {s}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               <div className="ct-2col" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(20px,2vw,32px)" }}>
