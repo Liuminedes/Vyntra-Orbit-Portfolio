@@ -5,7 +5,7 @@ import Link from "next/link";
 import {
   FiSend, FiLoader, FiCheck, FiPhone, FiMail,
   FiArrowUpRight, FiMessageSquare, FiClock, FiZap,
-  FiX, FiShare2,
+  FiX, FiShare2, FiDollarSign,
 } from "react-icons/fi";
 import { FaDiscord, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
@@ -223,10 +223,16 @@ export default function Contact() {
   const isEn = lang === "en";
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [form, setForm] = useState({ firstname:"", lastname:"", email:"", phone:"", service:"", budget:"", message:"", timeline:"", preferWhatsapp:false, urgent:false });
+  const [form, setForm] = useState({ firstname:"", lastname:"", email:"", phone:"", service:"", message:"", timeline:"", preferWhatsapp:false, urgent:false });
+  const [budgetAmount, setBudgetAmount] = useState("");
+  const [budgetCurrency, setBudgetCurrency] = useState("COP");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const set = (k) => (e) => setForm(s => ({ ...s, [k]: e.target.value }));
+
+  const formattedBudget = budgetAmount
+    ? `$${Number(budgetAmount).toLocaleString(budgetCurrency === "COP" ? "es-CO" : "en-US")} ${budgetCurrency}`
+    : "";
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -242,13 +248,14 @@ export default function Contact() {
       const res  = await fetch("/api/contact", {
         method:"POST",
         headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({ ...form, service: form.service || (isEn?"Not specified":"No especificado") }),
+        body:JSON.stringify({ ...form, budget: formattedBudget, service: form.service || (isEn?"Not specified":"No especificado") }),
       });
       const json = await res.json();
       if (res.ok && json.ok) {
         setSent(true);
         showToast("success", c.toast.successTitle, c.toast.successDetail);
-        setForm({ firstname:"", lastname:"", email:"", phone:"", service:"", budget:"", message:"", timeline:"", preferWhatsapp:false, urgent:false });
+        setForm({ firstname:"", lastname:"", email:"", phone:"", service:"", message:"", timeline:"", preferWhatsapp:false, urgent:false });
+        setBudgetAmount("");
         setTimeout(() => setSent(false), 5000);
       } else {
         showToast("error", c.toast.errorTitle, json?.error || c.toast.errorRetry);
@@ -261,15 +268,15 @@ export default function Contact() {
   };
 
   const inp = {
-    width:"100%", background:"transparent",
-    border:"none", borderBottom:"1px solid rgba(255,255,255,0.1)",
-    outline:"none", fontSize:"clamp(13px,0.88vw,15px)",
-    color:"rgba(232,232,240,0.85)", padding:"clamp(10px,1vw,14px) 0",
-    fontFamily:"'DM Mono',monospace", transition:"border-color .2s",
+    width:"100%", background:"rgba(255,255,255,0.04)",
+    border:"1px solid rgba(255,255,255,0.12)", borderRadius:"var(--vo-radius-sm)",
+    outline:"none", fontSize:"clamp(15px,1vw,18px)",
+    color:"#E8E8F0", padding:"clamp(12px,1.1vw,16px) clamp(14px,1.2vw,18px)",
+    fontFamily:"'Inter', system-ui, sans-serif", transition:"border-color .2s, background .2s, box-shadow .2s",
   };
 
   const label = (text) => (
-    <label style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.6vw,11px)", color:"rgba(139,92,246,0.7)", textTransform:"uppercase", letterSpacing:"0.15em" }}>
+    <label style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(11px,0.72vw,13px)", color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"0.14em" }}>
       {text}
     </label>
   );
@@ -286,22 +293,6 @@ export default function Contact() {
     { icon: <FiCheck size={14}/>,         text:"Soporte después de la entrega" },
   ];
 
-  const budgets = isEn
-  ? [
-      "Less than $100 USD",
-      "$100 – $250 COP",
-      "$250 – $500 USD",
-      "More than $500 USD",
-      "I don't know yet",
-    ]
-  : [
-      "Menos de $500.000 COP",
-      "$500.000 – $1.500.000 COP",
-      "$1.500.000 – $3.000.000 COP",
-      "Más de $3.000.000 COP",
-      "Aún no lo sé",
-    ];
-
   const timelines = isEn
     ? ["As soon as possible","In 1–2 months","In 3–6 months","No fixed deadline"]
     : ["Lo antes posible","En 1–2 meses","En 3–6 meses","Sin fecha límite"];
@@ -312,14 +303,15 @@ export default function Contact() {
       <ContactModal open={modalOpen} onClose={() => setModalOpen(false)} lang={lang} />
 
       <style>{`
-        .ct-input:focus { border-bottom-color: rgba(139,92,246,0.6) !important; }
+        .ct-input:focus { border-color: #8B5CF6 !important; background: rgba(139,92,246,0.07) !important; box-shadow: 0 0 0 3px rgba(139,92,246,0.15); }
+        .ct-input::placeholder { color: rgba(232,232,240,0.35); }
         select.ct-input option { background:#08070C; color:#e8e8f0; }
         @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
       `}</style>
 
       <div style={{ padding:"clamp(48px,5vw,80px) 0 clamp(60px,6vw,100px)", position:"relative" }}>
 
-        <div style={{ position:"fixed", top:"30%", left:"50%", transform:"translateX(-50%)", width:800, height:400, pointerEvents:"none", background:"radial-gradient(ellipse,rgba(139,92,246,0.04) 0%,transparent 70%)", zIndex:0 }} />
+        <div style={{ position:"fixed", top:"20%", left:"50%", transform:"translateX(-50%)", width:900, height:500, pointerEvents:"none", background:"radial-gradient(ellipse,rgba(139,92,246,0.06) 0%,transparent 70%)", zIndex:0 }} />
 
         <div style={{ width:"100%", maxWidth:"min(1800px,94vw)", margin:"0 auto", padding:"0 clamp(20px,3vw,60px)", position:"relative", zIndex:1 }}>
 
@@ -327,7 +319,7 @@ export default function Contact() {
           <div>
             <div style={{ marginBottom:"clamp(36px,4vw,56px)" }}>
               <SectionLabel label={isEn?"Contact":"Contacto"} />
-              <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(32px,4vw,68px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-0.02em", color:"rgba(232,232,240,0.95)", margin:"0 0 clamp(16px,2vw,28px)" }}>
+              <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(34px,4.4vw,72px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-0.02em", color:"#F4F4F8", margin:"0 0 clamp(16px,2vw,28px)" }}>
                 {c.heading}
               </h2>
               <button
@@ -340,43 +332,43 @@ export default function Contact() {
               </button>
             </div>
 
-            <style>{`@media(min-width:900px){ .ct-top-grid { grid-template-columns: 1fr clamp(260px,26vw,400px) !important; } }`}</style>
-            <div className="ct-top-grid" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(32px,4vw,64px)", alignItems:"center" }}>
+            <style>{`@media(min-width:900px){ .ct-top-grid { grid-template-columns: 1fr clamp(280px,28vw,420px) !important; } }`}</style>
+            <div className="ct-top-grid" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(32px,4vw,64px)", alignItems:"stretch" }}>
 
-              <div style={{ display:"flex", flexDirection:"column", gap:"clamp(14px,1.4vw,22px)" }}>
-                <p style={{ fontSize:"clamp(14px,1vw,18px)", lineHeight:1.85, color:"rgba(232,232,240,0.6)", margin:0, maxWidth:640 }}>
+              <div style={{ display:"flex", flexDirection:"column", gap:"clamp(16px,1.6vw,24px)" }}>
+                <p style={{ fontSize:"clamp(16px,1.1vw,20px)", lineHeight:1.8, color:"rgba(232,232,240,0.7)", margin:0, maxWidth:640 }}>
                   {c.subheading}
                 </p>
-                <div style={{ display:"flex", flexWrap:"wrap", gap:"clamp(6px,0.7vw,10px)", paddingTop:"clamp(4px,0.5vw,8px)" }}>
+                <div style={{ display:"flex", flexWrap:"wrap", gap:"clamp(8px,0.8vw,12px)", paddingTop:"clamp(4px,0.5vw,8px)" }}>
                   {reasons.map((r, i) => (
-                    <div key={i} style={{ display:"flex", alignItems:"center", gap:8, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:"var(--vo-radius-sm)", padding:"clamp(6px,0.65vw,10px) clamp(10px,1vw,16px)" }}>
-                      <span style={{ color:"rgba(139,92,246,0.7)", flexShrink:0 }}>{r.icon}</span>
-                      <span style={{ width:1, height:10, background:"rgba(255,255,255,0.1)" }} />
-                      <span style={{ fontSize:"clamp(11px,0.72vw,13px)", color:"rgba(232,232,240,0.75)", fontWeight:500 }}>{r.text}</span>
+                    <div key={i} style={{ display:"flex", alignItems:"center", gap:9, background:"rgba(139,92,246,0.06)", border:"1px solid rgba(139,92,246,0.15)", borderRadius:"var(--vo-radius-sm)", padding:"clamp(8px,0.8vw,12px) clamp(12px,1.1vw,18px)" }}>
+                      <span style={{ color:"#C4B5FD", flexShrink:0 }}>{r.icon}</span>
+                      <span style={{ width:1, height:12, background:"rgba(255,255,255,0.12)" }} />
+                      <span style={{ fontSize:"clamp(13px,0.85vw,15px)", color:"rgba(232,232,240,0.85)", fontWeight:500 }}>{r.text}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div style={{ display:"flex", flexDirection:"column", gap:"clamp(10px,1vw,14px)" }}>
+              <div className="vo-surface" style={{ display:"flex", flexDirection:"column", gap:"clamp(10px,1vw,14px)", padding:"clamp(20px,2vw,28px)" }}>
                 {c.info.map((item, i) => {
                   const icons = [FiPhone, FiMail, FaDiscord];
                   const Icon = icons[i] || FiPhone;
                   return (
-                    <div key={i} style={{ display:"flex", alignItems:"center", gap:14, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:"var(--vo-radius-sm)", padding:"clamp(10px,1vw,16px) clamp(12px,1.2vw,18px)" }}>
-                      <div style={{ width:"clamp(36px,3.5vw,44px)", height:"clamp(36px,3.5vw,44px)", borderRadius:"50%", border:"1px solid rgba(139,92,246,0.25)", display:"flex", alignItems:"center", justifyContent:"center", color:"rgba(139,92,246,0.7)", flexShrink:0 }}>
-                        <Icon size={16} />
+                    <div key={i} style={{ display:"flex", alignItems:"center", gap:14, background:"rgba(0,0,0,0.2)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:"var(--vo-radius-sm)", padding:"clamp(11px,1.1vw,16px) clamp(13px,1.2vw,18px)" }}>
+                      <div style={{ width:"clamp(38px,3.6vw,46px)", height:"clamp(38px,3.6vw,46px)", borderRadius:"50%", background:"rgba(139,92,246,0.12)", border:"1px solid rgba(139,92,246,0.3)", display:"flex", alignItems:"center", justifyContent:"center", color:"#C4B5FD", flexShrink:0 }}>
+                        <Icon size={17} />
                       </div>
                       <div>
-                        <div style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.58vw,11px)", color:"rgba(139,92,246,0.6)", textTransform:"uppercase", letterSpacing:"0.15em", marginBottom:3 }}>{item.title}</div>
-                        <div style={{ fontSize:"clamp(12px,0.82vw,14px)", color:"rgba(232,232,240,0.85)", fontWeight:500 }}>{item.description}</div>
+                        <div style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(10px,0.62vw,12px)", color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"0.14em", marginBottom:4 }}>{item.title}</div>
+                        <div style={{ fontSize:"clamp(14px,0.92vw,16px)", color:"#F0F0F5", fontWeight:600 }}>{item.description}</div>
                       </div>
                     </div>
                   );
                 })}
-                <div style={{ display:"flex", alignItems:"center", gap:8, background:"rgba(8,7,12,0.92)", border:"1px solid rgba(139,92,246,0.3)", borderRadius:100, padding:"8px 16px", backdropFilter:"blur(12px)", alignSelf:"flex-start" }}>
-                  <div style={{ width:6, height:6, borderRadius:"50%", background:"#00ff88", animation:"pulse-wip 2s infinite" }} />
-                  <span style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(8px,0.56vw,10px)", letterSpacing:"0.14em", color:"rgba(232,232,240,0.55)", textTransform:"uppercase" }}>
+                <div style={{ display:"flex", alignItems:"center", gap:8, background:"rgba(0,255,136,0.06)", border:"1px solid rgba(0,255,136,0.25)", borderRadius:100, padding:"9px 16px", marginTop:2, alignSelf:"flex-start" }}>
+                  <div style={{ width:7, height:7, borderRadius:"50%", background:"#00ff88", animation:"pulse-wip 2s infinite" }} />
+                  <span style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.6vw,11px)", letterSpacing:"0.12em", color:"#7CFFB8", textTransform:"uppercase" }}>
                     {isEn?"Available for projects":"Disponible para proyectos"}
                   </span>
                 </div>
@@ -391,36 +383,36 @@ export default function Contact() {
             <div style={{ marginBottom:"clamp(28px,3vw,44px)" }}>
               <SectionLabel label={isEn?"Project form":"Formulario de proyecto"} />
               <div style={{ display:"flex", flexWrap:"wrap", alignItems:"flex-end", justifyContent:"space-between", gap:16 }}>
-                <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(28px,3.5vw,58px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-0.02em", color:"rgba(232,232,240,0.95)", margin:0 }}>
+                <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(28px,3.5vw,58px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-0.02em", color:"#F4F4F8", margin:0 }}>
                   {isEn?"Tell us about your project":"Cuéntanos tu proyecto"}
                 </h2>
-                <p style={{ fontSize:"clamp(13px,0.88vw,15px)", color:"rgba(232,232,240,0.4)", maxWidth:380, margin:0, lineHeight:1.65 }}>
+                <p style={{ fontSize:"clamp(14px,0.92vw,16px)", color:"rgba(232,232,240,0.5)", maxWidth:380, margin:0, lineHeight:1.65 }}>
                   {isEn?"Fill in what you can — no technical knowledge required.":"Llena lo que puedas — no se necesita conocimiento técnico."}
                 </p>
               </div>
             </div>
 
             <form onSubmit={onSubmit}
-              style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:"var(--vo-radius-lg)", padding:"clamp(24px,3vw,48px)", display:"flex", flexDirection:"column", gap:"clamp(20px,2.2vw,32px)" }}>
+              style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(139,92,246,0.18)", borderRadius:"var(--vo-radius-lg)", padding:"clamp(28px,3.4vw,56px)", display:"flex", flexDirection:"column", gap:"clamp(22px,2.4vw,34px)", boxShadow:"0 0 70px rgba(139,92,246,0.07), inset 0 1px 0 rgba(255,255,255,0.03)" }}>
 
               <style>{`@media(min-width:600px){ .ct-2col { grid-template-columns: 1fr 1fr !important; } }`}</style>
               <div className="ct-2col" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(20px,2vw,32px)" }}>
-                <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
+                <div style={{ display:"flex",flexDirection:"column",gap:9 }}>
                   {label(c.fields.firstname + " *")}
                   <input className="ct-input" value={form.firstname} onChange={set("firstname")} placeholder="Mauricio" style={inp} />
                 </div>
-                <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
+                <div style={{ display:"flex",flexDirection:"column",gap:9 }}>
                   {label(c.fields.lastname + " *")}
                   <input className="ct-input" value={form.lastname} onChange={set("lastname")} placeholder="Rodriguez" style={inp} />
                 </div>
               </div>
 
               <div className="ct-2col" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(20px,2vw,32px)" }}>
-                <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
+                <div style={{ display:"flex",flexDirection:"column",gap:9 }}>
                   {label(c.fields.email + " *")}
                   <input className="ct-input" type="email" value={form.email} onChange={set("email")} placeholder="tucorreo@empresa.com" style={inp} />
                 </div>
-                <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
+                <div style={{ display:"flex",flexDirection:"column",gap:9 }}>
                   {label(isEn?"Phone (optional)":"Celular (opcional)")}
                   <input className="ct-input" type="tel" inputMode="numeric" value={form.phone}
                     onChange={e=>setForm(s=>({...s,phone:e.target.value.replace(/\D/g,"")}))}
@@ -428,55 +420,84 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
+              <div style={{ display:"flex",flexDirection:"column",gap:9 }}>
                 {label(isEn?"What do you need? (optional)":"¿Qué necesitas? (opcional)")}
-                <select className="ct-input" value={form.service} onChange={set("service")}
-                  style={{ ...inp, background:"transparent", paddingLeft:0 }}>
+                <select className="ct-input" value={form.service} onChange={set("service")} style={inp}>
                   <option value="">{isEn?"I'm not sure yet / Other":"Aún no lo sé / Otro"}</option>
                   {c.services.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
 
               <div className="ct-2col" style={{ display:"grid", gridTemplateColumns:"1fr", gap:"clamp(20px,2vw,32px)" }}>
-                <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
-                  {label(isEn?"Budget range (optional)":"Rango de presupuesto (opcional)")}
-                  <select className="ct-input" value={form.budget} onChange={set("budget")}
-                    style={{ ...inp, background:"transparent", paddingLeft:0 }}>
-                    <option value="">{isEn?"Select a range":"Selecciona un rango"}</option>
-                    {budgets.map(b => <option key={b} value={b}>{b}</option>)}
-                  </select>
+                <div style={{ display:"flex",flexDirection:"column",gap:9 }}>
+                  {label(isEn?"Estimated budget (optional)":"Presupuesto estimado (opcional)")}
+                  <div style={{ display:"flex", gap:8 }}>
+                    <div style={{ display:"flex", flexShrink:0, border:"1px solid rgba(255,255,255,0.12)", borderRadius:"var(--vo-radius-sm)", overflow:"hidden" }}>
+                      {["COP","USD"].map(cur => (
+                        <button
+                          type="button"
+                          key={cur}
+                          onClick={() => setBudgetCurrency(cur)}
+                          style={{
+                            padding:"0 clamp(12px,1.1vw,16px)",
+                            fontFamily:"'DM Mono',monospace",
+                            fontSize:"clamp(11px,0.7vw,13px)",
+                            letterSpacing:"0.05em",
+                            border:"none",
+                            cursor:"pointer",
+                            background: budgetCurrency === cur ? "#8B5CF6" : "rgba(255,255,255,0.04)",
+                            color: budgetCurrency === cur ? "#fff" : "rgba(232,232,240,0.5)",
+                            transition:"background .2s, color .2s",
+                          }}
+                        >
+                          {cur}
+                        </button>
+                      ))}
+                    </div>
+                    <div style={{ position:"relative", flex:1 }}>
+                      <FiDollarSign size={16} style={{ position:"absolute", left:14, top:"50%", transform:"translateY(-50%)", color:"#C4B5FD", pointerEvents:"none" }} />
+                      <input
+                        className="ct-input"
+                        type="text"
+                        inputMode="numeric"
+                        value={budgetAmount ? Number(budgetAmount).toLocaleString(budgetCurrency === "COP" ? "es-CO" : "en-US") : ""}
+                        onChange={e => setBudgetAmount(e.target.value.replace(/\D/g,""))}
+                        placeholder={budgetCurrency === "COP" ? "3.000.000" : "3,000"}
+                        style={{ ...inp, paddingLeft: 38 }}
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
+                <div style={{ display:"flex",flexDirection:"column",gap:9 }}>
                   {label(isEn?"When do you need it? (optional)":"¿Cuándo lo necesitas? (opcional)")}
-                  <select className="ct-input" value={form.timeline} onChange={set("timeline")}
-                    style={{ ...inp, background:"transparent", paddingLeft:0 }}>
+                  <select className="ct-input" value={form.timeline} onChange={set("timeline")} style={inp}>
                     <option value="">{isEn?"Select a timeframe":"Selecciona un plazo"}</option>
                     {timelines.map(tl => <option key={tl} value={tl}>{tl}</option>)}
                   </select>
                 </div>
               </div>
 
-              <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
+              <div style={{ display:"flex",flexDirection:"column",gap:9 }}>
                 {label(c.fields.message + " *")}
                 <textarea className="ct-input" rows={7} value={form.message} onChange={set("message")}
                   placeholder={isEn
                     ? "Tell us what you have in mind — even if it's just a rough idea. We'll figure out the rest together."
                     : "Cuéntanos qué tienes en mente — aunque sea una idea general. Lo demás lo resolvemos juntos."}
-                  style={{ ...inp, resize:"vertical", minHeight:"120px" }} />
+                  style={{ ...inp, resize:"vertical", minHeight:"140px", lineHeight:1.6 }} />
               </div>
 
-              <div style={{ display:"flex", flexWrap:"wrap", alignItems:"center", justifyContent:"space-between", gap:20, padding:"clamp(14px,1.5vw,20px)", background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:"var(--vo-radius-sm)" }}>
+              <div style={{ display:"flex", flexWrap:"wrap", alignItems:"center", justifyContent:"space-between", gap:20, padding:"clamp(16px,1.6vw,22px)", background:"rgba(139,92,246,0.05)", border:"1px solid rgba(139,92,246,0.15)", borderRadius:"var(--vo-radius-sm)" }}>
                 <label style={{ display:"flex", alignItems:"center", gap:10, cursor:"pointer" }}>
                   <Checkbox
                     checked={form.preferWhatsapp}
                     onCheckedChange={(v) => setForm(s => ({ ...s, preferWhatsapp: !!v }))}
                   />
-                  <span style={{ fontSize:"clamp(12px,0.82vw,14px)", color:"rgba(232,232,240,0.75)" }}>
+                  <span style={{ fontSize:"clamp(13px,0.88vw,15px)", color:"rgba(232,232,240,0.85)" }}>
                     {isEn ? "I'd rather be contacted on WhatsApp" : "Prefiero que me contacten por WhatsApp"}
                   </span>
                 </label>
                 <label style={{ display:"flex", alignItems:"center", gap:10, cursor:"pointer" }}>
-                  <span style={{ fontSize:"clamp(12px,0.82vw,14px)", color:"rgba(232,232,240,0.75)" }}>
+                  <span style={{ fontSize:"clamp(13px,0.88vw,15px)", color:"rgba(232,232,240,0.85)" }}>
                     {isEn ? "This is urgent" : "Esto es urgente"}
                   </span>
                   <Switch
@@ -486,27 +507,27 @@ export default function Contact() {
                 </label>
               </div>
 
-              <p style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.62vw,11px)", color:"rgba(232,232,240,0.22)", margin:0, lineHeight:1.7 }}>
+              <p style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(10px,0.64vw,12px)", color:"rgba(232,232,240,0.35)", margin:0, lineHeight:1.7 }}>
                 {isEn
                   ? "* Required fields. The rest is optional — fill in what you can and we'll work out the details together."
                   : "* Campos obligatorios. Lo demás es opcional — llena lo que puedas y resolvemos los detalles juntos."}
               </p>
 
               <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:16, paddingTop:4 }}>
-                <p style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(9px,0.6vw,11px)", color:"rgba(232,232,240,0.25)", margin:0, letterSpacing:"0.1em" }}>
+                <p style={{ fontFamily:"'DM Mono',monospace", fontSize:"clamp(10px,0.62vw,12px)", color:"rgba(232,232,240,0.4)", margin:0, letterSpacing:"0.08em" }}>
                   {isEn?"We respond within 24 hours":"Respondemos en menos de 24 horas"}
                 </p>
                 <button type="submit" disabled={loading||sent}
                   className={sent ? "" : "btn-glow-solid"}
                   style={sent
-                    ? { display:"inline-flex", alignItems:"center", gap:8, background:"rgba(0,255,136,0.12)", border:"1px solid rgba(0,255,136,0.3)", color:"#00ff88", padding:"clamp(12px,1.1vw,18px) clamp(22px,2vw,34px)", fontFamily:"'DM Mono',monospace", fontSize:"clamp(11px,0.72vw,13px)", letterSpacing:"0.14em", textTransform:"uppercase", cursor:"default", borderRadius:100, flexShrink:0 }
-                    : { cursor:loading?"default":"pointer", opacity:loading?0.7:1, border:"none", flexShrink:0 }
+                    ? { display:"inline-flex", alignItems:"center", gap:8, background:"rgba(0,255,136,0.12)", border:"1px solid rgba(0,255,136,0.3)", color:"#00ff88", padding:"clamp(14px,1.2vw,20px) clamp(26px,2.2vw,38px)", fontFamily:"'DM Mono',monospace", fontSize:"clamp(12px,0.78vw,14px)", letterSpacing:"0.14em", textTransform:"uppercase", cursor:"default", borderRadius:100, flexShrink:0 }
+                    : { cursor:loading?"default":"pointer", opacity:loading?0.7:1, border:"none", flexShrink:0, fontSize:"clamp(12px,0.78vw,14px)", padding:"clamp(14px,1.2vw,20px) clamp(26px,2.2vw,38px)" }
                   }>
                   {sent
-                    ? <><FiCheck size={13}/>{isEn?"Message sent!":"¡Mensaje enviado!"}</>
+                    ? <><FiCheck size={14}/>{isEn?"Message sent!":"¡Mensaje enviado!"}</>
                     : loading
-                    ? <><FiLoader style={{ animation:"spin .8s linear infinite" }} size={13}/>{c.fields.sending}</>
-                    : <><FiSend size={13}/>{c.fields.send}</>
+                    ? <><FiLoader style={{ animation:"spin .8s linear infinite" }} size={14}/>{c.fields.sending}</>
+                    : <><FiSend size={14}/>{c.fields.send}</>
                   }
                 </button>
               </div>
@@ -521,7 +542,7 @@ export default function Contact() {
               <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(20px,2vw,34px)", fontWeight:700, color:"white", margin:"0 0 clamp(8px,0.8vw,12px) 0" }}>
                 {isEn?"Want to see our work first?":"¿Quieres ver nuestros trabajos primero?"}
               </h3>
-              <p style={{ fontSize:"clamp(13px,0.88vw,15px)", color:"rgba(232,232,240,0.45)", margin:0, maxWidth:460, lineHeight:1.65 }}>
+              <p style={{ fontSize:"clamp(14px,0.92vw,16px)", color:"rgba(232,232,240,0.55)", margin:0, maxWidth:460, lineHeight:1.65 }}>
                 {isEn?"Check out what we've built for other clients — real projects, real results.":"Revisa lo que hemos construido para otros clientes — proyectos reales, resultados reales."}
               </p>
             </div>

@@ -1,11 +1,15 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import {
   FaHtml5, FaCss3, FaJs, FaReact, FaNodeJs,
   FaDatabase, FaWordpress,
 } from "react-icons/fa";
-import { SiTailwindcss, SiNextdotjs, SiPhp, SiSequelize, SiExpress, SiAngular, SiLaravel, SiN8N } from "react-icons/si";
+import {
+  SiTailwindcss, SiNextdotjs, SiPhp, SiSequelize, SiExpress, SiAngular, SiLaravel, SiN8N,
+  SiOpenai, SiGooglegemini, SiClaude,
+} from "react-icons/si";
 import { FiArrowUpRight, FiCode, FiLayers, FiZap, FiLayout } from "react-icons/fi";
 import { useLang } from "@/lib/LangContext";
 import {
@@ -14,26 +18,80 @@ import {
   TooltipContent,
 } from "@/components/animate-ui/components/radix/tooltip";
 
-/* ── Skills ── */
-const skillIcons = [
-  { icon: <FaHtml5 />,       name: "HTML 5",       color: "#e34f26" },
-  { icon: <FaCss3 />,        name: "CSS 3",        color: "#1572b6" },
-  { icon: <FaJs />,          name: "JavaScript",   color: "#f7df1e" },
-  { icon: <FaReact />,       name: "React.JS",     color: "#61dafb" },
-  { icon: <SiAngular />,     name: "Angular",      color: "#dd0031" },
-  { icon: <SiNextdotjs />,   name: "Next.JS",      color: "#ffffff" },
-  { icon: <FaNodeJs />,      name: "Node.JS",      color: "#68a063" },
-  { icon: <SiExpress />,     name: "Express",      color: "#cccccc" },
-  { icon: <SiLaravel />,     name: "Laravel",      color: "#ff2d20" },
-  { icon: <SiSequelize />,   name: "Sequelize",    color: "#52b0e7" },
-  { icon: <SiTailwindcss />, name: "Tailwind CSS", color: "#38bdf8" },
-  { icon: <FaDatabase />,    name: "MySQL",        color: "#4479a1" },
-  { icon: <SiN8N />,         name: "n8n",          color: "#EA4B71" },
-  { icon: <FaWordpress />,   name: "WordPress",    color: "#21759b" },
-  { icon: <SiPhp />,         name: "PHP",          color: "#8892be" },
+/* ── Skills, agrupadas por categoría ── */
+const skillCategories = [
+  {
+    label: { en: "Frontend", es: "Frontend" },
+    items: [
+      { icon: <FaHtml5 />,       name: "HTML 5",       color: "#e34f26" },
+      { icon: <FaCss3 />,        name: "CSS 3",        color: "#1572b6" },
+      { icon: <FaJs />,          name: "JavaScript",   color: "#f7df1e" },
+      { icon: <FaReact />,       name: "React.JS",     color: "#61dafb" },
+      { icon: <SiAngular />,     name: "Angular",      color: "#dd0031" },
+      { icon: <SiNextdotjs />,   name: "Next.JS",      color: "#ffffff" },
+      { icon: <SiTailwindcss />, name: "Tailwind CSS", color: "#38bdf8" },
+    ],
+  },
+  {
+    label: { en: "Backend & CMS", es: "Backend & CMS" },
+    items: [
+      { icon: <FaNodeJs />,      name: "Node.JS",      color: "#68a063" },
+      { icon: <SiExpress />,     name: "Express",      color: "#cccccc" },
+      { icon: <SiLaravel />,     name: "Laravel",      color: "#ff2d20" },
+      { icon: <SiPhp />,         name: "PHP",          color: "#8892be" },
+      { icon: <FaWordpress />,   name: "WordPress",    color: "#21759b" },
+    ],
+  },
+  {
+    label: { en: "Databases", es: "Bases de Datos" },
+    items: [
+      { icon: <FaDatabase />,    name: "MySQL",        color: "#4479a1" },
+      { icon: <SiSequelize />,   name: "Sequelize",    color: "#52b0e7" },
+    ],
+  },
+  {
+    label: { en: "AI & Automation", es: "IA & Automatización" },
+    items: [
+      { icon: <SiOpenai />,        name: "ChatGPT / OpenAI", color: "#ffffff" },
+      { icon: <SiGooglegemini />,  name: "Gemini",           color: "#8ab4f8" },
+      { icon: <SiClaude />,        name: "Claude",           color: "#d97757" },
+      { icon: <SiN8N />,           name: "n8n",              color: "#EA4B71" },
+    ],
+  },
 ];
 
 const SERVICE_ICONS = [FiLayers, FiCode, FiZap, FiLayout];
+
+/* ── Tarjeta de ícono con inclinación 3D al mouse ── */
+const TiltIcon = ({ skill }) => {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [16, -16]), { stiffness: 260, damping: 18 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-16, 16]), { stiffness: 260, damping: 18 });
+
+  const onMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    x.set((e.clientX - rect.left) / rect.width - 0.5);
+    y.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+  const onMouseLeave = () => { x.set(0); y.set(0); };
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div style={{ perspective: 500 }} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
+          <motion.div className="skill-item" style={{ rotateX, rotateY, transformStyle: "preserve-3d", position: "relative", overflow: "hidden" }}>
+            <div style={{ fontSize: "clamp(26px,2.8vw,44px)", color: skill.color, filter: `drop-shadow(0 8px 12px ${skill.color}66)`, transform: "translateZ(24px)" }}>
+              {skill.icon}
+            </div>
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,255,255,0.14), transparent 55%)", pointerEvents: "none" }} />
+          </motion.div>
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>{skill.name}</TooltipContent>
+    </Tooltip>
+  );
+};
 
 /* ── Contenido bilingüe ── */
 const CONTENT = {
@@ -51,7 +109,7 @@ const CONTENT = {
       { icon: 3, title: "UI/UX Design",               desc: "User-centered interfaces designed for clarity and conversion. From wireframes to production-ready components — clean, accessible, and memorable.",                              tags: ["Figma","Tailwind","Framer Motion"]       },
     ],
     sectionSkills:  "Our tech stack",
-    skillsSubtitle: "Technologies we master to deliver robust, maintainable products.",
+    skillsSubtitle: "From frontend to AI-powered automation — the technologies we use to build and scale your business.",
     ctaTitle:  "Ready to build something?",
     ctaDesc:   "Tell us about your project. We respond within 24 hours with a proposal and timeline.",
     ctaBtn:    "Start a project",
@@ -79,7 +137,7 @@ const CONTENT = {
       { icon: 3, title: "Diseño UI/UX",                    desc: "Interfaces centradas en el usuario, diseñadas para claridad y conversión. Desde wireframes hasta componentes listos para producción — limpias, accesibles y memorables.",                       tags: ["Figma","Tailwind","Framer Motion"]       },
     ],
     sectionSkills:  "Nuestro stack tecnológico",
-    skillsSubtitle: "Tecnologías que dominamos para entregar productos robustos y mantenibles.",
+    skillsSubtitle: "Desde frontend hasta automatización con IA — la tecnología que usamos para construir y escalar tu negocio.",
     ctaTitle:  "¿Listo para construir algo?",
     ctaDesc:   "Cuéntanos sobre tu proyecto. Respondemos en menos de 24 horas con una propuesta y cronograma.",
     ctaBtn:    "Iniciar proyecto",
@@ -235,16 +293,18 @@ export default function Resume() {
             </div>
           </div>
 
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(clamp(78px,7.5vw,124px),1fr))", gap:"clamp(8px,0.85vw,13px)" }}>
-            {skillIcons.map((skill, i) => (
-              <Tooltip key={i}>
-                <TooltipTrigger asChild>
-                  <div className="skill-item">
-                    <div style={{ fontSize:"clamp(26px,2.8vw,44px)", color:skill.color }}>{skill.icon}</div>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>{skill.name}</TooltipContent>
-              </Tooltip>
+          <div style={{ display: "flex", flexDirection: "column", gap: "clamp(24px,2.6vw,36px)" }}>
+            {skillCategories.map((cat, ci) => (
+              <div key={ci}>
+                <span className="vo-label" style={{ display: "block", marginBottom: "clamp(10px,1vw,16px)" }}>
+                  {cat.label[lang] || cat.label.es}
+                </span>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(clamp(78px,7.5vw,124px),1fr))", gap: "clamp(8px,0.85vw,13px)" }}>
+                  {cat.items.map((skill, i) => (
+                    <TiltIcon key={i} skill={skill} />
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>

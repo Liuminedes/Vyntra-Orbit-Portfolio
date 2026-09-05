@@ -134,6 +134,12 @@ const CasesSection = ({ lang }) => {
         ? "Catálogo público y CRM de leads para inventario vehicular, integrado con WhatsApp para respuesta inmediata."
         : "Public catalog and lead CRM for vehicle inventory, integrated with WhatsApp for instant response.",
     },
+    {
+      name: "SyncDealer",
+      line: lang === "es"
+        ? "Gestión de comisiones y nómina para concesionarios multimarca, con ranking de asesores y recibos en PDF."
+        : "Commission and payroll management for multi-brand dealerships, with advisor rankings and PDF payslips.",
+    },
   ];
 
   return (
@@ -148,7 +154,7 @@ const CasesSection = ({ lang }) => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {cases.map((c, i) => (
             <div
               key={i}

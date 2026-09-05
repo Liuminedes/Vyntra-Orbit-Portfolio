@@ -10,25 +10,6 @@ import {
   FiCode,
   FiLayout,
 } from "react-icons/fi";
-import {
-  FaHtml5,
-  FaCss3,
-  FaJs,
-  FaReact,
-  FaNodeJs,
-  FaDatabase,
-  FaWordpress,
-} from "react-icons/fa";
-import {
-  SiTailwindcss,
-  SiNextdotjs,
-  SiPhp,
-  SiSequelize,
-  SiExpress,
-  SiAngular,
-  SiLaravel,
-  SiN8N,
-} from "react-icons/si";
 import { useLang } from "@/lib/LangContext";
 import {
   Tabs,
@@ -38,35 +19,11 @@ import {
   TabsContent,
 } from "@/components/animate-ui/components/radix/tabs";
 import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from "@/components/animate-ui/components/radix/tooltip";
-import {
   Accordion,
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
 } from "@/components/animate-ui/components/radix/accordion";
-
-/* ── Tech stack (igual que resume) ── */
-const skillIcons = [
-  { icon: <FaHtml5 />, name: "HTML 5", color: "#e34f26" },
-  { icon: <FaCss3 />, name: "CSS 3", color: "#1572b6" },
-  { icon: <FaJs />, name: "JavaScript", color: "#f7df1e" },
-  { icon: <FaReact />, name: "React.JS", color: "#61dafb" },
-  { icon: <SiAngular />, name: "Angular", color: "#dd0031" },
-  { icon: <SiNextdotjs />, name: "Next.JS", color: "#ffffff" },
-  { icon: <FaNodeJs />, name: "Node.JS", color: "#68a063" },
-  { icon: <SiExpress />, name: "Express", color: "#cccccc" },
-  { icon: <SiLaravel />, name: "Laravel", color: "#ff2d20" },
-  { icon: <SiSequelize />, name: "Sequelize", color: "#52b0e7" },
-  { icon: <SiTailwindcss />, name: "Tailwind CSS", color: "#38bdf8" },
-  { icon: <FaDatabase />, name: "MySQL", color: "#4479a1" },
-  { icon: <SiN8N />, name: "n8n", color: "#EA4B71" },
-  { icon: <FaWordpress />, name: "WordPress", color: "#21759b" },
-  { icon: <SiPhp />, name: "PHP", color: "#8892be" },
-];
 
 const SERVICE_ICONS = [FiLayers, FiCode, FiZap, FiLayout];
 
@@ -111,8 +68,6 @@ const CONTENT = {
         tags: ["CI/CD", "Monitoring", "Security", "Edge Deploy"],
       },
     ],
-    sectionStack: "Our tech stack",
-    stackSubtitle: "The tools we use to build reliable, scalable products.",
     sectionFaq: "FAQ",
     faqSubtitle: "Straight answers before you reach out.",
     faq: [
@@ -182,9 +137,6 @@ const CONTENT = {
         tags: ["CI/CD", "Monitoreo", "Seguridad", "Edge Deploy"],
       },
     ],
-    sectionStack: "Nuestro stack tecnológico",
-    stackSubtitle:
-      "Las herramientas que usamos para construir productos confiables y escalables.",
     sectionFaq: "Preguntas Frecuentes",
     faqSubtitle: "Respuestas directas antes de escribirnos.",
     faq: [
@@ -408,36 +360,6 @@ export default function Services() {
               onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; }}>
               {C.saasBanner.btnSecondary}
             </Link>
-          </div>
-        </div>
-
-        <Divider />
-
-        {/* 3 — TECH STACK con Tooltip por ícono */}
-        <div>
-          <div style={{ marginBottom: "clamp(28px,3vw,44px)" }}>
-            <SectionLabel label={C.sectionStack} />
-            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: 16 }}>
-              <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: "clamp(28px,3.5vw,58px)", fontWeight: 800, lineHeight: 1.0, letterSpacing: "-0.02em", color: "rgba(232,232,240,0.95)", margin: 0 }}>
-                {C.sectionStack}
-              </h2>
-              <p style={{ fontSize: "clamp(13px,0.88vw,15px)", color: "rgba(232,232,240,0.4)", maxWidth: 380, margin: 0, lineHeight: 1.65 }}>
-                {C.stackSubtitle}
-              </p>
-            </div>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(clamp(78px,7.5vw,124px),1fr))", gap: "clamp(8px,0.85vw,13px)" }}>
-            {skillIcons.map((skill, i) => (
-              <Tooltip key={i}>
-                <TooltipTrigger asChild>
-                  <div className="skill-item">
-                    <div style={{ fontSize: "clamp(26px,2.8vw,44px)", color: skill.color }}>{skill.icon}</div>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>{skill.name}</TooltipContent>
-              </Tooltip>
-            ))}
           </div>
         </div>
 
