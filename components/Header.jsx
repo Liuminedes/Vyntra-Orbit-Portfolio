@@ -1,52 +1,56 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import Nav from "./Nav";
 import MobileNav from "./MobileNav";
 import { useLang } from "@/lib/LangContext";
 
 const VyntraLogo = () => (
-  <svg
-    width="140"
-    height="34"
-    viewBox="0 0 148 36"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <circle cx="14" cy="14" r="4.5" fill="#8B5CF6" opacity="0.9" />
-    <ellipse
-      cx="14"
-      cy="14"
-      rx="11.5"
-      ry="5.5"
-      stroke="#8B5CF6"
-      strokeWidth="1.1"
-      opacity="0.45"
-      fill="none"
-    />
-    <circle cx="25.5" cy="14" r="1.8" fill="#00D4FF" />
-    <text
-      x="34"
-      y="18"
-      fontFamily="'Syne', sans-serif"
-      fontSize="12"
-      fontWeight="700"
-      letterSpacing="0.08em"
-      fill="#e8e8f0"
-    >
-      VYNTRA
-    </text>
-    <text
-      x="34"
-      y="26"
-      fontFamily="'DM Mono', monospace"
-      fontSize="7.5"
-      fontWeight="400"
-      letterSpacing="0.22em"
-      fill="rgba(139,92,246,0.65)"
-    >
-      ORBIT
-    </text>
-  </svg>
+  <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
+    <div style={{ position: "relative", width: 34, height: 34, flexShrink: 0 }}>
+      <div
+        style={{
+          position: "absolute",
+          inset: -6,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(139,92,246,0.35) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
+      <Image
+        src="/assets/vyntra-icon.png"
+        alt="Vyntra Orbit"
+        fill
+        priority
+        sizes="34px"
+        style={{ objectFit: "contain" }}
+      />
+    </div>
+    <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.15, gap: 2 }}>
+      <span
+        style={{
+          fontFamily: "'Syne', sans-serif",
+          fontWeight: 800,
+          fontSize: 15,
+          letterSpacing: "0.03em",
+          color: "#F4F4F8",
+        }}
+      >
+        VYNTRA
+      </span>
+      <span
+        style={{
+          fontFamily: "'DM Mono', monospace",
+          fontWeight: 400,
+          fontSize: 9,
+          letterSpacing: "0.32em",
+          color: "#8B5CF6",
+        }}
+      >
+        ORBIT
+      </span>
+    </div>
+  </div>
 );
 
 const LangToggle = () => {

@@ -212,7 +212,7 @@ export default function Resume() {
               <div style={{ position:"relative" }}>
                 <div style={{ position:"absolute", inset:-24, borderRadius:"50%", background:"radial-gradient(circle,rgba(139,92,246,0.15) 0%,transparent 70%)", pointerEvents:"none" }} />
                 <div style={{ position:"relative", width:"clamp(200px,20vw,340px)", height:"clamp(200px,20vw,340px)", borderRadius:"var(--vo-radius-lg)", overflow:"hidden", boxShadow:"0 0 0 1px rgba(139,92,246,0.25),0 0 50px rgba(139,92,246,0.1)", background:"linear-gradient(145deg,rgba(139,92,246,0.08) 0%,rgba(8,7,12,0.95) 50%,rgba(0,212,255,0.04) 100%)" }}>
-                  <Image src="/assets/VYNTRA_ORBIT.png" fill priority quality={100} alt="Vyntra Orbit" style={{ objectFit:"contain", padding:"clamp(18px,2.2vw,36px)" }} />
+                  <Image src="/assets/vyntra-icon.png" fill priority quality={100} alt="Vyntra Orbit" style={{ objectFit:"contain", padding:"clamp(18px,2.2vw,36px)" }} />
                   {[
                     { top:0,    left:0,  borderTop:"2px solid rgba(139,92,246,0.6)",    borderLeft:"2px solid rgba(139,92,246,0.6)"    },
                     { top:0,    right:0, borderTop:"2px solid rgba(139,92,246,0.6)",    borderRight:"2px solid rgba(139,92,246,0.6)"   },

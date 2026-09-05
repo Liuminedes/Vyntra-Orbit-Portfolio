@@ -31,7 +31,7 @@ const LogoCard = () => (
       <defs><linearGradient id="orbitGrad" x1="0" y1="0" x2="400" y2="0"><stop offset="0%" stopColor="#8B5CF6" stopOpacity="0" /><stop offset="40%" stopColor="#8B5CF6" stopOpacity="1" /><stop offset="100%" stopColor="#00D4FF" stopOpacity="0.4" /></linearGradient></defs>
     </svg>
     <div style={{ position: "relative", width: "clamp(220px, 23vw, 400px)", height: "clamp(220px, 23vw, 400px)", borderRadius: "clamp(16px, 1.5vw, 28px)", overflow: "hidden", boxShadow: "0 0 0 1px rgba(139,92,246,0.3), 0 0 60px rgba(139,92,246,0.12), inset 0 0 40px rgba(139,92,246,0.04)", background: "linear-gradient(145deg, rgba(139,92,246,0.08) 0%, rgba(8,7,12,0.95) 50%, rgba(0,212,255,0.04) 100%)" }}>
-      <Image src="/assets/VYNTRA_ORBIT.png" fill priority sizes="(max-width: 768px) 220px, 400px" alt="Vyntra Orbit" style={{ objectFit: "contain", padding: "clamp(16px,2vw,32px)" }} />
+      <Image src="/assets/vyntra-icon.png" fill priority sizes="(max-width: 768px) 220px, 400px" alt="Vyntra Orbit" style={{ objectFit: "contain", padding: "clamp(16px,2vw,32px)" }} />
       <div style={{ position: "absolute", inset: 0, backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(139,92,246,0.015) 3px, rgba(139,92,246,0.015) 4px)", pointerEvents: "none", borderRadius: "inherit" }} />
       {[
         { top: 0, left: 0, borderTop: "2px solid rgba(139,92,246,0.7)", borderLeft: "2px solid rgba(139,92,246,0.7)" },
