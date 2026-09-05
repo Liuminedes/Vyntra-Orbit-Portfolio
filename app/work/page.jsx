@@ -5,6 +5,7 @@ import { FiArrowUpRight, FiGithub, FiMaximize2, FiX } from "react-icons/fi";
 import { useLang } from "@/lib/LangContext";
 import Image from "next/image";
 import MobileProjectCard from "@/components/MobileProjectCard";
+import Reveal from "@/components/Reveal";
 
 function ProjectCard({ project, lang, t, onExpand }) {
   return (
@@ -97,18 +98,20 @@ export default function Work() {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 blur-[120px] rounded-full pointer-events-none"></div>
 
       <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center mb-14">
+        <Reveal className="max-w-3xl mx-auto text-center mb-14">
           <h3 className="text-accent font-mono text-sm tracking-widest uppercase mb-4">
             {t.nav.work}
           </h3>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-syne text-white">
             {lang === "en" ? "Selected Projects" : "Proyectos Destacados"}
           </h2>
-        </div>
+        </Reveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {projects.map((project, idx) => (
-            <ProjectCard key={project.category + idx} project={project} lang={lang} t={t} onExpand={setActiveDemo} />
+            <Reveal key={project.category + idx} delay={(idx % 3) * 0.08}>
+              <ProjectCard project={project} lang={lang} t={t} onExpand={setActiveDemo} />
+            </Reveal>
           ))}
         </div>
       </div>

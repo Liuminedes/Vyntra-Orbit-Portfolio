@@ -12,6 +12,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useLang } from "@/lib/LangContext";
 import { Checkbox } from "@/components/animate-ui/components/radix/checkbox";
 import { Switch } from "@/components/animate-ui/components/radix/switch";
+import Reveal from "@/components/Reveal";
 
 /* ── Validación básica ── */
 const isEmail = (s = "") => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s.trim());
@@ -316,7 +317,7 @@ export default function Contact() {
         <div style={{ width:"100%", maxWidth:"min(1800px,94vw)", margin:"0 auto", padding:"0 clamp(20px,3vw,60px)", position:"relative", zIndex:1 }}>
 
           {/* 1 — ENCABEZADO */}
-          <div>
+          <Reveal>
             <div style={{ marginBottom:"clamp(36px,4vw,56px)" }}>
               <SectionLabel label={isEn?"Contact":"Contacto"} />
               <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(34px,4.4vw,72px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-0.02em", color:"#F4F4F8", margin:"0 0 clamp(16px,2vw,28px)" }}>
@@ -374,12 +375,12 @@ export default function Contact() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
 
           <Divider />
 
           {/* 2 — FORMULARIO */}
-          <div>
+          <Reveal>
             <div style={{ marginBottom:"clamp(28px,3vw,44px)" }}>
               <SectionLabel label={isEn?"Project form":"Formulario de proyecto"} />
               <div style={{ display:"flex", flexWrap:"wrap", alignItems:"flex-end", justifyContent:"space-between", gap:16 }}>
@@ -532,12 +533,12 @@ export default function Contact() {
                 </button>
               </div>
             </form>
-          </div>
+          </Reveal>
 
           <Divider />
 
           {/* CTA FINAL */}
-          <div style={{ display:"flex", flexWrap:"wrap", alignItems:"center", justifyContent:"space-between", gap:"clamp(20px,2.5vw,40px)", padding:"clamp(28px,3vw,48px)", background:"rgba(139,92,246,0.05)", border:"1px solid rgba(139,92,246,0.15)", borderRadius:"var(--vo-radius-lg)" }}>
+          <Reveal style={{ display:"flex", flexWrap:"wrap", alignItems:"center", justifyContent:"space-between", gap:"clamp(20px,2.5vw,40px)", padding:"clamp(28px,3vw,48px)", background:"rgba(139,92,246,0.05)", border:"1px solid rgba(139,92,246,0.15)", borderRadius:"var(--vo-radius-lg)" }}>
             <div>
               <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(20px,2vw,34px)", fontWeight:700, color:"white", margin:"0 0 clamp(8px,0.8vw,12px) 0" }}>
                 {isEn?"Want to see our work first?":"¿Quieres ver nuestros trabajos primero?"}
@@ -550,7 +551,7 @@ export default function Contact() {
               {isEn?"See our work":"Ver trabajos"}
               <FiArrowUpRight size={14} />
             </Link>
-          </div>
+          </Reveal>
 
         </div>
       </div>

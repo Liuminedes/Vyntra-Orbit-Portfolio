@@ -12,6 +12,7 @@ import {
 } from "react-icons/si";
 import { FiArrowUpRight, FiCode, FiLayers, FiZap, FiLayout } from "react-icons/fi";
 import { useLang } from "@/lib/LangContext";
+import Reveal from "@/components/Reveal";
 import {
   Tooltip,
   TooltipTrigger,
@@ -178,7 +179,7 @@ export default function Resume() {
       <div style={{ width:"100%", maxWidth:"min(1800px,94vw)", margin:"0 auto", padding:"0 clamp(20px,3vw,60px)", position:"relative", zIndex:1 }}>
 
         {/* 1 — QUIÉNES SOMOS */}
-        <div>
+        <Reveal>
           <div style={{ marginBottom:"clamp(36px,4vw,56px)" }}>
             <SectionLabel label={C.navLabel} />
             <h2 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(32px,4vw,68px)", fontWeight:800, lineHeight:1.0, letterSpacing:"-0.02em", color:"rgba(232,232,240,0.95)", margin:0 }}>
@@ -227,12 +228,12 @@ export default function Resume() {
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         <Divider />
 
         {/* 2 — QUÉ HACEMOS */}
-        <div>
+        <Reveal>
           <div style={{ marginBottom:"clamp(32px,3.5vw,52px)" }}>
             <SectionLabel label={C.sectionDo} />
             <div style={{ display:"flex", flexWrap:"wrap", alignItems:"flex-end", justifyContent:"space-between", gap:16 }}>
@@ -275,12 +276,12 @@ export default function Resume() {
               );
             })}
           </div>
-        </div>
+        </Reveal>
 
         <Divider />
 
         {/* 3 — HABILIDADES con Tooltip */}
-        <div>
+        <Reveal>
           <div style={{ marginBottom:"clamp(28px,3vw,44px)" }}>
             <SectionLabel label={C.sectionSkills} />
             <div style={{ display:"flex", flexWrap:"wrap", alignItems:"flex-end", justifyContent:"space-between", gap:16 }}>
@@ -307,12 +308,12 @@ export default function Resume() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
 
         <Divider />
 
         {/* CTA FINAL */}
-        <div style={{ display:"flex", flexWrap:"wrap", alignItems:"center", justifyContent:"space-between", gap:"clamp(20px,2.5vw,40px)", padding:"clamp(28px,3vw,48px)", background:"rgba(139,92,246,0.05)", border:"1px solid rgba(139,92,246,0.15)", borderRadius:"var(--vo-radius-lg)" }}>
+        <Reveal style={{ display:"flex", flexWrap:"wrap", alignItems:"center", justifyContent:"space-between", gap:"clamp(20px,2.5vw,40px)", padding:"clamp(28px,3vw,48px)", background:"rgba(139,92,246,0.05)", border:"1px solid rgba(139,92,246,0.15)", borderRadius:"var(--vo-radius-lg)" }}>
           <div>
             <h3 style={{ fontFamily:"'Syne',sans-serif", fontSize:"clamp(20px,2vw,34px)", fontWeight:700, color:"white", margin:"0 0 clamp(8px,0.8vw,12px) 0" }}>
               {C.ctaTitle}
@@ -325,7 +326,7 @@ export default function Resume() {
             {C.ctaBtn}
             <FiArrowUpRight size={14} />
           </Link>
-        </div>
+        </Reveal>
 
       </div>
     </div>

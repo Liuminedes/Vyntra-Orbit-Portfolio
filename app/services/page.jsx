@@ -11,6 +11,7 @@ import {
   FiLayout,
 } from "react-icons/fi";
 import { useLang } from "@/lib/LangContext";
+import Reveal from "@/components/Reveal";
 import {
   Tabs,
   TabsList,
@@ -45,24 +46,28 @@ const CONTENT = {
     services: [
       {
         icon: 0,
+        color: "#8B5CF6",
         title: "Platform Development",
         desc: "We build custom web platforms from scratch — tailored to how your business works. Includes admin panels, data management, payment integrations and everything you need to operate online.",
         tags: ["React", "Angular", "Node.js", "Laravel", "MySQL / PostgreSQL", "REST API"],
       },
       {
         icon: 3,
+        color: "#38BDF8",
         title: "UI/UX Design",
         desc: "We design interfaces that are easy to understand and enjoyable to use. Clean, modern and ready for your developers — no guesswork needed.",
         tags: ["Figma", "Tailwind", "Framer Motion"],
       },
       {
         icon: 2,
+        color: "#4ADE80",
         title: "AI & WhatsApp Automation",
         desc: "We connect your tools and eliminate manual, repetitive work — including conversational AI agents on WhatsApp that qualify leads and answer 24/7.",
         tags: ["n8n", "Baileys", "OpenAI", "Zapier", "Webhooks", "Cron"],
       },
       {
         icon: 1,
+        color: "#FB923C",
         title: "Cloud & DevOps",
         desc: "We take care of your platform so you don't have to worry. Fast response, continuous monitoring and constant improvements — your product always running at its best.",
         tags: ["CI/CD", "Monitoring", "Security", "Edge Deploy"],
@@ -71,11 +76,11 @@ const CONTENT = {
     sectionFaq: "FAQ",
     faqSubtitle: "Straight answers before you reach out.",
     faq: [
-      { q: "How long does a typical project take?", a: "Landing pages and digital menus: 1-2 weeks. Custom platforms and SaaS: 4-10 weeks depending on scope. You get a clear timeline before we start, not after." },
-      { q: "Do you work with businesses outside Cali?", a: "Yes — Vyntra Orbit operates 100% remote with national reach across Colombia. All communication, delivery, and support happen online." },
-      { q: "How does payment work?", a: "Custom builds: a deposit to start, the rest on delivery. Our own SaaS products (IvyOS, Clinova, DriveSync): a monthly subscription instead of a large upfront cost." },
-      { q: "Who exactly will I be talking to?", a: "Me — Mauricio Rodriguez, founder and the person who actually writes the code. No account managers, no handoffs between departments." },
-      { q: "Can you take over a project someone else started?", a: "Yes. We review what exists, tell you honestly what's worth keeping, and move it forward without starting from zero." },
+      { q: "How long does a typical project take?", a: "It depends on what you're building, but here's a real range: landing pages and digital menus usually take 1-2 weeks, while custom platforms or SaaS products take 4-10 weeks depending on how many features you need. Before we write a single line of code, you'll get a clear timeline mapped to your specific project — so there are no surprises halfway through." },
+      { q: "Do you work with businesses outside Cali?", a: "Absolutely — most of our clients aren't even in Cali. Vyntra Orbit operates 100% remotely with national reach across Colombia, so wherever you are, we can plan calls, share progress, and deliver your project entirely online, with the same attention as if we were next door." },
+      { q: "How does payment work?", a: "For custom builds, we ask for a deposit to kick things off and you pay the rest once your project is delivered and you're happy with it. If instead you go with one of our own SaaS products — IvyOS, Clinova, or DriveSync — there's no big upfront cost at all, just a simple monthly subscription that scales with your business." },
+      { q: "Who exactly will I be talking to?", a: "Just me — Mauricio Rodríguez, the founder, and the same person who designs, codes, and ships your project. There's no account manager passing your message along or a support ticket queue; every question and update comes straight from the person building your product." },
+      { q: "Can you take over a project someone else started?", a: "Yes, and it happens more often than you'd think. We start by carefully reviewing what already exists, then give you an honest breakdown of what's solid and worth keeping versus what needs rework — and take it forward from there, so you don't lose the progress you've already paid for." },
     ],
     ctaTitle: "Ready to get started?",
     ctaDesc:
@@ -94,7 +99,7 @@ const CONTENT = {
       headline: "Stop Losing Leads After Hours",
       subtitle: "Automate responses, follow-ups, and appointments with AI and WhatsApp for dealerships and growing businesses.",
       btnPrimary: "Book Free Demo",
-      btnSecondary: "Watch Live Demo"
+      btnSecondary: "Schedule Free Consultation"
     },
   },
   es: {
@@ -114,24 +119,28 @@ const CONTENT = {
     services: [
       {
         icon: 0,
+        color: "#8B5CF6",
         title: "Desarrollo de Plataformas",
         desc: "Construimos plataformas web personalizadas desde cero — adaptadas a cómo funciona tu negocio. Incluye paneles de control, gestión de datos, integraciones de pago y todo lo que necesitas para operar en línea.",
         tags: ["React", "Angular", "Node.js", "Laravel", "MySQL / PostgreSQL", "REST API"],
       },
       {
         icon: 3,
+        color: "#38BDF8",
         title: "Diseño UI/UX",
         desc: "Diseñamos interfaces fáciles de entender y agradables de usar. Modernas, limpias y listas para tus desarrolladores — sin adivinar nada.",
         tags: ["Figma", "Tailwind", "Framer Motion"],
       },
       {
         icon: 2,
+        color: "#4ADE80",
         title: "Automatización IA & WhatsApp",
         desc: "Conectamos tus herramientas y eliminamos el trabajo manual — incluyendo agentes de IA conversacional en WhatsApp que califican leads y responden 24/7.",
         tags: ["n8n", "Baileys", "OpenAI", "Zapier", "Webhooks", "Cron"],
       },
       {
         icon: 1,
+        color: "#FB923C",
         title: "Cloud & DevOps",
         desc: "Nos encargamos de tu plataforma para que tú no tengas que preocuparte. Respuesta rápida, monitoreo continuo y mejoras constantes — tu producto siempre funcionando al máximo.",
         tags: ["CI/CD", "Monitoreo", "Seguridad", "Edge Deploy"],
@@ -140,11 +149,11 @@ const CONTENT = {
     sectionFaq: "Preguntas Frecuentes",
     faqSubtitle: "Respuestas directas antes de escribirnos.",
     faq: [
-      { q: "¿Cuánto tarda un proyecto típico?", a: "Landing pages y menús digitales: 1-2 semanas. Plataformas a medida y SaaS: 4-10 semanas según el alcance. Recibes un cronograma claro antes de empezar, no después." },
-      { q: "¿Trabajan con negocios fuera de Cali?", a: "Sí — Vyntra Orbit opera 100% remoto con atención a nivel nacional en Colombia. Toda la comunicación, entrega y soporte son en línea." },
-      { q: "¿Cómo funciona el pago?", a: "Desarrollos a medida: un anticipo para empezar, el resto contra entrega. Nuestros productos SaaS propios (IvyOS, Clinova, DriveSync): mensualidad en vez de un pago inicial grande." },
-      { q: "¿Con quién voy a hablar exactamente?", a: "Conmigo — Mauricio Rodríguez, fundador y quien realmente escribe el código. Sin gestores de cuenta, sin traspasos entre departamentos." },
-      { q: "¿Pueden retomar un proyecto que alguien más empezó?", a: "Sí. Revisamos lo que ya existe, te decimos honestamente qué vale la pena conservar, y lo llevamos adelante sin empezar desde cero." },
+      { q: "¿Cuánto tarda un proyecto típico?", a: "Depende de lo que estemos construyendo, pero aquí va un rango real: las landing pages y menús digitales suelen tomar entre 1 y 2 semanas, mientras que las plataformas a medida o productos SaaS toman entre 4 y 10 semanas según cuántas funciones necesites. Antes de escribir una sola línea de código, te doy un cronograma claro adaptado a tu proyecto — así no hay sorpresas a mitad de camino." },
+      { q: "¿Trabajan con negocios fuera de Cali?", a: "Claro que sí — de hecho, la mayoría de nuestros clientes ni siquiera están en Cali. Vyntra Orbit opera 100% remoto con atención a nivel nacional en Colombia, así que sin importar dónde estés, podemos coordinar llamadas, mostrarte avances y entregar tu proyecto completamente en línea, con la misma atención que si estuviéramos en la puerta de al lado." },
+      { q: "¿Cómo funciona el pago?", a: "Para desarrollos a medida, pedimos un anticipo para arrancar y pagas el resto cuando tu proyecto esté entregado y estés conforme con él. Si en cambio eliges uno de nuestros productos SaaS propios —IvyOS, Clinova o DriveSync— no hay ningún pago inicial grande, solo una mensualidad sencilla que crece junto con tu negocio." },
+      { q: "¿Con quién voy a hablar exactamente?", a: "Solo conmigo — Mauricio Rodríguez, el fundador, y la misma persona que diseña, programa y entrega tu proyecto. No hay un gestor de cuenta pasando tu mensaje a otro lado ni una fila de tickets de soporte; cada pregunta y cada actualización viene directo de quien está construyendo tu producto." },
+      { q: "¿Pueden retomar un proyecto que alguien más empezó?", a: "Sí, y pasa más seguido de lo que imaginas. Primero revisamos con calma todo lo que ya existe, luego te damos un panorama honesto de qué está sólido y vale la pena conservar y qué necesita rehacerse — y seguimos desde ahí, para que no pierdas el avance que ya pagaste." },
     ],
     ctaTitle: "¿Listo para empezar?",
     ctaDesc:
@@ -163,7 +172,7 @@ const CONTENT = {
       headline: "Deja de Perder Leads Fuera de Horario",
       subtitle: "Automatiza respuestas, seguimiento y citas con IA y WhatsApp para concesionarios y empresas en expansión.",
       btnPrimary: "Agendar Demo Gratis",
-      btnSecondary: "Ver Demo en Vivo"
+      btnSecondary: "Agendar Consultoría Gratuita"
     },
   },
 };
@@ -203,7 +212,7 @@ export default function Services() {
 
       <div style={{ width: "100%", maxWidth: "min(1800px,94vw)", margin: "0 auto", padding: "0 clamp(20px,3vw,60px)", position: "relative", zIndex: 1 }}>
         {/* 1 — ENCABEZADO + HIGHLIGHTS */}
-        <div>
+        <Reveal>
           <div style={{ marginBottom: "clamp(36px,4vw,56px)" }}>
             <SectionLabel label={C.navLabel} />
             <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: "clamp(32px,4vw,68px)", fontWeight: 800, lineHeight: 1.0, letterSpacing: "-0.02em", color: "rgba(232,232,240,0.95)", margin: 0 }}>
@@ -246,12 +255,12 @@ export default function Services() {
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         <Divider />
 
         {/* 2 — SERVICIOS (tabs funcionales por categoría) */}
-        <div>
+        <Reveal>
           <div style={{ marginBottom: "clamp(32px,3.5vw,52px)" }}>
             <SectionLabel label={C.sectionServices} />
             <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: 16 }}>
@@ -285,8 +294,11 @@ export default function Services() {
                       className="vo-card"
                       style={{ padding: "clamp(28px,3vw,48px)", display: "flex", flexDirection: "column", gap: "clamp(14px,1.4vw,20px)" }}
                     >
-                      <div style={{ width: "clamp(48px,4.5vw,64px)", height: "clamp(48px,4.5vw,64px)", borderRadius: "50%", border: "1px solid rgba(139,92,246,0.3)", display: "flex", alignItems: "center", justifyContent: "center", color: "#C4B5FD" }}>
-                        <Icon size={22} />
+                      <div style={{ position: "relative", width: "clamp(48px,4.5vw,64px)", height: "clamp(48px,4.5vw,64px)" }}>
+                        <div style={{ position: "absolute", inset: -8, borderRadius: "50%", background: `radial-gradient(circle, ${s.color}55 0%, transparent 70%)`, animation: "glow-pulse 3s ease-in-out infinite", pointerEvents: "none" }} />
+                        <div style={{ position: "relative", width: "100%", height: "100%", borderRadius: "50%", background: `${s.color}14`, border: `1px solid ${s.color}55`, display: "flex", alignItems: "center", justifyContent: "center", color: s.color, filter: `drop-shadow(0 0 8px ${s.color}88)` }}>
+                          <Icon size={22} />
+                        </div>
                       </div>
                       <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: "clamp(20px,2vw,30px)", fontWeight: 700, color: "white", margin: 0 }}>
                         {s.title}
@@ -303,9 +315,9 @@ export default function Services() {
                               fontSize: "clamp(9px,0.6vw,11px)",
                               padding: "5px 12px",
                               borderRadius: 100,
-                              background: "rgba(139,92,246,0.08)",
-                              border: "1px solid rgba(139,92,246,0.2)",
-                              color: "#C4B5FD",
+                              background: `${s.color}14`,
+                              border: `1px solid ${s.color}33`,
+                              color: s.color,
                               letterSpacing: "0.06em",
                             }}
                           >
@@ -319,10 +331,10 @@ export default function Services() {
               })}
             </TabsContents>
           </Tabs>
-        </div>
+        </Reveal>
 
         {/* 2.5 — SAAS BANNER */}
-        <div
+        <Reveal
           style={{
             marginTop: "clamp(32px, 4vw, 56px)",
             padding: "clamp(32px, 4vw, 56px)",
@@ -361,12 +373,12 @@ export default function Services() {
               {C.saasBanner.btnSecondary}
             </Link>
           </div>
-        </div>
+        </Reveal>
 
         <Divider />
 
         {/* FAQ */}
-        <div>
+        <Reveal>
           <div style={{ marginBottom: "clamp(28px,3vw,44px)" }}>
             <SectionLabel label={C.sectionFaq} />
             <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: 16 }}>
@@ -391,12 +403,12 @@ export default function Services() {
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
+        </Reveal>
 
         <Divider />
 
         {/* CTA FINAL */}
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "clamp(20px,2.5vw,40px)", padding: "clamp(28px,3vw,48px)", background: "rgba(139,92,246,0.05)", border: "1px solid rgba(139,92,246,0.15)", borderRadius: "var(--vo-radius-lg)" }}>
+        <Reveal style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "clamp(20px,2.5vw,40px)", padding: "clamp(28px,3vw,48px)", background: "rgba(139,92,246,0.05)", border: "1px solid rgba(139,92,246,0.15)", borderRadius: "var(--vo-radius-lg)" }}>
           <div>
             <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: "clamp(20px,2vw,34px)", fontWeight: 700, color: "white", margin: "0 0 clamp(8px,0.8vw,12px) 0" }}>
               {C.ctaTitle}
@@ -413,7 +425,7 @@ export default function Services() {
             {C.ctaBtn}
             <FiArrowUpRight size={14} />
           </Link>
-        </div>
+        </Reveal>
       </div>
     </div>
   );

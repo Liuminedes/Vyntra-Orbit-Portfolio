@@ -1,11 +1,15 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { FiArrowRight, FiPhone, FiRefreshCw } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
+import { GiMapleLeaf } from "react-icons/gi";
+import { FaTooth, FaCar, FaHandHoldingDollar } from "react-icons/fa6";
 import { useLang } from "@/lib/LangContext";
 import BentoGrid from "@/components/BentoGrid";
 import SplitSection from "@/components/SplitSection";
+import Reveal from "@/components/Reveal";
 import { StarsBackground } from "@/components/animate-ui/components/backgrounds/stars";
 import {
   FlipButton,
@@ -118,27 +122,43 @@ const CasesSection = ({ lang }) => {
   const cases = [
     {
       name: "IvyOS",
+      icon: GiMapleLeaf,
+      color: "#4ADE80",
       line: lang === "es"
         ? "En uso diario para inventario y caja de negocios físicos — control de stock, turnos y proveedores sin hojas de cálculo."
         : "In daily use for physical-business inventory and register — stock, shifts, and suppliers with no spreadsheets.",
+      focus: lang === "es" ? "Inventario & Punto de Venta" : "Inventory & Point of Sale",
+      stack: "Next.js · PostgreSQL · Node.js",
     },
     {
       name: "Clinova",
+      icon: FaTooth,
+      color: "#38BDF8",
       line: lang === "es"
         ? "SaaS de gestión clínica operando con citas, historia clínica y facturación para consultorios reales."
         : "Clinical management SaaS running appointments, medical history, and billing for real practices.",
+      focus: lang === "es" ? "Historia Clínica & Citas" : "Medical Records & Scheduling",
+      stack: "React · Node.js · PostgreSQL",
     },
     {
       name: "DriveSync",
+      icon: FaCar,
+      color: "#FB923C",
       line: lang === "es"
         ? "Catálogo público y CRM de leads para inventario vehicular, integrado con WhatsApp para respuesta inmediata."
         : "Public catalog and lead CRM for vehicle inventory, integrated with WhatsApp for instant response.",
+      focus: lang === "es" ? "Catálogo & CRM de Leads" : "Catalog & Lead CRM",
+      stack: "Next.js · WhatsApp API · Firebase",
     },
     {
       name: "SyncDealer",
+      icon: FaHandHoldingDollar,
+      color: "#C4B5FD",
       line: lang === "es"
         ? "Gestión de comisiones y nómina para concesionarios multimarca, con ranking de asesores y recibos en PDF."
         : "Commission and payroll management for multi-brand dealerships, with advisor rankings and PDF payslips.",
+      focus: lang === "es" ? "Comisiones & Nómina" : "Commissions & Payroll",
+      stack: "Node.js · PostgreSQL · PDF Engine",
     },
   ];
 
@@ -155,22 +175,56 @@ const CasesSection = ({ lang }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {cases.map((c, i) => (
-            <div
-              key={i}
-              className="vo-card"
-              style={{ padding: "clamp(24px,2.2vw,32px)", display: "flex", flexDirection: "column", gap: 20 }}
-            >
-              <span className="font-syne text-2xl font-bold text-white">{c.name}</span>
-              <p className="text-white/60 text-sm leading-relaxed flex-1">{c.line}</p>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                <div style={{ width: 30, height: 30, borderRadius: "50%", background: "rgba(139,92,246,0.12)", border: "1px dashed rgba(139,92,246,0.4)", flexShrink: 0 }} />
-                <span className="vo-label" style={{ textTransform: "none", letterSpacing: "0.03em" }}>
-                  {lang === "es" ? "Reseña de cliente próximamente" : "Client review coming soon"}
-                </span>
-              </div>
-            </div>
-          ))}
+          {cases.map((c, i) => {
+            const Icon = c.icon;
+            return (
+              <motion.div
+                key={i}
+                className="vo-card"
+                whileHover={{ scale: 1.035, y: -6 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                style={{ padding: "clamp(24px,2.2vw,32px)", display: "flex", flexDirection: "column", gap: 18 }}
+              >
+                <div style={{ position: "relative", width: 52, height: 52 }}>
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: -10,
+                      borderRadius: "50%",
+                      background: `radial-gradient(circle, ${c.color}55 0%, transparent 70%)`,
+                      animation: "glow-pulse 3s ease-in-out infinite",
+                      pointerEvents: "none",
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "relative",
+                      width: 52,
+                      height: 52,
+                      borderRadius: "50%",
+                      background: `${c.color}14`,
+                      border: `1px solid ${c.color}55`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: c.color,
+                      filter: `drop-shadow(0 0 8px ${c.color}88)`,
+                    }}
+                  >
+                    <Icon size={22} />
+                  </div>
+                </div>
+                <span className="font-syne text-2xl font-bold text-white">{c.name}</span>
+                <p className="text-white/60 text-sm leading-relaxed flex-1">{c.line}</p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 4, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                  <span className="vo-label" style={{ textTransform: "none", letterSpacing: "0.03em", color: c.color }}>
+                    {c.focus}
+                  </span>
+                  <span className="text-white/40 text-xs font-mono">{c.stack}</span>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -219,7 +273,7 @@ const DirectContactSection = ({ lang, t }) => (
 
 /* ── Switch providers CTA ── */
 const SwitchCtaSection = ({ t }) => (
-  <section className="py-8 lg:py-12 relative z-10">
+  <section className="py-14 lg:py-16 relative z-10">
     <div className="container mx-auto px-4">
       <div
         className="vo-card"
@@ -383,13 +437,13 @@ export default function Home() {
                 </span>
               </div>
 
-              <h1 className="font-syne text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight animate-fade-up">
-                <span className="block text-white/70 text-3xl md:text-4xl lg:text-5xl font-semibold">{t.home.greeting}</span>
+              <h1 className="font-syne text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight animate-fade-up">
+                <span className="block text-white/70 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold">{t.home.greeting}</span>
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-accent to-cyan-400">
                   {t.home.name}
                 </span>
                 {t.home.nameSub && (
-                  <span className="block text-white/90 text-3xl md:text-4xl lg:text-5xl font-semibold mt-1">{t.home.nameSub}</span>
+                  <span className="block text-white/90 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold mt-1">{t.home.nameSub}</span>
                 )}
               </h1>
 
@@ -425,65 +479,73 @@ export default function Home() {
       </section>
 
       {/* ── TECH MARQUEE ── */}
-      <TechMarquee />
+      <Reveal><TechMarquee /></Reveal>
 
       {/* ── SOLUTIONS ECOSYSTEM ── */}
-      <BentoGrid
-        items={t.services.items}
-        title={lang === "es" ? "Nuestras Soluciones" : "Our Solutions"}
-        subtitle={lang === "es" ? "Lo Que Construimos Para Ti" : "What We Build For You"}
-      />
+      <Reveal>
+        <BentoGrid
+          items={t.services.items}
+          title={lang === "es" ? "Nuestras Soluciones" : "Our Solutions"}
+          subtitle={lang === "es" ? "Lo Que Construimos Para Ti" : "What We Build For You"}
+        />
+      </Reveal>
 
       {/* ── SPLIT: ENTERPRISE MANAGEMENT SYSTEMS ── */}
-      <SplitSection
-        title={lang === "es" ? "Sistemas de Gestión Empresarial" : "Enterprise Management Systems"}
-        subtitle={lang === "es" ? "Software a Medida" : "Custom Software"}
-        description={lang === "es"
-          ? "Centraliza toda tu operación en un solo ecosistema digital. Construimos plataformas que gestionan inventarios, ventas, comisiones y relaciones con clientes — adaptadas exactamente a cómo funciona tu negocio."
-          : "Centralize your entire operation into a single digital ecosystem. We build platforms that manage inventory, sales, commissions, and client relationships — tailored exactly to how your business works."}
-        features={splitFeaturesSaaS}
-        imagePath="/assets/work/drivesync.png"
-        ctaText={lang === "es" ? "Solicitar Demo" : "Request Demo"}
-        ctaLink="/contact"
-      />
+      <Reveal>
+        <SplitSection
+          title={lang === "es" ? "Sistemas de Gestión Empresarial" : "Enterprise Management Systems"}
+          subtitle={lang === "es" ? "Software a Medida" : "Custom Software"}
+          description={lang === "es"
+            ? "Centraliza toda tu operación en un solo ecosistema digital. Construimos plataformas que gestionan inventarios, ventas, comisiones y relaciones con clientes — adaptadas exactamente a cómo funciona tu negocio."
+            : "Centralize your entire operation into a single digital ecosystem. We build platforms that manage inventory, sales, commissions, and client relationships — tailored exactly to how your business works."}
+          features={splitFeaturesSaaS}
+          imagePath="/assets/work/drivesync.png"
+          ctaText={lang === "es" ? "Solicitar Demo" : "Request Demo"}
+          ctaLink="/contact"
+        />
+      </Reveal>
 
       {/* ── SPLIT: AI AUTOMATION ── */}
-      <SplitSection
-        title={lang === "es" ? "Automatización Inteligente" : "Intelligent Automation"}
-        subtitle={lang === "es" ? "IA & WhatsApp" : "AI & WhatsApp"}
-        description={lang === "es"
-          ? "Deja que la inteligencia artificial trabaje por ti las 24 horas. Creamos agentes virtuales que entienden el contexto de tu negocio, presentan tus productos y capturan leads calificados sin que muevas un dedo."
-          : "Let artificial intelligence work for you around the clock. We create virtual agents that understand your business context, present your products, and capture qualified leads without lifting a finger."}
-        features={splitFeaturesAI}
-        imagePath="/assets/work/emissary.png"
-        reverse={true}
-        ctaText={lang === "es" ? "Automatizar Ahora" : "Automate Now"}
-        ctaLink="/contact"
-      />
+      <Reveal>
+        <SplitSection
+          title={lang === "es" ? "Automatización Inteligente" : "Intelligent Automation"}
+          subtitle={lang === "es" ? "IA & WhatsApp" : "AI & WhatsApp"}
+          description={lang === "es"
+            ? "Deja que la inteligencia artificial trabaje por ti las 24 horas. Creamos agentes virtuales que entienden el contexto de tu negocio, presentan tus productos y capturan leads calificados sin que muevas un dedo."
+            : "Let artificial intelligence work for you around the clock. We create virtual agents that understand your business context, present your products, and capture qualified leads without lifting a finger."}
+          features={splitFeaturesAI}
+          imagePath="/assets/work/emissary.png"
+          reverse={true}
+          ctaText={lang === "es" ? "Automatizar Ahora" : "Automate Now"}
+          ctaLink="/contact"
+        />
+      </Reveal>
 
       {/* ── HOW WE WORK ── */}
       <div className="relative border-y border-white/5 bg-black/30">
-        <HowWeWork lang={lang} />
+        <Reveal><HowWeWork lang={lang} /></Reveal>
       </div>
 
       {/* ── CASES / TRUST ── */}
-      <CasesSection lang={lang} />
+      <Reveal><CasesSection lang={lang} /></Reveal>
 
       {/* ── DIRECT CONTACT ── */}
-      <DirectContactSection lang={lang} t={t} />
+      <Reveal><DirectContactSection lang={lang} t={t} /></Reveal>
 
       {/* ── SWITCH PROVIDERS CTA ── */}
-      <SwitchCtaSection t={t} />
+      <Reveal><SwitchCtaSection t={t} /></Reveal>
 
       {/* ── INFRASTRUCTURE GRID ── */}
-      <BentoGrid
-        items={infraItems}
-        title={t.home.featuresTitle}
-        subtitle={t.home.featuresSubtitle}
-      />
+      <Reveal>
+        <BentoGrid
+          items={infraItems}
+          title={t.home.featuresTitle}
+          subtitle={t.home.featuresSubtitle}
+        />
+      </Reveal>
 
       {/* ── FINAL CTA ── */}
-      <FinalCTA lang={lang} />
+      <Reveal><FinalCTA lang={lang} /></Reveal>
     </div>
   );
 }
