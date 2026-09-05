@@ -131,9 +131,20 @@ export default function Footer() {
           <span className="vo-label" style={{ textTransform: "none", letterSpacing: "0.05em" }}>
             © {year} Vyntra Orbit — {f.rights}
           </span>
-          <span className="vo-label" style={{ textTransform: "none", letterSpacing: "0.05em" }}>
-            {f.madeBy}
-          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <Link
+              href="/privacy"
+              className="vo-label"
+              style={{ textTransform: "none", letterSpacing: "0.05em", textDecoration: "none", color: "rgba(232,232,240,0.4)" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#C4B5FD")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(232,232,240,0.4)")}
+            >
+              {f.privacyLabel}
+            </Link>
+            <span className="vo-label" style={{ textTransform: "none", letterSpacing: "0.05em" }}>
+              {f.madeBy}
+            </span>
+          </div>
         </div>
       </div>
 

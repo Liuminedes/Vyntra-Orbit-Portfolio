@@ -1,4 +1,5 @@
 import "./globals.css";
+import Script from "next/script";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -88,18 +89,48 @@ export const metadata = {
     canonical: BASE_URL,
   },
 
-  /* Favicon y icons */
-  icons: {
-    icon: "/icon.png",
-    shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
-  },
 };
 
 export default function RootLayout({ children }) {
+  const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
     <html lang="es">
       <head>
+        {/* Meta Pixel — activo solo si NEXT_PUBLIC_META_PIXEL_ID está definido en Vercel */}
+        {metaPixelId && (
+          <Script id="meta-pixel" strategy="afterInteractive">
+            {`
+              !function(f,b,e,v,n,t,s)
+              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+              n.queue=[];t=b.createElement(e);t.async=!0;
+              t.src=v;s=b.getElementsByTagName(e)[0];
+              s.parentNode.insertBefore(t,s)}(window, document,'script',
+              'https://connect.facebook.net/en_US/fbevents.js');
+              fbq('init', '${metaPixelId}');
+              fbq('track', 'PageView');
+            `}
+          </Script>
+        )}
+
+        {/* Google tag (GA4) — activo solo si NEXT_PUBLIC_GA_ID está definido en Vercel */}
+        {gaId && (
+          <>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
+            <Script id="google-tag" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaId}');
+              `}
+            </Script>
+          </>
+        )}
+
         {/* Schema.org JSON-LD — le dice a Google exactamente qué eres */}
         <script
           type="application/ld+json"
@@ -111,7 +142,7 @@ export default function RootLayout({ children }) {
               description:
                 "Estudio de desarrollo digital especializado en plataformas web, productos SaaS y automatización. Colombia.",
               url: BASE_URL,
-              logo: `${BASE_URL}/assets/logo-vyntra.png`,
+              logo: `${BASE_URL}/assets/vyntra-icon.png`,
               founder: {
                 "@type": "Person",
                 name: "Mauricio Rodriguez",
@@ -143,6 +174,17 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body suppressHydrationWarning style={{ paddingTop: "clamp(56px, 5vw, 88px)" }}>
+        {metaPixelId && (
+          <noscript>
+            <img
+              height="1"
+              width="1"
+              style={{ display: "none" }}
+              src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`}
+              alt=""
+            />
+          </noscript>
+        )}
         <NoiseOverlay />
         <LangProvider>
           <ScrollProgressBar />
