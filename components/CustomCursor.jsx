@@ -19,6 +19,8 @@ export default function CustomCursor() {
         }}
       />
       <CursorFollow
+        align="center"
+        transition={{ stiffness: 1200, damping: 70, mass: 0.4 }}
         style={{
           width: 36,
           height: 36,
