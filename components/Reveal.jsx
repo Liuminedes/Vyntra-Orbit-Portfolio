@@ -8,10 +8,10 @@ export default function Reveal({ children, delay = 0, className, style, as = "di
     <MotionTag
       className={className}
       style={style}
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
-      transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, margin: "0px 0px -80px 0px", amount: 0 }}
+      transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </MotionTag>
