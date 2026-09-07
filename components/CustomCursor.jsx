@@ -18,6 +18,25 @@ import { CursorProvider, useCursor } from "@/components/animate-ui/primitives/an
 const DOT_SIZE = 10;
 const RING_SIZE = 36;
 
+/*
+ * The library's Cursor primitive also hid the native OS cursor while active,
+ * by toggling a `cursor:none` class on <html> (CursorProvider injects the
+ * matching stylesheet). That side effect lived inside the primitive Cursor
+ * component we no longer use, so it needs to run here instead.
+ */
+function CursorNativeHide() {
+  const { active, global, containerRef } = useCursor();
+
+  useEffect(() => {
+    const target = global ? document.documentElement : containerRef.current?.parentElement;
+    if (!target) return;
+    target.classList.toggle("animate-ui-cursor-none", active);
+    return () => target.classList.remove("animate-ui-cursor-none");
+  }, [active, global, containerRef]);
+
+  return null;
+}
+
 function CursorDot() {
   const { cursorPos, active, global } = useCursor();
   const x = useMotionValue(0);
@@ -95,6 +114,7 @@ export default function CustomCursor() {
   return (
     <div className="hidden lg:block">
       <CursorProvider global>
+        <CursorNativeHide />
         <CursorDot />
         <CursorRing />
       </CursorProvider>
