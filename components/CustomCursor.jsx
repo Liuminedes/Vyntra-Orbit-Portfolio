@@ -2,29 +2,30 @@
 
 import { useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
-import {
-  CursorProvider,
-  Cursor,
-} from "@/components/animate-ui/components/animate/cursor";
-import { useCursor } from "@/components/animate-ui/primitives/animate/cursor";
+import { CursorProvider, useCursor } from "@/components/animate-ui/primitives/animate/cursor";
 
 /*
- * CursorFollow (the library's built-in trailing element) positions itself via a
- * tooltip-style side/align/offset system meant for labels next to a cursor —
- * it can never sit perfectly concentric with the pointer. This ring binds
- * directly to the raw cursor position instead, so it always surrounds the dot.
+ * The library's Cursor/CursorFollow center themselves with a CSS
+ * `transform: translate(-50%,-50%)` string passed via `style`. Framer Motion
+ * silently drops that string whenever the same element also animates `scale`
+ * (it takes ownership of `transform` for the scale keyframes), so the element's
+ * top-left corner — not its center — lands on the cursor position. The bigger
+ * the element, the bigger the visible drift (10px dot ≈ 5px off, 36px ring ≈ 18px
+ * off, in the same direction), which is exactly why the ring looked detached
+ * from the dot. Both pieces here position via plain top/left math instead, so
+ * there's no transform for Framer Motion to override.
  */
-function CursorRing({ style }) {
-  const { cursorPos, active, global } = useCursor();
+const DOT_SIZE = 10;
+const RING_SIZE = 36;
 
+function CursorDot() {
+  const { cursorPos, active, global } = useCursor();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 1200, damping: 70, mass: 0.4 });
-  const springY = useSpring(y, { stiffness: 1200, damping: 70, mass: 0.4 });
 
   useEffect(() => {
-    x.set(cursorPos.x);
-    y.set(cursorPos.y);
+    x.set(cursorPos.x - DOT_SIZE / 2);
+    y.set(cursorPos.y - DOT_SIZE / 2);
   }, [cursorPos, x, y]);
 
   return (
@@ -32,17 +33,58 @@ function CursorRing({ style }) {
       {active && (
         <motion.div
           style={{
-            transform: "translate(-50%,-50%)",
+            pointerEvents: "none",
+            zIndex: 9999,
+            position: global ? "fixed" : "absolute",
+            top: y,
+            left: x,
+            width: DOT_SIZE,
+            height: DOT_SIZE,
+            borderRadius: "50%",
+            background: "#8B5CF6",
+            boxShadow: "0 0 12px 2px rgba(139,92,246,0.8)",
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        />
+      )}
+    </AnimatePresence>
+  );
+}
+
+function CursorRing() {
+  const { cursorPos, active, global } = useCursor();
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 1200, damping: 70, mass: 0.4 });
+  const springY = useSpring(y, { stiffness: 1200, damping: 70, mass: 0.4 });
+
+  useEffect(() => {
+    x.set(cursorPos.x - RING_SIZE / 2);
+    y.set(cursorPos.y - RING_SIZE / 2);
+  }, [cursorPos, x, y]);
+
+  return (
+    <AnimatePresence>
+      {active && (
+        <motion.div
+          style={{
             pointerEvents: "none",
             zIndex: 9998,
             position: global ? "fixed" : "absolute",
             top: springY,
             left: springX,
-            ...style,
+            width: RING_SIZE,
+            height: RING_SIZE,
+            borderRadius: "50%",
+            background: "transparent",
+            border: "1px solid rgba(139,92,246,0.4)",
+            boxShadow: "0 0 24px 6px rgba(139,92,246,0.25)",
           }}
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0, opacity: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
         />
       )}
     </AnimatePresence>
@@ -51,26 +93,11 @@ function CursorRing({ style }) {
 
 export default function CustomCursor() {
   return (
-    <CursorProvider global className="hidden lg:block">
-      <Cursor
-        style={{
-          width: 10,
-          height: 10,
-          borderRadius: "50%",
-          background: "#8B5CF6",
-          boxShadow: "0 0 12px 2px rgba(139,92,246,0.8)",
-        }}
-      />
-      <CursorRing
-        style={{
-          width: 36,
-          height: 36,
-          borderRadius: "50%",
-          background: "transparent",
-          border: "1px solid rgba(139,92,246,0.4)",
-          boxShadow: "0 0 24px 6px rgba(139,92,246,0.25)",
-        }}
-      />
-    </CursorProvider>
+    <div className="hidden lg:block">
+      <CursorProvider global>
+        <CursorDot />
+        <CursorRing />
+      </CursorProvider>
+    </div>
   );
 }
